@@ -5,6 +5,8 @@ from bs4.element import Comment
 import requests
 
 class ArticleTrimmer():
+
+    database_entry = {}
     
     def trimArticle(self, articles):
         for org_name, article_links_list in articles.items():
@@ -29,16 +31,23 @@ class ArticleTrimmer():
 
                             for story in story_div:
 
-                                article_text = story.find_all("p", text=True)
+                                if (org_name == "BBC"):
+                                    article_author = "BBC"
 
-                                for paragraph in article_text:
-                                    print (paragraph.getText())
+                                paragraphs_list = story.find_all("p", text=True)
 
-                                print(article_url + "\n\n\n")
-                                break
+                                article_text = ""
+
+                                for paragraph in paragraphs_list:
+                                    article_text += paragraph.getText() + "\n"
+
+                                # Add the article and metadata to database dictionary
+                                self.database_entry[article_url] = [article_text, article_author]
+                                
                             break
+                return self.database_entry
 
-    def tag_visible(self, element):
+    def tagVisible(self, element):
         if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
             return False
         if isinstance(element, Comment):
