@@ -44,12 +44,12 @@ class NewsScraper():
         
         # Base urls to fetch articles from - mixture of RSS and non-RSS
         self.news_base_urls = {
-            "BBC": "https://www.bbc.co.uk/news/election/2019",
-            "DAILY MAIL": "https://www.dailymail.co.uk/news/uk-politics/index.rss",
-            "GUARDIAN": "https://www.theguardian.com/politics/rss",
-            "INDEPENDENT": "http://www.independent.co.uk/news/uk/politics/rss",
-            "TELEGRAPH": "https://www.telegraph.co.uk/politics/",
-            "MIRROR": "https://www.mirror.co.uk/news/politics/",
+            "BBC": ["http://feeds.bbci.co.uk/news/politics/rss.xml"],
+            "DAILY MAIL": ["https://www.dailymail.co.uk/news/uk-politics/index.rss", "https://www.dailymail.co.uk/news/general-election-2019/index.rss"],
+            "GUARDIAN": ["https://www.theguardian.com/politics/rss"],
+            "INDEPENDENT":["http://www.independent.co.uk/news/uk/politics/rss"],
+            "TELEGRAPH": ["https://www.telegraph.co.uk/politics/"],
+            "MIRROR": ["https://www.mirror.co.uk/news/politics/"],
         }
 
         # News org specific search terms, to filter out unwanted links
@@ -73,65 +73,67 @@ class NewsScraper():
         }
 
     def scrapeArticles(self):
-        for org_name, url in self.news_base_urls.items():
+        for org_name, urls in self.news_base_urls.items():
             keyword_dict = self.news_search_terms[org_name]
-            if ("rss" in url):
-                try:
-                    rss_feed = feedparser.parse(url)  # TODO get authors and store w/ article - further analysis?
-                except:
-                    print("Link failed - check url validity: " + url)
+            for url in urls:
+                if ("rss" in url):
+                    try:
+                        rss_feed = feedparser.parse(url)  # TODO get authors and store w/ article - further analysis?
+                    except:
+                        print("Link failed - check url validity: " + url)
+                    else:
+                        for entry in rss_feed.entries:
+                            for curr_url in entry.links:
+                                if (curr_url.type == "text/html" ): # ignore images and other media
+
+                                    published_time = datetime.datetime.fromtimestamp(mktime(entry.published_parsed))
+                                    updated_time = datetime.datetime.fromtimestamp(mktime(entry.updated_parsed))
+                                    week_prior = datetime.datetime.now() - timedelta(days=7)
+
+                                    href_url = curr_url.href
+
+                                    url_ok = False
+
+                                    if (keyword_dict[0] == [] and not any(keyword in href_url for keyword in keyword_dict[1])):
+                                        url_ok = True
+                                    elif (any(keyword in href_url for keyword in keyword_dict[0]) and not any(keyword in href_url for keyword in keyword_dict[1])):
+                                        url_ok = True
+                                
+                                    if (url_ok):
+
+                                        if (updated_time > published_time):
+                                            self.checkForDatabaseUpdate(href_url)
+
+                                        if (published_time >= week_prior): # only consider articles from one week ago (mostly important for first run of tool)
+                                            self.news_filtered_urls[org_name].add(href_url)
                 else:
-                    for entry in rss_feed.entries:
-                        for curr_url in entry.links:
-                            if (curr_url.type == "text/html" ): # ignore images and other media
+                    try:
+                        response = urllib3.PoolManager(
+                            cert_reqs='CERT_REQUIRED',
+                            ca_certs=certifi.where()
+                        ).request('GET', url)
 
-                                published_time = datetime.datetime.fromtimestamp(mktime(entry.published_parsed))
-                                updated_time = datetime.datetime.fromtimestamp(mktime(entry.updated_parsed))
-                                week_prior = datetime.datetime.now() - timedelta(days=7)
-
-                                href_url = curr_url.href
-
-                                url_ok = False
-
-                                if (keyword_dict[0] == [] and not any(keyword in href_url for keyword in keyword_dict[1])):
-                                    url_ok = True
-                                elif (any(keyword in href_url for keyword in keyword_dict[0]) and not any(keyword in href_url for keyword in keyword_dict[1])):
-                                    url_ok = True
-                            
-                                if (url_ok):
-
-                                    if (updated_time > published_time):
-                                        self.checkForDatabaseUpdate(href_url)
-
-                                    if (published_time >= week_prior): # only consider articles from one week ago (mostly important for first run of tool)
-                                        self.news_filtered_urls[org_name].add(href_url)
-            else:
-                try:
-                    response = urllib3.PoolManager(
-                        cert_reqs='CERT_REQUIRED',
-                        ca_certs=certifi.where()
-                    ).request('GET', url)
-
-                    soup = BeautifulSoup(response.data, 'html.parser')
-                except:
-                    print("Link failed - check url validity: " + url)
-                else:
-                    for link in soup.find_all('a'):
-                        curr_url = link.get('href')
-                        if (curr_url != None):
-                            if (any(keyword in curr_url for keyword in keyword_dict[0]) and not any(keyword in curr_url for keyword in keyword_dict[1])):
-                                if (org_name == "BBC"):
-                                    if ("https://www.bbc.co.uk" not in curr_url):
-                                        curr_url = "https://www.bbc.co.uk" + curr_url
-                                elif (org_name == "TELEGRAPH"):
-                                    if ("https://www.telegraph.co.uk" not in curr_url):
-                                        curr_url = "https://www.telegraph.co.uk" + curr_url
-                                self.news_filtered_urls[org_name].add(curr_url)
+                        soup = BeautifulSoup(response.data, 'html.parser')
+                    except:
+                        print("Link failed - check url validity: " + url)
+                    else:
+                        for link in soup.find_all('a'):
+                            curr_url = link.get('href')
+                            if (curr_url != None):
+                                if (any(keyword in curr_url for keyword in keyword_dict[0]) and not any(keyword in curr_url for keyword in keyword_dict[1])):
+                                    if (org_name == "BBC"):
+                                        if ("https://www.bbc.co.uk" not in curr_url): # TODO move this
+                                            curr_url = "https://www.bbc.co.uk" + curr_url
+                                    elif (org_name == "TELEGRAPH"):
+                                        if ("https://www.telegraph.co.uk" not in curr_url):
+                                            curr_url = "https://www.telegraph.co.uk" + curr_url
+                                    self.news_filtered_urls[org_name].add(curr_url)
 
         return self.news_filtered_urls
         
     def checkForDatabaseUpdate(self, curr_url):
         x = 1
+        # TODO 
         # Check database for url
         # If in database, check timestamp
         # If different, update with new text

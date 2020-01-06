@@ -1,7 +1,10 @@
 import os
 import boto3
+from datetime import datetime
 
 class ArticleUploader():
+
+    database_additions = {}
 
     # Establish S3-related variables
     bucket_name = "articles-text"
@@ -14,9 +17,16 @@ class ArticleUploader():
         aws_secret_access_key = SECRET_ACCESS_KEY
         )
 
+    dynamodb = boto3.resource(
+        'dynamodb',
+        aws_access_key_id = ACCESS_KEY_ID,
+        aws_secret_access_key = SECRET_ACCESS_KEY
+        )
+
     def uploadArticles(self, database_entry):
         # Store article text in S3 and get URL
         for article_url, article_data in database_entry.items():
+            s3_url = ""
             if (article_data[0] != ""):
                 # Open temp text file for uploading article contents to S3
                 try:
@@ -38,10 +48,12 @@ class ArticleUploader():
                             article_url_sanitised = self.sanitiseURL(article_url)
                             self.s3.Bucket(self.bucket_name).upload_file("temp.txt", article_url_sanitised)
                             s3_url = self.getS3Url(article_url_sanitised)
-                            print(s3_url)
                         except Exception as e:
                             print("Uploading to S3 bucket failed: ")
                             print(e)
+
+                    if (s3_url != ""):
+                        self.updateDatabase(article_url, article_data, s3_url)
 
         # Delete temp text file
         try:
@@ -64,3 +76,18 @@ class ArticleUploader():
                 sanitised_url
         )
         return s3_url
+
+    def updateDatabase(self, article_url, article_data, s3_url):
+        table = self.dynamodb.Table('Articles-Table')
+        
+        now = datetime.now() # current date and time
+        date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
+
+        response = table.put_item(
+            Item={
+                'article-url': article_url,
+                'article-text': s3_url,
+                'article-author': article_data[1],
+                'most-recent-update': date_time
+            }
+        )
