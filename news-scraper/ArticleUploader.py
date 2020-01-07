@@ -6,22 +6,15 @@ class ArticleUploader():
 
     database_additions = {}
 
-    # Establish S3-related variables
-    bucket_name = "articles-text"
-    ACCESS_KEY_ID = "AKIASRO4ILWKGIB27HGU"
-    SECRET_ACCESS_KEY = "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"
+    s3 = ""
+    bucket_name = ""
+    dynamodb = ""
 
-    s3 = boto3.resource(
-        's3',
-        aws_access_key_id = ACCESS_KEY_ID,
-        aws_secret_access_key = SECRET_ACCESS_KEY
-        )
+    def __init__(self, s3, bucket_name, dynamodb):
+        self.s3 = s3
+        self.bucket_name = bucket_name
+        self.dynamodb = dynamodb
 
-    dynamodb = boto3.resource(
-        'dynamodb',
-        aws_access_key_id = ACCESS_KEY_ID,
-        aws_secret_access_key = SECRET_ACCESS_KEY
-        )
 
     def uploadArticles(self, database_entry):
         # Store article text in S3 and get URL
@@ -83,11 +76,35 @@ class ArticleUploader():
         now = datetime.now() # current date and time
         date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
 
-        response = table.put_item(
-            Item={
-                'article-url': article_url,
-                'article-text': s3_url,
-                'article-author': article_data[1],
-                'most-recent-update': date_time
-            }
-        )
+        try:
+            response = table.get_item(
+                Key={
+                    'article-url': article_url,
+                }
+            )
+        except: # if article doesn't exist, new entry in database
+            response = table.put_item(
+                Item={
+                    'article-url': article_url,
+                    'article-text': s3_url,
+                    'article-author': article_data[1],
+                    'most-recent-update': date_time
+                }
+            )
+        else: # if article exists, need to update entry in database (by default, file overwriting enabled in s3)
+            item = response['Item']
+
+            old_s3_url = item["article-text"] # retrieve this for deletion later
+
+            response = table.update_item( # update database entry with new text and metadata
+                Key={
+                    'article-url': article_url
+                },
+                UpdateExpression="set article-text=:t, article-author=:a, most-recent-update=:u",
+                ExpressionAttributeValues={
+                    ':t': s3_url,
+                    ':a': article_data[1],
+                    ':u': date_time
+                },
+                ReturnValues="UPDATED_NEW"
+            )

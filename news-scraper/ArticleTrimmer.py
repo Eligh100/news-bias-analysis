@@ -33,10 +33,10 @@ class ArticleTrimmer():
         "TELEGRAPH": ["article", "itemprop", "articleBody"],
         "MIRROR": ["div", "itemprop", "articleBody"]
     }
-    
+
     def trimArticle(self, articles):
         for org_name, article_links_list in articles.items():
-            if (org_name == "INDEPENDENT" or org_name == "GUARDIAN"):
+            if (org_name == "MIRROR"):
                 for article_url in article_links_list:
                     try:
                          response = urllib3.PoolManager(
@@ -78,7 +78,7 @@ class ArticleTrimmer():
 
                             for story in story_div:
 
-                                paragraphs_list = story.find_all("p")
+                                paragraphs_list = story.find_all("p") # TODO get list items too?
 
                                 for paragraph in paragraphs_list:
                                     article_text += paragraph.getText() + "\n"
