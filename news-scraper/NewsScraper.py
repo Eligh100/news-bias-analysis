@@ -32,6 +32,7 @@ from datetime import timedelta
 import datetime
 from time import mktime
 import time
+import boto3
 
 # TODO add logging for errors
 class NewsScraper():
@@ -130,13 +131,18 @@ class NewsScraper():
         try:
             response = table.get_item(
                 Key={
-                    'article-url': curr_url,
+                    'article-url': curr_url
                 }
             )
         except:
-            return False
+            print ("Failed to access DynamDB table: Articles-Table")
+            exit(0)
         else:
-            item = response['Item']
-            self.curr_url_stored_time = datetime.datetime.strptime(item["most-recent-update"], "%d/%m/%Y, %H:%M:%S")
-            return True
+            try:
+                item = response['Item']
+            except:
+                return False # no item means article doesn't exist in database
+            else:
+                self.curr_url_stored_time = datetime.datetime.strptime(item["most-recent-update"], "%d/%m/%Y, %H:%M:%S")
+                return True
     

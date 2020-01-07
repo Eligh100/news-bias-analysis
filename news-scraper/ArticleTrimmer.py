@@ -36,7 +36,6 @@ class ArticleTrimmer():
 
     def trimArticle(self, articles):
         for org_name, article_links_list in articles.items():
-            if (org_name == "MIRROR"):
                 for article_url in article_links_list:
                     try:
                          response = urllib3.PoolManager(
@@ -57,7 +56,6 @@ class ArticleTrimmer():
                             headlines = soup.find_all("meta", {"property":self.org_headline_styles[org_name]})
                             for headline in headlines:
                                 article_headline = headline["content"]
-                                print (article_headline)
 
                             # Retrieve article's author
                             article_author = ""
@@ -69,7 +67,6 @@ class ArticleTrimmer():
                                 for author in authors:
                                     article_author += author["content"] + ", "
                                 article_author = article_author[:-2]
-                                print (article_author)
 
                             # Retrieve article's contents
                             story_div = soup.find_all(self.org_body_styles[org_name][0], {self.org_body_styles[org_name][1]:self.org_body_styles[org_name][2]})
@@ -82,14 +79,10 @@ class ArticleTrimmer():
 
                                 for paragraph in paragraphs_list:
                                     article_text += paragraph.getText() + "\n"
-
-                                print (article_url + "\n" + article_text)
-
                             
                             # Add the article and metadata to database dictionary
                             self.database_entry[article_url] = [article_text, article_headline, article_author]
                 
-                    break
                             
         return self.database_entry
 

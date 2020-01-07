@@ -31,8 +31,8 @@ articleTrimmer = ArticleTrimmer()
 database_entry = articleTrimmer.trimArticle(articles)
 
 # Upload articles and relevant metadata to S3 and DynamoDB
-#articleUploader = ArticleUploader(s3, bucket_name, dynamodb)
-#articleUploader.uploadArticles(database_entry)
+articleUploader = ArticleUploader(s3, bucket_name, dynamodb)
+articleUploader.uploadArticles(database_entry)
 
 
 '''
