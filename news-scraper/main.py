@@ -23,7 +23,7 @@ dynamodb = boto3.resource(
     )
 
 # Get articles
-newsScraper = NewsScraper(dynamodb)
+newsScraper = NewsScraper(dynamodb) #TODO investigate why less daily mail and telegraph articles
 articles = newsScraper.scrapeArticles()
 
 # Extract text

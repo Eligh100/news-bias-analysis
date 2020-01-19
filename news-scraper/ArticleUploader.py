@@ -91,14 +91,21 @@ class ArticleUploader():
             try:
                 item = response["Item"]
             except: # if article doesn't exist, new entry in database
-                response = table.put_item(
-                    Item={
-                        'article-url': article_url,
-                        'article-text': s3_url,
-                        'article-author': article_data[2],
-                        'most-recent-update': date_time
-                    }
-                )
+                try:
+                    response = table.put_item(
+                        Item={
+                            'article-url': article_url,
+                            'article-text': s3_url,
+                            'article-author': article_data[2],
+                            'most-recent-update': date_time
+                        }
+                    )
+                except:
+                    print (article_url)
+                    print (s3_url)
+                    print (article_data[2])
+                    print (date_time)
+
             else: # if article exists, need to update entry in database (by default, file overwriting enabled in s3)
                 response = table.update_item( # update database entry with new text and metadata
                     Key={

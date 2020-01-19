@@ -1,0 +1,12 @@
+<div class="mx-auto">
+    <h1>Basic mat-select</h1>
+    <mat-form-field>
+    <mat-label>Select Newspaper: </mat-label>
+    <mat-select>
+        <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper.value">
+        {{newspaper.viewValue}}
+        </mat-option>
+    </mat-select>
+    </mat-form-field>
+</div>
+

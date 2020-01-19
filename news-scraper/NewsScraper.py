@@ -101,7 +101,7 @@ class NewsScraper():
 
         published_time = datetime.datetime.fromtimestamp(mktime(entry.published_parsed))
         updated_time = datetime.datetime.fromtimestamp(mktime(entry.updated_parsed))
-        week_prior = datetime.datetime.now() - timedelta(days=7)
+        week_prior = datetime.datetime.now() - timedelta(days=14)
 
         url_ok = False
 

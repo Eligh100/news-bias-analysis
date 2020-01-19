@@ -25,6 +25,10 @@ class ArticleTrimmer():
         "MIRROR": "author"
     }
 
+    additional_org_author_styles = {
+        "GUARDIAN" : [["property", "article:author"]]
+    }
+
     org_body_styles = {
         "BBC": ["div", "class", "story-body"],
         "DAILY MAIL": ["div", "itemprop", "articleBody"],
@@ -67,6 +71,24 @@ class ArticleTrimmer():
                                 for author in authors:
                                     article_author += author["content"] + ", "
                                 article_author = article_author[:-2]
+                                
+                                if (article_author == ""):
+                                    try:
+                                        for additional_style in self.additional_org_author_styles[org_name]:
+                                            authors = soup.find_all("meta", {additional_style[0]:additional_style[1]})
+                                            for author in authors:
+                                                article_author += author["content"] + ", "
+                                            article_author = article_author[:-2]
+                                            if (article_author == ""):
+                                                continue
+                                            else:
+                                                break
+
+                                        if (article_author == ""):
+                                            article_author = org_name # if no author found, set to news orgs name (i.e. GUARDIAN)
+                                    except:
+                                        article_author = org_name # if no author found, set to news orgs name (i.e. GUARDIAN)
+
 
                             # Retrieve article's contents
                             story_div = soup.find_all(self.org_body_styles[org_name][0], {self.org_body_styles[org_name][1]:self.org_body_styles[org_name][2]})
