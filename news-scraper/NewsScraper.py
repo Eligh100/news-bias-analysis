@@ -34,6 +34,8 @@ from time import mktime
 import time
 import boto3
 
+from Logger import Logger
+
 # TODO add logging for errors
 class NewsScraper():
 
@@ -70,18 +72,24 @@ class NewsScraper():
     curr_url_stored_time = datetime.datetime.now()
 
     dynamodb = ""
+    logger = ""
 
     def __init__(self, dynamodb):
 
         self.dynamodb = dynamodb
+        self.logger = Logger()
 
     def scrapeArticles(self):
         for org_name, urls in self.news_base_urls.items():
             for url in urls:
                 try:
                     rss_feed = feedparser.parse(url) 
-                except:
-                    print("Link failed - check url validity: " + url)
+                except Exception as e:
+                    log_line = "Link failed - check url validity: " + url
+                    log_line += "\nFailed with following exception:\n"
+                    log_line += str(e)
+                    log_line += "\n"
+                    self.logger.writeToLog(log_line, False)
                 else:
                     for entry in rss_feed.entries:
                         for curr_url in entry.links:
@@ -126,7 +134,7 @@ class NewsScraper():
                     return True
     
     def articleAlreadyStored(self, curr_url):
-        table = self.dynamodb.Table('Articles-Table')
+        table = self.dynamodb.Table('Articles-Table') 
 
         try:
             response = table.get_item(
@@ -134,8 +142,12 @@ class NewsScraper():
                     'article-url': curr_url
                 }
             )
-        except:
-            print ("Failed to access DynamDB table: Articles-Table")
+        except Exception as e:
+            log_line = "Failed to access DynamoDB table: Articles-Table with following exception:\n"
+            log_line += str(e)
+            self.logger.writeToLog(log_line, False)
+            log_line = "Exited prematurely at: "
+            self.logger.writeToLog(log_line, True)
             exit(0)
         else:
             try:
@@ -145,4 +157,3 @@ class NewsScraper():
             else:
                 self.curr_url_stored_time = datetime.datetime.strptime(item["most-recent-update"], "%d/%m/%Y, %H:%M:%S")
                 return True
-    

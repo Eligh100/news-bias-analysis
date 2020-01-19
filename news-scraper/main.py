@@ -1,9 +1,9 @@
 from NewsScraper import NewsScraper
 from ArticleTrimmer import ArticleTrimmer
 from ArticleUploader import ArticleUploader
+from Logger import Logger
 import os
 import boto3
-
 
 # Establish AWS-related variables
 bucket_name = "articles-text"
@@ -22,6 +22,12 @@ dynamodb = boto3.resource(
     aws_secret_access_key = SECRET_ACCESS_KEY
     )
 
+# Write to log saying program has started
+logger = Logger()
+log_line = "\n\nScript started at: "
+logger.writeToLog(log_line, True)
+
+
 # Get articles
 newsScraper = NewsScraper(dynamodb) #TODO investigate why less daily mail and telegraph articles
 articles = newsScraper.scrapeArticles()
@@ -34,6 +40,9 @@ database_entry = articleTrimmer.trimArticle(articles)
 articleUploader = ArticleUploader(s3, bucket_name, dynamodb)
 articleUploader.uploadArticles(database_entry)
 
+# Write to log file, stating program's completion
+log_line = "Script ran to completion - "
+logger.writeToLog(log_line, True)
 
 '''
 Look at chronjob (Linux) for script running on servers

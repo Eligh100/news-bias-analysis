@@ -2,6 +2,8 @@ import os
 import boto3
 from datetime import datetime
 
+from Logger import Logger
+
 class ArticleUploader():
 
     database_additions = {}
@@ -10,10 +12,13 @@ class ArticleUploader():
     bucket_name = ""
     dynamodb = ""
 
+    logger = ""
+
     def __init__(self, s3, bucket_name, dynamodb):
         self.s3 = s3
         self.bucket_name = bucket_name
         self.dynamodb = dynamodb
+        self.logger = Logger()
 
 
     def uploadArticles(self, database_entry):
@@ -22,21 +27,15 @@ class ArticleUploader():
             s3_url = ""
             if (article_data[0] != ""):
                 # Open temp text file for uploading article contents to S3
-                try:
-                    temp_text_file = open("temp.txt", "w", encoding="utf-8")
-                except:
-                    print("Failed to create temp file")
-                    exit(0)
-                else:
+                with open("temp.txt", "w", encoding="utf-8") as temp_text_file:
                     # Write current article text to temp file
                     try:
                         temp_text_file.truncate(0) # clear contents of file 
                         temp_text_file.write(article_data[0])
                         temp_text_file.close()
                     except Exception as e:
-                        print(e)
-                        print("Writing to temp file failed")
-                        print("\n\n" + article_data[0])
+                        log_line = "Writing to temp file failed\nThe following exception occured:\n" + str(e)
+                        self.logger.writeToLog(log_line, False)
                     else:
                         # Upload current article text to S3 and get URL
                         try:
@@ -44,8 +43,8 @@ class ArticleUploader():
                             self.s3.Bucket(self.bucket_name).upload_file("temp.txt", article_url_sanitised)
                             s3_url = self.getS3Url(article_url_sanitised)
                         except Exception as e:
-                            print("Uploading to S3 bucket failed: ")
-                            print(e)
+                            log_line = "Uploading to S3 bucket failed\nThe following exception occured:\n" + str(e)
+                            self.logger.writeToLog(log_line, False)
 
                     if (s3_url != ""):
                         self.updateDatabase(article_url, article_data, s3_url)
@@ -53,8 +52,9 @@ class ArticleUploader():
         # Delete temp text file
         try:
             os.remove("temp.txt")
-        except OSError:
-            pass
+        except OSError as e:
+            log_line = "Couldn't delete temp text file\nThe following exception occured:\n" + str(e) 
+            self.logger.writeToLog(log_line, False)
 
     def sanitiseURL(self, article_url):
         article_url = article_url.replace("http://","")
@@ -84,8 +84,11 @@ class ArticleUploader():
                     'article-url': article_url,
                 }
             )
-        except:
-            print ("Failed to access DynamDB table: Articles-Table")
+        except Exception as e:
+            log_line = "Failed to access DynamDB table: Articles-Table\nThe following exception occured:\n" + str(e)
+            self.logger.writeToLog(log_line, False)
+            log_line = "Exited prematurely at: "
+            self.logger.writeToLog(log_line, True)
             exit(0)
         else: 
             try:

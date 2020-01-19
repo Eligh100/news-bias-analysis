@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from bs4.element import Comment
 import requests
 
+from Logger import Logger
+
 class ArticleTrimmer():
 
     database_entry = {}
@@ -38,6 +40,11 @@ class ArticleTrimmer():
         "MIRROR": ["div", "itemprop", "articleBody"]
     }
 
+    logger = ""
+
+    def __init__(self):
+        self.logger = Logger()
+
     def trimArticle(self, articles):
         for org_name, article_links_list in articles.items():
                 for article_url in article_links_list:
@@ -46,13 +53,19 @@ class ArticleTrimmer():
                              cert_reqs='CERT_REQUIRED',
                              ca_certs=certifi.where()
                          ).request('GET', article_url)
-                    except:
-                        print("Link failed - check url validity: " + article_url)
+                    except Exception as e:
+                        log_line = "Link failed - check url validity: " + article_url
+                        log_line += "\nFailed with following exception:\n"
+                        log_line += str(e)
+                        self.logger.writeToLog(log_line, False)
                     else:
                         try:
                             soup = BeautifulSoup(response.data, 'html.parser')
                         except:
-                            print("Soup-ing failed - is URL xml: " + article_url)
+                            log_line = "Soup-ing failed - is URL xml: " + article_url
+                            log_line += "\nFailed with the folowing exception:\n"
+                            log_line += e
+                            self.logger.writeToLog(log_line, False)
                         else:
                             # Retrieve article's headline
                             article_headline = ""
