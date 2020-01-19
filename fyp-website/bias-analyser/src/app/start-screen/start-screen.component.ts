@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
-export interface Newspapers {
+export interface FormSelectOption {
   value: string;
   viewValue: string;
 }
@@ -12,7 +13,7 @@ export interface Newspapers {
 })
 export class StartScreenComponent implements OnInit {
 
-  newspapers: Newspapers[] = [
+  newspapers: FormSelectOption[] = [
     {value: 'bbc', viewValue: "BBC News"},
     {value: 'daily_mail', viewValue: "The Daily Mail"},
     {value: 'guardian', viewValue: "The Guardian"},
@@ -21,11 +22,44 @@ export class StartScreenComponent implements OnInit {
     {value: 'mirror', viewValue: "The Daily Mirror"}
   ];
 
-  constructor() { }
+  politicalParties: FormSelectOption[] = [
+    {value: 'conservative', viewValue: "Conservative"},
+    {value: 'labour', viewValue: "Labour"},
+    {value: 'lib_dem', viewValue: "Liberal Democrats"},
+    {value: 'snp', viewValue: "Scottish National Party (SNP)"},
+    {value: 'green', viewValue: "Green"},
+    {value: 'plaid_cymru', viewValue: "Plaid Cymru"},
+    {value: 'brexit_party', viewValue: "Brexit Party"},
+    {value: 'ukip', viewValue: "UKIP"}
+  ];
+
+  topics: FormSelectOption[] = [
+    {value: 'brexit', viewValue: "Brexit"},
+    {value: 'environmental', viewValue: "Environment & Climate Change"},
+    {value: 'economy', viewValue: "Economy and Business"},
+    {value: 'crime', viewValue: "Crime"},
+    {value: 'health', viewValue: "Healthcare and the NHS"}
+  ];
+
+  startScreenForm : FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
 
+    this.startScreenForm = this.fb.group({
+      selectedNewspaper: ['', [Validators.required]],
+      selectedPoliticalParty: ['', [Validators.required]],
+      selectedTopics: ['', []]
+    })
+
   }
+
+  get selectedNewspaper() { return this.startScreenForm.get('selectedNewspaper'); }
+
+  get selectedPoliticalParty() { return this.startScreenForm.get('selectedPoliticalParty'); }
+
+  get selectedTopics() { return this.startScreenForm.get('selectedTopics'); }
 
 }
  
