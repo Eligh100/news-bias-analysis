@@ -1,45 +1,54 @@
 <div class="jumbotron text-center">
-    <h1>Detecting bias in newspapers</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget mauris et velit aliquet maximus. Vestibulum felis augue, lacinia sed.</p>
+    <h1 class="mat-display-3">Detecting bias in newspapers</h1>
 </div>
 
-<div class="container" [formGroup]="startScreenForm">
-    <div class="row">
-        <div class="col sm text-center">
+<mat-expansion-panel [expanded]="true" [disabled]="false">
+    <mat-expansion-panel-header></mat-expansion-panel-header>
+    <p class="mat-h3 text-center"><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget mauris et velit aliquet maximus. Vestibulum felis augue, lacinia sed.</em></p>
+    <div class="container" [formGroup]="startScreenForm">
+        <div class="row">
+            <div class="col sm text-center">
+                <mat-form-field>
+                    <mat-label>News Organisation</mat-label>
+                    <mat-select formControlName="selectedNewspaper" name="newspaperSelect" required>
+                        <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper.value">
+                        {{newspaper.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="selectedNewspaper.errors?.required">Select a news organisation</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col sm text-center">
+                <mat-form-field>
+                    <mat-label>Political Party</mat-label>
+                    <mat-select formControlName="selectedPoliticalParty" name="politicalPartySelect" required>
+                        <mat-option *ngFor="let polParty of politicalParties" [value]="polParty.value">
+                        {{polParty.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="selectedPoliticalParty.errors?.required">Select a political party</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col sm text-center">
+                <mat-form-field>
+                    <mat-label>Topic <em>(Optional)</em> </mat-label>
+                    <mat-select formControlName="selectedTopics" name="topicsSelect" multiple>
+                        <mat-option *ngFor="let topic of topics" [value]="topic.value">
+                        {{topic.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row justify-content-center pt-4">
             <mat-form-field>
-                <mat-label>News Organisation</mat-label>
-                <mat-select formControlName="selectedNewspaper" name="newspaperSelect" required>
-                    <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper.value">
-                    {{newspaper.viewValue}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="selectedNewspaper.errors?.required">Select a news organisation</mat-error>
+                <input matInput [matDatepicker]="dateRangePicker" placeholder="Specify a date range (Optional)">
+                <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
+                <mat-datepicker #dateRangePicker></mat-datepicker>
             </mat-form-field>
         </div>
-        <div class="col sm text-center">
-            <mat-form-field>
-                <mat-label>Political Party</mat-label>
-                <mat-select formControlName="selectedPoliticalParty" name="politicalPartySelect" required>
-                    <mat-option *ngFor="let polParty of politicalParties" [value]="polParty.value">
-                    {{polParty.viewValue}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="selectedPoliticalParty.errors?.required">Select a political party</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col sm text-center">
-            <mat-form-field>
-                <mat-label>Topic <em>(Optional)</em> </mat-label>
-                <mat-select formControlName="selectedTopics" name="topicsSelect" multiple>
-                    <mat-option *ngFor="let topic of topics" [value]="topic.value">
-                    {{topic.viewValue}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div class="row justify-content-center pt-4">
+            <button mat-raised-button routerLink="/processing">Analyse Bias</button>
         </div>
     </div>
-    <div class="row justify-content-center pt-4">
-        <button mat-raised-button>Analyse Bias</button>
-    </div>
-</div>
-
+</mat-expansion-panel>
