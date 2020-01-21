@@ -1,2 +1,3 @@
-.jumbotron { margin-bottom: -75px; margin-top: -25px; }
+.jumbotron { padding-top: 25px; padding-bottom: 1px; }
+.right-aligned-expansion-header { justify-content: flex-end !important; font-style: italic; }
 

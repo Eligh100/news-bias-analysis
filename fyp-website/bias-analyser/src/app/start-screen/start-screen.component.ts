@@ -41,6 +41,11 @@ export class StartScreenComponent implements OnInit {
     {value: 'health', viewValue: "Healthcare and the NHS"}
   ];
 
+  expansionPanelHeaderText = "";
+  isExpanded = true;
+  fullsize = true;
+  isDisabled = true;
+
   startScreenForm : FormGroup;
 
   constructor(private fb: FormBuilder) { }
@@ -53,6 +58,36 @@ export class StartScreenComponent implements OnInit {
       selectedTopics: ['', []]
     })
 
+  }
+
+  validateInput(){
+
+    let counter = 0;
+
+    setInterval(() => {
+        if(counter === 0) {
+          counter = 1;
+          this.shrinkExpansionPanel()
+        } 
+    }, 190)
+
+    this.isDisabled = !this.isDisabled;
+    
+    this.expansionPanelHeaderText = (this.isExpanded) ? "" : "Adjust parameters";
+  }
+
+  shrinkExpansionPanel(){
+    this.fullsize = !this.fullsize;
+  }
+
+  open() {
+    this.isExpanded = true;
+    this.validateInput();
+  }
+
+  close() {
+    this.isExpanded = false;
+    this.validateInput();
   }
 
   get selectedNewspaper() { return this.startScreenForm.get('selectedNewspaper'); }
