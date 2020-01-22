@@ -14,16 +14,18 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public options = {
       hasNeedle: true,
       needleColor: 'gray',
-      needleUpdateSpeed: 5000,
+      needleUpdateSpeed: 3000,
       arcColors: ['rgb(255, 17, 0)', 'rgb(169, 176, 167)', 'rgb(43,184,0)'],
       arcDelimiters: [40, 60],
       rangeLabel: ['Negative', 'Positive'],
-      needleStartValue: 0,
+      needleStartValue: 50,
   }
 
   constructor() { }
 
   ngOnInit() {
+    this.needleValue = Math.floor(Math.random() * Math.floor(100));
+    this.bottomLabel = this.needleValue.toString();
   }
 
 }

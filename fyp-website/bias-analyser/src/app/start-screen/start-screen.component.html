@@ -8,16 +8,16 @@
     </div>
     
     <div class="row">
+
         <!--SPACING START-->
-        <div [ngClass]="(isExpanded || fullsize) ? '' : 'col-sm-2'"></div>
-        <div [ngClass]="(isExpanded || fullsize) ? '' : 'col-sm-2'"></div>
-        <div [ngClass]="(isExpanded || fullsize) ? '' : 'col-sm-2'"></div>
-        <div [ngClass]="(isExpanded || fullsize) ? '' : 'col-sm-2'"></div>
-        <div [ngClass]="(isExpanded || fullsize) ? '' : 'col-sm-2'"></div>
-        
+        <div [ngClass]="(isExpanded || fullsize) ? 'd-none' : 'col-sm-5'"></div>
+        <div [ngClass]="(isExpanded || fullsize) ? 'd-none' : 'col-sm-5'">
+            <h1 class="pt-2">BIAS REPORT</h1>
+        </div>
         <!--SPACING END-->
+
         <div [ngClass]="(isExpanded || fullsize) ? 'col-sm-12' : 'col-sm-2'">
-            <mat-expansion-panel [expanded]="isExpanded" [disabled]="isDisabled"> 
+            <mat-expansion-panel [expanded]="isExpanded" [disabled]="isDisabled" (opened)="isExpanded=true;changePanelState()" (closed)="isExpanded=false;changePanelState()" (afterExpand)="changePanelSize()" (afterCollapse)="changePanelSize()"> 
                 <mat-expansion-panel-header>
                     <mat-panel-title class="right-aligned-expansion-header">
                         {{expansionPanelHeaderText}}
@@ -66,9 +66,9 @@
                             <mat-datepicker #dateRangePicker></mat-datepicker>
                         </mat-form-field>
                     </div>
-                    <div class="row justify-content-center pt-4">
-                        <button mat-raised-button (click)="close()" routerLink="/processing">Analyse Bias</button>
-                    </div>
+                    <mat-action-row class="justify-content-center pt-4">
+                        <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState()">Analyse Bias</button>
+                    </mat-action-row>
                 </div>
             </mat-expansion-panel>
         </div>

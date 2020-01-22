@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 export interface FormSelectOption {
@@ -60,34 +60,13 @@ export class StartScreenComponent implements OnInit {
 
   }
 
-  validateInput(){
-
-    let counter = 0;
-
-    setInterval(() => {
-        if(counter === 0) {
-          counter = 1;
-          this.shrinkExpansionPanel()
-        } 
-    }, 190)
-
-    this.isDisabled = !this.isDisabled;
-    
+  changePanelState(){
+    this.isDisabled = false; // don't want to disable this again - only for the first input
     this.expansionPanelHeaderText = (this.isExpanded) ? "" : "Adjust parameters";
   }
 
-  shrinkExpansionPanel(){
+  changePanelSize(){
     this.fullsize = !this.fullsize;
-  }
-
-  open() {
-    this.isExpanded = true;
-    this.validateInput();
-  }
-
-  close() {
-    this.isExpanded = false;
-    this.validateInput();
   }
 
   get selectedNewspaper() { return this.startScreenForm.get('selectedNewspaper'); }
