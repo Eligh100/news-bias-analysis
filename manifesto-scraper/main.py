@@ -79,10 +79,15 @@ for partyIndex,partyKeywordList in keywords.items():
             totalScoresDict[partyName][currentKeyword] += currentKeywordScore
 
 for party,keywordScores in totalScoresDict.items():
-    for keyword,score in keywordScores.items():
-        keywordScores[keyword] = score/(len(parties)-1)
+    keywordsFilePath = "keywords/" + party + "-keywords.txt"
+    with open(keywordsFilePath, "w", encoding="utf-8") as keywordFile:
+        for keyword,score in keywordScores.items():
+            keywordScores[keyword] = score/(len(parties)-1)
+            keywordFile.write(keyword)
+            keywordFile.write("\n")
+        keywordFile.close()
 
-wc = WordCloud(background_color="white",width=1000,height=1000, max_words=10,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(totalScoresDict["Green"])
+wc = WordCloud(background_color="white",width=1000,height=1000, max_words=50,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(totalScoresDict["Green"])
 plt.imshow(wc)
 plt.show()
 
