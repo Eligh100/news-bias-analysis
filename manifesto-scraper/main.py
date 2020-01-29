@@ -2,10 +2,23 @@ import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-from nltk.tokenize import word_tokenize 
+from nltk.tokenize import word_tokenize
+from wordcloud import WordCloud
+from PIL import Image
+import matplotlib.pyplot as plt 
 import pandas as pd
 import re
 
+parties = {
+    0: "Brexit Party",
+    1: "Conservatives",
+    2: "Green",
+    3: "Labour",
+    4: "Liberal Democrats",
+    5: "Plaid Cymru",
+    6: "SNP",
+    7: "UKIP"
+}
 
 # first, gather text for each manifesto
 
@@ -20,7 +33,6 @@ stopWords = stopwords.words('english')
 for manifesto in os.listdir('manifestos'):
     manifestoFilePath = "manifestos/" + manifesto
     with open(manifestoFilePath , "r", encoding="utf-8") as manifestoText:
-        print(manifesto)
         text = manifestoText.read()
 
         text = text.lower() # TODO improve this - entity resolution?
@@ -42,8 +54,8 @@ for manifesto in os.listdir('manifestos'):
 keywords = {}
 
 for i in range(0,7):
+    keywords[i] = []
     for j in range(0,7):
-        keywords[i] = []
         if (i != j):
             vectorizer = TfidfVectorizer()
             vectors = vectorizer.fit_transform([manifestoTexts[i], manifestoTexts[j]])
@@ -55,8 +67,23 @@ for i in range(0,7):
 
             keywords[i].append(top_words[0:20])
 
-print (keywords)
+totalScoresDict = {}
 
+for partyIndex,partyKeywordList in keywords.items():
+    partyName = parties[partyIndex]
+    totalScoresDict[partyName] = {}
+    for keywordsScoreDict in partyKeywordList:
+        for currentKeyword,currentKeywordScore in keywordsScoreDict.items():
+            if currentKeyword not in totalScoresDict[partyName]:
+                totalScoresDict[partyName][currentKeyword] = 0.0
+            totalScoresDict[partyName][currentKeyword] += currentKeywordScore
 
+for party,keywordScores in totalScoresDict.items():
+    for keyword,score in keywordScores.items():
+        keywordScores[keyword] = score/(len(parties)-1)
+
+wc = WordCloud(background_color="white",width=1000,height=1000, max_words=10,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(totalScoresDict["Green"])
+plt.imshow(wc)
+plt.show()
 
 # save to dynamodb database
