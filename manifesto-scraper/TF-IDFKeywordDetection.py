@@ -1,3 +1,13 @@
+'''
+This code uses TF-IDF to cross-reference all party manifestos, and select unique keywords
+In the greater scope of the project, this can be used to add weighting to the overall bias score
+    i.e. a paper whose articles involve keywords found in a certain manifesto could have additional bias towards that paper
+    Also, papers that discuss topics mentioned in one manifesto more could be noted
+This script itself is NOT enough - needs to be combined with a topic analyser that extracts sentiment
+For instance, just because a paper mentions brexit a lot, doesn't mean they support the brexit party or the conservatives
+Perhaps this script could be adjusted to extract sentimental keywords (i.e. 'betrayal' could imply bias)
+'''
+
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
@@ -19,6 +29,13 @@ parties = {
     6: "SNP",
     7: "UKIP"
 }
+
+vectorizerParameters = [(1,1), (2,2), (3,3)] # This determines whether unigram, bigram, or trigram
+fileOutputParameters = ["keywords", "bigrams", "trigrams"]
+
+userChoice = -1
+while (userChoice not in [1, 2, 3]):
+    userChoice = int(input("1 for unigrams, 2 for bigrams, or 3 for trigrams: "))
 
 # first, gather text for each manifesto
 
@@ -57,7 +74,7 @@ for i in range(0,7):
     keywords[i] = []
     for j in range(0,7):
         if (i != j):
-            vectorizer = TfidfVectorizer()
+            vectorizer = TfidfVectorizer(ngram_range=vectorizerParameters[userChoice-1])
             vectors = vectorizer.fit_transform([manifestoTexts[i], manifestoTexts[j]])
             feature_names = vectorizer.get_feature_names()
             dense = vectors.todense()
@@ -79,11 +96,13 @@ for partyIndex,partyKeywordList in keywords.items():
             totalScoresDict[partyName][currentKeyword] += currentKeywordScore
 
 for party,keywordScores in totalScoresDict.items():
-    keywordsFilePath = "keywords/" + party + "-keywords.txt"
+    keywordsFilePath = fileOutputParameters[userChoice-1] + "/" + party + "-" + fileOutputParameters[userChoice-1] + ".txt"
     with open(keywordsFilePath, "w", encoding="utf-8") as keywordFile:
         for keyword,score in keywordScores.items():
             keywordScores[keyword] = score/(len(parties)-1)
-            keywordFile.write(keyword)
+            textFileLine = keyword + " = "
+            textFileLine += str(keywordScores[keyword])
+            keywordFile.write(textFileLine)
             keywordFile.write("\n")
         keywordFile.close()
 
