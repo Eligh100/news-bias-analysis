@@ -53,26 +53,21 @@ for manifesto in os.listdir('manifestos'):
         words = word_tokenize(text) # TODO better tokenizer? and sentence tokenizer?
         words = [word for word in words if word not in stopWords] # TODO bespoke stopword list? with party names in, for instance
 
-        # lemmatizedText = ""
-        # for w in words:
-            #lemmatizedText += lemmatizer.lemmatize(w) + " "
+        lemmatizedText = ""
+        for w in words:
+            lemmatizedText += lemmatizer.lemmatize(w) + " "
 
         words = " ".join(words)
         
         manifestoTexts.append(words)
         manifestoText.close()
 
-# for i in range(0,7):
-# withoutCurrent = list(manifestoTexts)
-# withoutCurrent1 = withoutCurrent[:i]
-# withoutCurrent2 = withoutCurrent[i+1:]
-# withoutCurrent = withoutCurrent1 + withoutCurrent2
 no_features = 1000
-tfidf_vectorizer = TfidfVectorizer(max_df = 0.95, min_df = 2,max_features=no_features, ngram_range=(2,2))
+tfidf_vectorizer = TfidfVectorizer(max_df = 0.95, min_df = 2,max_features=no_features, ngram_range=(1,1))
 tfidf = tfidf_vectorizer.fit_transform(manifestoTexts)
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
 
-no_topic = 20
+no_topic = 7
 counter = 0
 for i in tfidf:
     print("\n\n\n")

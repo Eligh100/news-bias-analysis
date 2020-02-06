@@ -45,7 +45,9 @@ lemmatizer = WordNetLemmatizer()
 
 stopWords = stopwords.words('english')
 
-# then, pre-process (remove stop words and stem)   WENZELS
+# then, pre-process (remove stop words and stem)
+
+# TODO remove party name from text? i.e. labour is common word in labour manifesto, but not necessarily helpful?
 
 for manifesto in os.listdir('manifestos'):
     manifestoFilePath = "manifestos/" + manifesto
@@ -70,9 +72,9 @@ for manifesto in os.listdir('manifestos'):
 
 keywords = {}
 
-for i in range(0,7):
+for i in range(0,len(parties)):
     keywords[i] = []
-    for j in range(0,7):
+    for j in range(0,len(parties)):
         if (i != j):
             vectorizer = TfidfVectorizer(ngram_range=vectorizerParameters[userChoice-1])
             vectors = vectorizer.fit_transform([manifestoTexts[i], manifestoTexts[j]])
