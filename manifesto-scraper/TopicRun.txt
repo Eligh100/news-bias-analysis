@@ -1,0 +1,65 @@
+First, I ran CorEx, a semi-supervised learning technique. This works similarly to LDA, but allows the usage of anchor words, to help
+guide the model. I did the first run without anchor words, to see what unsupervised topics would be generated:
+
+Topic #1: pledge, accessible, powerful, poverty inequality, policies, points, playing field, powers, plastic, petrol diesel
+Topic #2: ability, policing, politics, poor, poorest, practice, premium, prioritise, prison, processes
+Topic #3: abroad, preventing, pregnant, powerhouse, policy, playing, play, priorities, platforms, petrol
+Topic #4: accept, pounds, ports, political parties, political, police force, places, perpetrators, per cent, people face
+Topic #5: academic, police forces, politically, positive, preserve, prices, prioritising, private investment, privatisation, privatisation nhs
+Topic #6: abolish, principles, primates, prevent, pressure, prepared, practices, postbrexit, possession, plastic waste
+Topic #7: abolishing, products, profits, project, proportional, provides, public transport, publication, published, purpose
+Topic #8: abusers, pfi, planet, planning system, politicians, post, power, precious, prepare, prevention
+Topic #9: able, rate, racism, pubs, provide support, protection, protect, received, property, projects
+Topic #10: across uk, present, prescription, pregnancy, practical, population, pollution, pressing, planned, places worship
+
+
+I then went through these words and discarded ambiguous words (i.e. 'play', 'prepare'). I've put these discarded words into their
+own anchor, so that irrelevant words join that topic (a filtering topic, to purify the other topics). The topics looked as such after
+filtering:
+
+Topic #1: poverty inequality, playing field, plastic, petrol diesel
+Topic #2: policing, poor, poorest, prison
+Topic #3: powerhouse, petrol
+Topic #4: pounds, police force, perpetrators
+Topic #5: academic, police forces, private investment, privatisation, privatisation nhs
+Topic #6: postbrexit, plastic waste
+Topic #7: public transport
+Topic #8: abusers, planet
+Topic #9: racism
+Topic #10: pollution, places worship
+
+Then, I attempted to categorise the remaining words into political topics (i.e. brexit, climate change, crime, etc.) 
+This involved moving some words/bigrams around, and shortening the amount of topics:
+
+Topic #1 (Poverty/Income Equality): poverty inequality, playing field, poor, poorest
+Topic #2 (Policing/Crime): policing, prison, police force, perpetrators, racism, police forces, places worship, abusers
+Topic #3 (Economy): powerhouse, pounds, privatisation, private investment
+Topic #4 (Education/Schooling): academic
+Topic #5 (NHS/Healthcare): privatisation, privatisation nhs
+Topic #6 (Brexit): postbrexit, 
+Topic #7 (Environment/Climate Change): planet, plastic, petrol diesel, plastic waste, pollution, petrol, public transport
+
+I'll use these words as my anchors, along with some words from my intuition (i.e. 'brexit' for the brexit topic, 'climate change' 
+for the environment/climate change topic, etc.)
+
+The complete list of anchors at this stage are as follows:
+
+anchors = [
+    ["poverty inequality","playing field", "poor", "poorest", "poverty", "income tax"], # Poverty/Income Inequality
+    ["policing", "prison", "police force", "perpetrators", "racism", "police forces", "places worship", "abusers, ""crime", "knife", "criminals", "police"], # crime and policing
+    ["economy", "economics", "exchange rate", "pound", "tariff", "business", "powerhouse", "pounds", "privatisation", "private investment"], # business and economics
+    ["education", "schools", "school", "teaching", "teachers", "curriculum", "grammar school", "academic"], # education
+    ["nhs", "national health", "hospitals", "nurses", "doctors", "medicine", "privatisation", "privatisation nhs"], # healthcare
+    ["brexit" "nodeal brexit", "no deal", "postbrexit", "brussels", "EU", "european union", "eu", "European Union"], # Brexit
+    ["climate change", "climate", "climate emergency", "environment", "fossil fuels", "carbon", "zero carbon", "zerocarbon", "planet", "plastic", "petrol diesel", "plastic waste", "pollution", "petrol", "public transport"], # environment and climate change
+    ["pledge", "accessible", "powerful", "policies", "points", "powers", "ability", "politics", "practice", "premium", "prioritise", 
+    "processes", "abroad", "preventing", "pregnant", "policy", "playing", "play", "priorities", "platforms", "accept", "ports", 
+    "political parties", "political", "places", "per cent", "people face", "politically", "positive", "preserve", "prices", "prioritising",
+    "abolish", "principles", "primates", "prevent", "pressure", "prepared", "practices", "possession", "abolishing", "products", "profits", "project", 
+    "provides", "publication", "published", "purpose", "proportional", "pfi", "planning system", "politicians", "post", "power", "precious", "prepare", "prevention",
+    "able", "rate", "pubs", "provide support", "protection", "protect", "received", "property", "projects", "across uk", "present", "prescription", "pregnancy", 
+    "practical", "population", "pressing", "planned"] # FILTER TOPIC - FILLED WITH AMBIGUOUS WORDS
+]
+
+
+

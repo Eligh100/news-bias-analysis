@@ -41,13 +41,18 @@ for manifesto in os.listdir('manifestos'):
         manifestoSentences[partyName] = sent_tokenize(text)
 
 for party,sentences in manifestoSentences.items():
-    for sentence in sentences:
-        sentencePolarity = TextBlob(sentence).sentiment.polarity
-        if (abs(sentencePolarity) >= 0.5):
-            polarisedSentences[party][sentence] = sentencePolarity
+    with open("sentiment-sentences/" + party + "Sentiment.txt", "w", encoding="utf-8") as sentimentFile:
+        for sentence in sentences:
+            sentencePolarity = TextBlob(sentence).sentiment.polarity
+            sentenceSubjectivity = TextBlob(sentence).sentiment.subjectivity
+            if (abs(sentencePolarity) >= 0.5 and sentenceSubjectivity >= 0.5):
+                polarisedSentences[party][sentence] = sentencePolarity
+                sentimentFile.write(sentence + " = " + str(sentencePolarity) + "\n")
+        sentimentFile.close()
+            
 
 
-print(polarisedSentences)
+
 
         
 
