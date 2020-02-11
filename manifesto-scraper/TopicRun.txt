@@ -61,5 +61,37 @@ anchors = [
     "practical", "population", "pressing", "planned"] # FILTER TOPIC - FILLED WITH AMBIGUOUS WORDS
 ]
 
+After running CorEx with these anchors (and removing the filtering topic), with an anchor weighting of 3, 20 words from each topic were:
 
+Topic #1: accountability, private, prison sentences, price, poverty inequality, poverty, potential, poorest, poor, playing field, 
+            physical health, permitted, people want, pension funds, peace, pay gap, passenger, party, private sector, partners
+Topic #2: accelerating, public money, proven, proposals, procurement, prison officers, prison, priority, pride, publish, prevents, 
+            police forces, police force, police, plan, places worship, persons, perpetrators, per, policing
+Topic #3: abuse bill, proceeds, proactive, privatisation, private investment, prime, primary, pricing, preventative, powerhouse, 
+            pounds, police officers, police crime, point, played, peoples lives, people learning, pension, paternity, partnership
+Topic #4: academic, provide additional, protections, protecting, protected, prosperous, promised, progressive, producers, process, 
+            problems, problem, prisoners, placed, phase, persecution, permission, people work, pay fair, patients
+Topic #5: according, removing, reliable, release, rehabilitation, regeneration, refused, refugee, reduction, reducing, reduce carbon, 
+            recruit, rape, quickly, questions, put, repeat, public service, replace, requires
+Topic #6: abuse, produced, principle, press, postbrexit, possible, plastics, planting, physical, personal, peoples, people need, 
+            people mental, people, passed, pass, parties, parliament, packaging, outcome
+Topic #7: abusers, plastic waste, plastic, plants, plans, planning, planet, place, petrol diesel, petrol, personnel, performance, 
+            people make, people live, pensions, payments, paying, past decade, past, parts
+
+And after adjusting the anchor weighting to 5:
+
+Topic #1: across eu, rebalance, really, realise, rape, puts, public sector, provide free, properly, proof, promoted, programme, 
+            profit, professionals, producing, poverty inequality, poverty, poorest, recruit, poor
+Topic #2: accountable, provided, proposals, progress, producers, proceeds, proactive, prison sentences, public health, prison, 
+            police forces, police force, police, played, plans, places worship, perpetrators, policing, period, pushing
+Topic #3: abusers, parts uk, partnership, particular, part country, parliaments, parliamentary, parliament, parks, pathways, 
+            paris, outside eu, opportunity, one, often, offshore wind, offers, obesity, north, paid
+Topic #4: academic, prisons, pricing, press, possible, police crime, planting, person, permitted, peoples lives, payment, past, 
+            passing, parental, packaging, order, operations, onshore, older people, offices
+Topic #5: abuse bill, prior, potential, position, plants, physical, per, people live, people get, people across, privatisation, 
+            pay gap, paternity, past decade, passed, party, partnerships, owned, owe, overwhelmingly
+Topic #6: abuse, qualified, pursuing, publish, public services, public service, providers, proven, protects, rather, prosecution, 
+            postbrexit, plastics, personnel, permission, permanent, pensioners, patients, pass, price
+Topic #7: accelerating, receives, reality, rail, push, publicly owned, public transport, public, provide additional, recognition act, provide, proportion, 
+            promised, production, procurement, probation, private, prison officers, primary, proportionate
 
