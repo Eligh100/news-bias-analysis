@@ -1,0 +1,50 @@
+strict digraph {
+	node [shape=point];
+	n1_0 -> n2_0 [penwidth=8.81];
+	n0_1 -> n1_0 [penwidth=1.83];
+	n0_1 -> n1_4 [penwidth=6.86];
+	n0_2 -> n1_0 [penwidth=8.80];
+	n0_2 -> n1_3 [penwidth=2.39];
+	n0_3 -> n1_0 [penwidth=0.42];
+	n0_3 -> n1_1 [penwidth=0.42];
+	n0_3 -> n1_2 [penwidth=8.76];
+	n0_6 -> n1_0 [penwidth=0.74];
+	n0_6 -> n1_4 [penwidth=3.42];
+	n0_7 -> n1_0 [penwidth=3.49];
+	n0_7 -> n1_3 [penwidth=7.99];
+	n0_0 -> n1_1 [penwidth=8.86];
+	n0_5 -> n1_1 [penwidth=4.80];
+	n0_5 -> n1_2 [penwidth=4.84];
+	n1_2 -> n2_0 [penwidth=0.96];
+	n1_3 -> n2_0 [penwidth=4.80];
+	n1_4 -> n2_0 [penwidth=2.80];
+	n0_4 -> n1_5 [penwidth=9.00];
+	n1_0 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.47,label="0"]
+	n0_1 [label="1:sustained eight mep
+restricted resulting door",shape=none,fontcolor="black"]
+	n0_2 [label="2:~processes ~seeking
+parking guarantees ageing
+leasehold",shape=none,fontcolor="black"]
+	n0_3 [label="3:~points doubled paper
+peacebuilding heavy
+pensioner",shape=none,fontcolor="black"]
+	n0_6 [label="6:introduction promotion
+member attempts added may",shape=none,fontcolor="black"]
+	n0_7 [label="7:proven drivers
+engineering outcomes
+survival weapon",shape=none,fontcolor="black"]
+	n1_1 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.36,label="1"]
+	n0_0 [label="0:iran race remuneration
+remote remit crashing",shape=none,fontcolor="black"]
+	n0_5 [label="5:brussels ~earliest
+~glasgow ~among ~win
+~limits",shape=none,fontcolor="black"]
+	n1_2 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.30,label="2"]
+	n1_3 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.22,label="3"]
+	n1_4 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.19,label="4"]
+	n1_5 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.06,label="5"]
+	n0_4 [label="4:bursaries lobbying
+commercial permission
+engaged restaurants",shape=none,fontcolor="black"]
+	n2_0 [shape=point,height=0.30]
+}
