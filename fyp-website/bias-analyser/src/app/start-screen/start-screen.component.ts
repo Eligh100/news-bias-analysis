@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { AnalysisParametersService } from '../analysis-parameters.service';
 
 export interface FormSelectOption {
   value: string;
@@ -35,27 +36,30 @@ export class StartScreenComponent implements OnInit {
 
   topics: FormSelectOption[] = [
     {value: 'brexit', viewValue: "Brexit"},
-    {value: 'environmental', viewValue: "Environment & Climate Change"},
+    {value: 'environment', viewValue: "Environment & Climate Change"},
     {value: 'economy', viewValue: "Economy and Business"},
     {value: 'crime', viewValue: "Crime"},
-    {value: 'health', viewValue: "Healthcare and the NHS"}
+    {value: 'health', viewValue: "Healthcare and the NHS"},
   ];
 
   expansionPanelHeaderText = "";
+  introText = "\nT\n";
   isExpanded = true;
   fullsize = true;
   isDisabled = true;
 
   startScreenForm : FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private analysisParameters:AnalysisParametersService) { }
 
   ngOnInit() {
 
     this.startScreenForm = this.fb.group({
       selectedNewspaper: ['', [Validators.required]],
       selectedPoliticalParty: ['', [Validators.required]],
-      selectedTopics: ['', []]
+      selectedTopics: ['', []],
+      selectedStartDate: ['', []],
+      selectedEndDate: ['', []],
     })
 
   }
@@ -69,11 +73,16 @@ export class StartScreenComponent implements OnInit {
     this.fullsize = !this.fullsize;
   }
 
+  // send selected options to processing component
+  beginAnalysis() {
+    this.analysisParameters.analysisParameters = this.startScreenForm;
+  }
+
   get selectedNewspaper() { return this.startScreenForm.get('selectedNewspaper'); }
-
   get selectedPoliticalParty() { return this.startScreenForm.get('selectedPoliticalParty'); }
-
   get selectedTopics() { return this.startScreenForm.get('selectedTopics'); }
+  get selectedStartDate() { return this.startScreenForm.get('selectedStartDate'); }
+  get selectedEndDate() { return this.startScreenForm.get('selectedEndDate'); }
 
 }
  

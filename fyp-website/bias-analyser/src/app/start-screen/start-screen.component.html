@@ -23,7 +23,9 @@
                         {{expansionPanelHeaderText}}
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <p class="mat-h3 text-center"><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget mauris et velit aliquet maximus. Vestibulum felis augue, lacinia sed.</em></p>
+                <p class="mat-h3 text-center"><em>British news organisations often have opinions and biases regarding different political parties and topics<br>
+                    The purpose of this tool is to, via large-scale text analysis, quantify these biases and present them in a fair and data-driven manner<br>
+                    Simply select a news organisation and political party to begin:</em></p>
                 <div class="container" [formGroup]="startScreenForm">
                     <div class="row">
                         <div class="col sm text-center">
@@ -59,15 +61,26 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="row justify-content-center pt-4">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="dateRangePicker" placeholder="Specify a date range (Optional)">
-                            <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
-                            <mat-datepicker #dateRangePicker></mat-datepicker>
-                        </mat-form-field>
+                    <div class="row pt-4">
+                        <div class="col-sm-6 text-center">
+                            <mat-form-field>
+                                <mat-label>Select start date <em>(Optional)</em></mat-label>
+                                <input matInput [matDatepicker]="startDatePicker">
+                                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #startDatePicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <mat-form-field>
+                                <mat-label>Select end date <em>(Optional)</em></mat-label>
+                                <input matInput [matDatepicker]="endDatePicker">
+                                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #endDatePicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
                     </div>
                     <mat-action-row class="justify-content-center pt-4">
-                        <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState()">Analyse Bias</button>
+                        <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState();beginAnalysis()">Analyse Bias</button>
                     </mat-action-row>
                 </div>
             </mat-expansion-panel>
