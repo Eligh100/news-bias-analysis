@@ -30,12 +30,15 @@ parties = {
     7: "UKIP"
 }
 
-vectorizerParameters = [(1,1), (2,2), (3,3)] # This determines whether unigram, bigram, or trigram
-fileOutputParameters = ["keywords", "bigrams", "trigrams"]
+vectorizerParameters = [(1,2), (2,2), (3,3)] # This determines whether unigram, bigram, or trigram
+fileOutputParameters = ["unibimix", "bigrams", "trigrams"]
 
 userChoice = -1
 while (userChoice not in [1, 2, 3]):
-    userChoice = int(input("1 for unigrams, 2 for bigrams, or 3 for trigrams: "))
+    try:
+        userChoice = int(input("1 for unigrams, 2 for bigrams, or 3 for trigrams: "))
+    except:
+        print("Invalid input")
 
 # first, gather text for each manifesto
 

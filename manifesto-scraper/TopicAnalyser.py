@@ -54,7 +54,7 @@ if (new_model_choice == "n"):
 
             lemmatizedText = ""
             for w in words:
-                lemmatizedText += porterStemmer.stem(w) + " "
+                lemmatizedText += lemmatizer.lemmatize(w) + " "
 
             words = " ".join(words)
             
@@ -135,7 +135,7 @@ else:
         exit(0)
 
     try:
-        vectorizer = cPickle.load(open("vectorizer.pkl", "rb"))
+        vectorizer = cPickle.load(open(vectorizer_path, "rb"))
     except:
         print("Vectorizer: " + vectorizer_path + " not found")
         exit(0)
