@@ -1,7 +1,7 @@
-from NewsScraper import NewsScraper
-from ArticleTrimmer import ArticleTrimmer
-from ArticleUploader import ArticleUploader
-from Logger import Logger
+from news_scraper.NewsScraper import NewsScraper
+from news_scraper.ArticleTrimmer import ArticleTrimmer
+from news_scraper.ArticleUploader import ArticleUploader
+from helper_classes.Logger import Logger
 import os
 import boto3
 
@@ -29,15 +29,15 @@ logger.writeToLog(log_line, True)
 
 
 # Get articles
-newsScraper = NewsScraper(dynamodb) #TODO investigate why less daily mail and telegraph articles
+newsScraper = NewsScraper(dynamodb, logger) #TODO investigate why less daily mail and telegraph articles
 articles = newsScraper.scrapeArticles()
 
 # Extract text
-articleTrimmer = ArticleTrimmer()
+articleTrimmer = ArticleTrimmer(logger)
 database_entry = articleTrimmer.trimArticle(articles)
 
 # Upload articles and relevant metadata to S3 and DynamoDB
-articleUploader = ArticleUploader(s3, bucket_name, dynamodb)
+articleUploader = ArticleUploader(s3, bucket_name, dynamodb, logger)
 articleUploader.uploadArticles(database_entry)
 
 # Write to log file, stating program's completion

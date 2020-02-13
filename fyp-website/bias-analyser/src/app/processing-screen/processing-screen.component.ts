@@ -27,7 +27,12 @@ export class ProcessingScreenComponent implements OnInit {
   }
 
   process(){
-    console.log(this.analysisParameters.analysisParameters.get("selectedNewspaper").value);
+    /// Call service
+    /// Service calls AWS lambda script
+    /// Script does processing
+    /// Script returns JSON response, with my data
+    /// Service has data
+    /// Component uses service's data (after some event saying data is available (i.e. switch from loading to finished))
   }
 
 }

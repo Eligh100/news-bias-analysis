@@ -4,8 +4,6 @@ from bs4 import BeautifulSoup
 from bs4.element import Comment
 import requests
 
-from Logger import Logger
-
 class ArticleTrimmer():
 
     database_entry = {}
@@ -40,10 +38,8 @@ class ArticleTrimmer():
         "MIRROR": ["div", "itemprop", "articleBody"]
     }
 
-    logger = ""
-
-    def __init__(self):
-        self.logger = Logger()
+    def __init__(self, logger):
+        self.logger = logger
 
     def trimArticle(self, articles):
         for org_name, article_links_list in articles.items():
@@ -82,7 +78,10 @@ class ArticleTrimmer():
                             else:
                                 authors = soup.find_all("meta", {"name":self.org_author_styles[org_name]})
                                 for author in authors:
-                                    article_author += author["content"] + ", "
+                                    try:
+                                        article_author += author["content"] + ", "
+                                    except: # sometimes no author, just use org_name
+                                        article_author += org_name + ", "
                                 article_author = article_author[:-2]
                                 
                                 if (article_author == ""):

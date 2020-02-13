@@ -34,8 +34,6 @@ from time import mktime
 import time
 import boto3
 
-from Logger import Logger
-
 # TODO add logging for errors
 class NewsScraper():
 
@@ -74,10 +72,10 @@ class NewsScraper():
     dynamodb = ""
     logger = ""
 
-    def __init__(self, dynamodb):
+    def __init__(self, dynamodb, logger):
 
         self.dynamodb = dynamodb
-        self.logger = Logger()
+        self.logger = logger
 
     def scrapeArticles(self):
         for org_name, urls in self.news_base_urls.items():

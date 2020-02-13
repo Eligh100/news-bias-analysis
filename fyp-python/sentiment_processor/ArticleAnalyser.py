@@ -12,32 +12,30 @@ from nltk.tokenize import sent_tokenize
 from corextopic import corextopic as ct
 from corextopic import vis_topic as vt
 
+import sys
+sys.path.insert(1, '/proj/helper-classes/') # necessary for importing helper classes
+
+from Enums import PoliticalParty
+
 class ArticleAnalyser:
 
     topicSentimentScores = {
-        0:0,
-        1:0,
-        2:0,
-        3:0,
-        4:0,
-        5:0,
-        6:0,
-        7:0,
-        8:0,
-        9:0,
+        0:[0,0],
+        1:[0,0],
+        2:[0,0],
+        3:[0,0],
+        4:[0,0],
+        5:[0,0],
+        6:[0,0],
+        7:[0,0],
+        8:[0,0],
+        9:[0,0]
     }
 
-    topicSentenceCounter = {
-        0:0,
-        1:0,
-        2:0,
-        3:0,
-        4:0,
-        5:0,
-        6:0,
-        7:0,
-        8:0,
-        9:0,
+    chosenPoliticalParty = ""
+
+    partyToManifesto = {
+        PoliticalParty.brexitParty : ""
     }
 
     def __init__(self):
@@ -81,14 +79,21 @@ class ArticleAnalyser:
 
             # If the sentence is likely talking about a topic found in the overall article, get sentiment
             for topic_num in shared_topics: 
-                self.topicSentenceCounter[topic_num] += 1
                 sentencePolarity = TextBlob(sentence).sentiment.polarity
-                self.topicSentimentScores[topic_num] += sentencePolarity
+                self.topicSentimentScores[topic_num][0] += sentencePolarity
+                self.topicSentimentScores[topic_num][1] += 1
 
         # Once all sentences have been analysed, get mean of sentiment scores
-        for topic_index, sentimentScore in self.topicSentimentScores.items():
+        for topic_index, sentimentScoreAndCounter in self.topicSentimentScores.items():
+            sentimentScore = sentimentScoreAndCounter[0]
+            sentimentCounter = sentimentScoreAndCounter[1]
             if (self.topicSentenceCounter[topic_index] > 0):
-                self.topicSentimentScores[topic_index] = sentimentScore / self.topicSentenceCounter[topic_index]
+                self.topicSentimentScores[topic_index][0] = sentimentScore / sentimentCounter
 
     def analyseEntitySentiment(self, original_text):
-        print("todo")
+        print("") # TODO implement
+
+    def performTFIDF(self, pre_processed_text): # TODO finish implementing TF-IDF on articles/manifesto
+        
+
+

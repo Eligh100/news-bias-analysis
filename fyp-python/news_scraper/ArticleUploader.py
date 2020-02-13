@@ -2,8 +2,6 @@ import os
 import boto3
 from datetime import datetime
 
-from Logger import Logger
-
 class ArticleUploader():
 
     database_additions = {}
@@ -12,13 +10,11 @@ class ArticleUploader():
     bucket_name = ""
     dynamodb = ""
 
-    logger = ""
-
-    def __init__(self, s3, bucket_name, dynamodb):
+    def __init__(self, s3, bucket_name, dynamodb, logger):
         self.s3 = s3
         self.bucket_name = bucket_name
         self.dynamodb = dynamodb
-        self.logger = Logger()
+        self.logger = logger
 
 
     def uploadArticles(self, database_entry):
