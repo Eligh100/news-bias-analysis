@@ -3,13 +3,15 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
-class ArticlePreProcessor:
+class ArticlePreProcessor: # TODO add logging
 
-    def __init__(self):
+    def __init__(self, logger):
         self.porterStemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
 
         self.stopWords = stopwords.words('english')
+
+        self.logger = logger
 
     def preprocess(self, text):
         text = text.lower() # TODO improve this - entity resolution?

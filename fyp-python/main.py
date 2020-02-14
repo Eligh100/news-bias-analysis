@@ -1,9 +1,17 @@
+import os
+import boto3
+
+# News scraping classes
 from news_scraper.NewsScraper import NewsScraper
 from news_scraper.ArticleTrimmer import ArticleTrimmer
 from news_scraper.ArticleUploader import ArticleUploader
+
+# Text analysis classes
+from sentiment_processor.ArticlePreProcessor import ArticlePreProcessor
+from sentiment_processor.ArticleAnalyser import ArticleAnalyser
+
+# Helper classes
 from helper_classes.Logger import Logger
-import os
-import boto3
 
 # Establish AWS-related variables
 bucket_name = "articles-text"
@@ -44,6 +52,18 @@ log_line = "Article scraping ran to completion - "
 logger.writeToLog(log_line, True)
 
 # Begin processing of all articles text
+for article_url, article_metadata in database_entry.items():
+    # Do pre-processing for each one (tokinisation)
+    article_text = article_metadata[0]
+    article_headline = article_metadata[1]
+
+    articlePreProcessor = ArticlePreProcessor(logger)
+    preprocessed_text = articlePreProcessor.preprocess(article_text)
+
+    # Get required information from the article
+    articleAnalyser = ArticleAnalyser(logger)
+    articleAnalyser.analyseTopicsSentiment(preprocessed_text, article_text)
+    articleAnalyser.analyseEntitySentiment(articleAnalyser) # Pass unprocessed text (entity recognition may require details lost in pre-processing)
 
 # Write to log file, stating program's completion
 log_line = "Script ran to completion - "

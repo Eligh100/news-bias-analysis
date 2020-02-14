@@ -32,13 +32,15 @@ article_text = ""
 for line in smart_open.open(s3_article_url):
     article_text += line + " "
 
+logger = "" # in real main.py, will be actual logger #TODO remove/ignore this line
+
 # Do pre-processing for each one (tokinisation)
-articlePreProcessor = ArticlePreProcessor()
+articlePreProcessor = ArticlePreProcessor(logger)
 preprocessed_text = articlePreProcessor.preprocess(article_text)
 
 # Get required information from the article
-articleAnalyser = ArticleAnalyser()
-articleAnalyser.analyseLikelyTopic(preprocessed_text, article_text)
+articleAnalyser = ArticleAnalyser(logger)
+articleAnalyser.analyseTopicsSentiment(preprocessed_text, article_text)
 articleAnalyser.analyseEntitySentiment(articleAnalyser) # Pass unprocessed text (entity recognition may require details lost in pre-processing)
 
 # Store this info in DynamoDB table
@@ -69,8 +71,11 @@ Reduce costs/increase speed
         AUTHOR(s)
         PUBLISHED DATE
         LIKELY TOPICS
+        COSINE SIMILARITY (list of pairs of (party, cosine similarity))
+        OVERALL PARTY BIAS SCORE PER ARTICLE
+        HEADLINE/SENTIMENT SCORE
         TOPICS/SENTIMENT SCORES MATRIX (i.e. list of pairs - [("Brexit","0.6"),("Climate change","0.9")])
-        PARTY ENTITIES/SENTIMENT SCORES MATRIX (i.e. list of pairs - [("Labour", "0.4"),("Conservative", "-0.7")])
+        PARTY ENTITIES/SENTIMENT SCORES MATRIX (i.e. list of pairs - [("Labour", "0.4"),("Conservative", "-0.7"),("Boris Johnson", "-1")])
         WORDMAP WORDS
     
     ...

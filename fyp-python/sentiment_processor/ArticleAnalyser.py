@@ -17,7 +17,7 @@ sys.path.insert(1, '/proj/helper-classes/') # necessary for importing helper cla
 
 from Enums import PoliticalParty
 
-class ArticleAnalyser:
+class ArticleAnalyser: # TODO add logging
 
     topicSentimentScores = {
         0:[0,0],
@@ -38,7 +38,9 @@ class ArticleAnalyser:
         PoliticalParty.brexitParty : ""
     }
 
-    def __init__(self):
+    def __init__(self, logger):
+        self.logger = logger
+
         topic_model_path = "model/topic_model.pkl"
         vectorizer_path = "model/vectorizer.pkl"
 
@@ -54,7 +56,7 @@ class ArticleAnalyser:
             print("Vectorizer: " + vectorizer_path + " not found")
             exit(0)
 
-    def analyseLikelyTopic(self, pre_processed_text, original_text):
+    def analyseTopicsSentiment(self, pre_processed_text, original_text):
 
         # First, find overall most likely topics
         text_vectorized = self.vectorizer.transform([pre_processed_text])
@@ -90,10 +92,18 @@ class ArticleAnalyser:
             if (self.topicSentenceCounter[topic_index] > 0):
                 self.topicSentimentScores[topic_index][0] = sentimentScore / sentimentCounter
 
+    # i.e. mentions of "Labour", "Jeremy Corbyn", "Momentum", etc. - use MPs.csv, and own domain knowledge
     def analyseEntitySentiment(self, original_text):
-        print("") # TODO implement
+        print("") # TODO implement me
 
     def performTFIDF(self, pre_processed_text): # TODO finish implementing TF-IDF on articles/manifesto
+        print("")
+
+    def analyseHeadlineSentiment(self, headline):
+        print("")# TODO implement me
+
+    def calculateBiasScore(self):
+        print("") # TODO implement me
         
 
 
