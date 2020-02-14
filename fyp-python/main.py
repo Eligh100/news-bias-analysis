@@ -9,6 +9,7 @@ from news_scraper.ArticleUploader import ArticleUploader
 # Text analysis classes
 from sentiment_processor.ArticlePreProcessor import ArticlePreProcessor
 from sentiment_processor.ArticleAnalyser import ArticleAnalyser
+from sentiment_processor.AnalysisUploader import AnalysisUploader
 
 # Helper classes
 from helper_classes.Logger import Logger
@@ -64,6 +65,10 @@ for article_url, article_metadata in database_entry.items():
     articleAnalyser = ArticleAnalyser(logger)
     articleAnalyser.analyseTopicsSentiment(preprocessed_text, article_text)
     articleAnalyser.analyseEntitySentiment(articleAnalyser) # Pass unprocessed text (entity recognition may require details lost in pre-processing)
+
+    # Write analysis information to DynamoDB
+    analysisUploader = AnalysisUploader(logger)
+    analysisUploader.pushAnalysis()
 
 # Write to log file, stating program's completion
 log_line = "Script ran to completion - "

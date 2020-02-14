@@ -1,5 +1,6 @@
 from ArticlePreProcessor import ArticlePreProcessor
 from ArticleAnalyser import ArticleAnalyser
+from AnalysisUploader import AnalysisUploader
 import boto3
 import smart_open
 
@@ -44,6 +45,8 @@ articleAnalyser.analyseTopicsSentiment(preprocessed_text, article_text)
 articleAnalyser.analyseEntitySentiment(articleAnalyser) # Pass unprocessed text (entity recognition may require details lost in pre-processing)
 
 # Store this info in DynamoDB table
+analysisUploader = AnalysisUploader(logger)
+analysisUploader.pushAnalysis()
 
 '''
 for each article in dynamodb database (in time range - default is ALL)
@@ -56,7 +59,6 @@ once article is ready, obtain bias score
     find mentioned party members/mentions of party names
     combine for score
 '''
-
 
 '''
 Reduce costs/increase speed
