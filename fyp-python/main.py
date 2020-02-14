@@ -27,7 +27,6 @@ logger = Logger()
 log_line = "\n\nScript started at: "
 logger.writeToLog(log_line, True)
 
-
 # Get articles
 newsScraper = NewsScraper(dynamodb, logger) #TODO investigate why less daily mail and telegraph articles
 articles = newsScraper.scrapeArticles()
@@ -39,6 +38,12 @@ database_entry = articleTrimmer.trimArticle(articles)
 # Upload articles and relevant metadata to S3 and DynamoDB
 articleUploader = ArticleUploader(s3, bucket_name, dynamodb, logger)
 articleUploader.uploadArticles(database_entry)
+
+# Write to log file, stating scraping aspect's completion
+log_line = "Article scraping ran to completion - "
+logger.writeToLog(log_line, True)
+
+# Begin processing of all articles text
 
 # Write to log file, stating program's completion
 log_line = "Script ran to completion - "

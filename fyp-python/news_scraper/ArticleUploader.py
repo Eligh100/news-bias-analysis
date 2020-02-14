@@ -95,15 +95,15 @@ class ArticleUploader():
                         Item={
                             'article-url': article_url,
                             'article-text': s3_url,
+                            'article-headline': article_data[1],
+                            'article-org': article_data[3], 
                             'article-author': article_data[2],
                             'most-recent-update': date_time
                         }
                     )
                 except:
-                    print (article_url)
-                    print (s3_url)
-                    print (article_data[2])
-                    print (date_time)
+                    log_line = "Failed to put item in DynamoDB database with following attributes:\n" + article_url + "\n" + s3_url + "\n" + article_data[1] + "\n" + article_data[3] + "\n" + article_data[2] + "\n" + date_time + "\nThe following exception occured:\n" + str(e)
+                    self.logger.writeToLog(log_line, False)
 
             else: # if article exists, need to update entry in database (by default, file overwriting enabled in s3)
                 response = table.update_item( # update database entry with new text and metadata
@@ -113,13 +113,17 @@ class ArticleUploader():
                     ExpressionAttributeNames = { # necessary as "-" in column names cause issues
                         "#at":"article-text",
                         "#aa":"article-author",
-                        "#mru":"most-recent-update"
+                        "#mru":"most-recent-update",
+                        "#ah":"article-headline",
+                        "#ao":"article-org"
                     },
-                    UpdateExpression="SET #at=:t, #aa=:a, #mru=:u",
+                    UpdateExpression="SET #at=:t, #aa=:a, #mru=:u, #ah=:h, #ao=:o",
                     ExpressionAttributeValues={
                         ':t': s3_url,
                         ':a': article_data[2],
-                        ':u': date_time
+                        ':u': date_time,
+                        ':h': article_data[1],
+                        ':o': article_data[3]
                     },
                     ReturnValues="UPDATED_NEW"
                 )

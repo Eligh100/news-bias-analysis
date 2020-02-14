@@ -64,11 +64,14 @@ class ArticleTrimmer():
                             self.logger.writeToLog(log_line, False)
                         else:
                             # Retrieve article's headline
-                            article_headline = ""
+                            article_headline = "NO_HEADLINE"
 
                             headlines = soup.find_all("meta", {"property":self.org_headline_styles[org_name]})
                             for headline in headlines:
-                                article_headline = headline["content"]
+                                try:
+                                    article_headline = headline["content"]
+                                except:
+                                    article_headline = "NO_HEADLINE"
 
                             # Retrieve article's author
                             article_author = ""
@@ -115,7 +118,7 @@ class ArticleTrimmer():
                                     article_text += paragraph.getText() + "\n"
                             
                             # Add the article and metadata to database dictionary
-                            self.database_entry[article_url] = [article_text, article_headline, article_author]
+                            self.database_entry[article_url] = [article_text, article_headline, article_author, org_name]
                 
                             
         return self.database_entry
