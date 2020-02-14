@@ -89,7 +89,7 @@ class ArticleAnalyser: # TODO add logging
         for topic_index, sentimentScoreAndCounter in self.topicSentimentScores.items():
             sentimentScore = sentimentScoreAndCounter[0]
             sentimentCounter = sentimentScoreAndCounter[1]
-            if (self.topicSentenceCounter[topic_index] > 0):
+            if (sentimentCounter > 0):
                 self.topicSentimentScores[topic_index][0] = sentimentScore / sentimentCounter
 
     # i.e. mentions of "Labour", "Jeremy Corbyn", "Momentum", etc. - use MPs.csv, and own domain knowledge
