@@ -2,6 +2,12 @@ from datetime import datetime
 
 class Logger():
 
+    def __init__(self, log_path=None):
+        if (log_path is None):
+            self.log_path = "log.txt"
+        else:
+            self.log_path = log_path
+
     def writeToLog(self, log_line, include_datetime):
         try:
             with open("log.txt", "a", encoding="utf-8") as log_file:

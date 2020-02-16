@@ -9,6 +9,9 @@ import re
 from textblob import TextBlob
 from nltk import sent_tokenize
 
+from helper_classes.Logger import Logger
+from helper_classes.TextPreprocessor import TextPreprocessor
+
 manifestoSentences = {
     "BrexitParty": [],
     "Conservative": [],
@@ -31,14 +34,17 @@ polarisedSentences = {
     "UKIP": {}
 }
 
+logger = Logger("manifesto_scraper/sentimentAssignerLog.txt")
+preprocessor = TextPreprocessor(logger)
+
 for manifesto in os.listdir('manifestos'):
     manifestoFilePath = "manifestos/" + manifesto
     partyName = manifesto[:-4]
     with open(manifestoFilePath , "r", encoding="utf-8") as manifestoText:
         text = manifestoText.read()
-        text = text.replace("\n", " ")
 
-        manifestoSentences[partyName] = sent_tokenize(text)
+        text = preprocessor.replaceNewline(text, ' ')
+        manifestoSentences[partyName] = preprocessor.tokenizeSentences(text)
 
 for party,sentences in manifestoSentences.items():
     with open("sentiment-sentences/" + party + "Sentiment.txt", "w", encoding="utf-8") as sentimentFile:

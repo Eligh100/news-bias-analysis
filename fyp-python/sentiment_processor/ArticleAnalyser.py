@@ -12,10 +12,7 @@ from nltk.tokenize import sent_tokenize
 from corextopic import corextopic as ct
 from corextopic import vis_topic as vt
 
-import sys
-sys.path.insert(1, '/proj/helper-classes/') # necessary for importing helper classes
-
-from Enums import PoliticalParty
+from helper_classes.Enums import PoliticalParty
 
 class ArticleAnalyser: # TODO add logging
 
@@ -38,8 +35,10 @@ class ArticleAnalyser: # TODO add logging
         PoliticalParty.brexitParty : ""
     }
 
-    def __init__(self, logger):
+    def __init__(self, logger, article_text, preprocessor):
         self.logger = logger
+        self.article_text = article_text
+        self.preprocessor = preprocessor
 
         topic_model_path = "model/topic_model.pkl"
         vectorizer_path = "model/vectorizer.pkl"
@@ -55,11 +54,23 @@ class ArticleAnalyser: # TODO add logging
         except:
             print("Vectorizer: " + vectorizer_path + " not found")
             exit(0)
+    
 
-    def analyseTopicsSentiment(self, pre_processed_text, original_text):
+    def analyseTopicsSentiment(self):
 
-        # First, find overall most likely topics
-        text_vectorized = self.vectorizer.transform([pre_processed_text])
+        # First, preprocess the article text
+        original_text = self.article_text # Store the original text, for use later
+        preprocessed_text = self.article_text
+
+        preprocessed_text = self.preprocessor.changeToLower(preprocessed_text)
+        preprocessed_text = self.preprocessor.replaceNewline(preprocessed_text, ' ')
+        preprocessed_text = self.preprocessor.removeSpecialChars(preprocessed_text)
+        words = self.preprocessor.tokenizeWords(preprocessed_text)
+        words = self.preprocessor.removeStopWords(preprocessed_text)
+        preprocessed_text = self.preprocessor.lemmatizeText(words)
+
+        # Next, find overall most likely topics
+        text_vectorized = self.vectorizer.transform([preprocessed_text])
         text_vectorized = ss.csr_matrix(text_vectorized)
         topic_predictions = self.model.predict(text_vectorized)
 
@@ -93,10 +104,10 @@ class ArticleAnalyser: # TODO add logging
                 self.topicSentimentScores[topic_index][0] = sentimentScore / sentimentCounter
 
     # i.e. mentions of "Labour", "Jeremy Corbyn", "Momentum", etc. - use MPs.csv, and own domain knowledge
-    def analyseEntitySentiment(self, original_text):
+    def analyseEntitySentiment(self):
         print("") # TODO implement me
 
-    def performTFIDF(self, pre_processed_text): # TODO finish implementing TF-IDF on articles/manifesto
+    def analyseManifestoSimilarity(self): # TODO finish implementing TF-IDF on articles/manifesto
         print("")
 
     def analyseHeadlineSentiment(self, headline):

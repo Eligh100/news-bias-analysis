@@ -19,6 +19,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import re
 
+from helper_classes.Logger import Logger
+from helper_classes.TextPreprocessor import TextPreprocessor
+
 parties = {
     0: "Brexit Party",
     1: "Conservatives",
@@ -30,6 +33,9 @@ parties = {
     7: "UKIP"
 }
 
+logger = Logger("manifesto_scraper/keywordDetectionLog.txt")
+preprocessor = TextPreprocessor(logger)
+
 vectorizerParameters = [(1,2), (2,2), (3,3)] # This determines whether unigram, bigram, or trigram
 fileOutputParameters = ["unibimix", "bigrams", "trigrams"]
 
@@ -40,35 +46,22 @@ while (userChoice not in [1, 2, 3]):
     except:
         print("Invalid input")
 
-# first, gather text for each manifesto
-
-manifestoTexts = []
-porterStemmer = PorterStemmer()
-lemmatizer = WordNetLemmatizer()
-
-stopWords = stopwords.words('english')
-
-# then, pre-process (remove stop words and stem)
-
 # TODO remove party name from text? i.e. labour is common word in labour manifesto, but not necessarily helpful?
 
+# preprocess each article, and store bag of words in list
 for manifesto in os.listdir('manifestos'):
     manifestoFilePath = "manifestos/" + manifesto
     with open(manifestoFilePath , "r", encoding="utf-8") as manifestoText:
         text = manifestoText.read()
 
-        text = text.lower() # TODO improve this - entity resolution?
-        text = re.sub(r'[^a-zA-Z ]+', '', text) # TODO is this best option?
-        words = word_tokenize(text) # TODO better tokenizer? and sentence tokenizer?
-        words = [word for word in words if word not in stopWords] # TODO bespoke stopword list? with party names in, for instance
-
-        # lemmatizedText = ""
-        # for w in words:
-            #lemmatizedText += lemmatizer.lemmatize(w) + " "
-
-        words = " ".join(words)
+        text = preprocessor.changeToLower(text)
+        text = preprocessor.replaceNewline(text, ' ')
+        text = preprocessor.removeSpecialChars(text)
+        words = preprocessor.tokenizeWords(text)
+        words = preprocessor.removeStopWords(words)
+        preprocessed_text = preprocessor.useOriginalWords(words)
         
-        manifestoTexts.append(words)
+        manifestoTexts.append(preprocessed_text)
         manifestoText.close()
 
 # finally, perform tf-idf to gather unique keywords for each document

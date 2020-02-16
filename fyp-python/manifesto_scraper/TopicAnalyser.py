@@ -15,6 +15,9 @@ from sklearn.decomposition import NMF, LatentDirichletAllocation
 from corextopic import corextopic as ct
 from corextopic import vis_topic as vt
 
+from helper_classes.Logger import Logger
+from helper_classes.TextPreprocessor import TextPreprocessor
+
 matplotlib.use('TkAgg') # to display topic graphs
 
 parties = {
@@ -27,6 +30,9 @@ parties = {
     6: "SNP",
     7: "UKIP"
 }
+
+logger = Logger("manifesto_scraper/topicAnalysisLog.txt")
+preprocessor = TextPreprocessor(logger)
 
 # first, gather text for each manifesto
 
@@ -47,18 +53,14 @@ if (new_model_choice == "n"):
         with open(manifestoFilePath , "r", encoding="utf-8") as manifestoText:
             text = manifestoText.read()
 
-            text = text.lower() # TODO improve this - entity resolution?
-            text = re.sub(r'[^a-zA-Z ]+', '', text) # TODO is this best option?
-            words = word_tokenize(text) # TODO better tokenizer? and sentence tokenizer?
-            words = [word for word in words if word not in stopWords] # TODO bespoke stopword list? with party names in, for instance
-
-            lemmatizedText = ""
-            for w in words:
-                lemmatizedText += lemmatizer.lemmatize(w) + " "
-
-            words = " ".join(words)
+            text = preprocessor.changeToLower(text)
+            text = preprocessor.replaceNewline(text, ' ')
+            text = preprocessor.removeSpecialChars(text)
+            words = preprocessor.tokenizeWords(text)
+            words = preprocessor.removeStopWords(words)
+            preprocessed_text = preprocessor.lemmatizeText(words)
             
-            manifestoTexts.append(words)
+            manifestoTexts.append(preprocessed_text)
             manifestoText.close()
 
     # vectorise the top 20,000 words

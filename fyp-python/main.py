@@ -13,6 +13,7 @@ from sentiment_processor.AnalysisUploader import AnalysisUploader
 
 # Helper classes
 from helper_classes.Logger import Logger
+from helper_classes.TextPreprocessor import TextPreprocessor
 
 # Establish AWS-related variables
 bucket_name = "articles-text"
@@ -36,6 +37,9 @@ logger = Logger()
 log_line = "\n\nScript started at: "
 logger.writeToLog(log_line, True)
 
+# Initialise text pre-processing class
+preprocessor = TextPreprocessor(logger)
+
 # Get articles
 newsScraper = NewsScraper(dynamodb, logger) #TODO investigate why less daily mail and telegraph articles
 articles = newsScraper.scrapeArticles()
@@ -54,17 +58,15 @@ logger.writeToLog(log_line, True)
 
 # Begin processing of all articles text
 for article_url, article_metadata in database_entry.items():
-    # Do pre-processing for each one (tokinisation)
+
+    # Retrieve necessary article data
     article_text = article_metadata[0]
     article_headline = article_metadata[1]
 
-    articlePreProcessor = ArticlePreProcessor(logger)
-    preprocessed_text = articlePreProcessor.preprocess(article_text)
-
     # Get required information from the article
-    articleAnalyser = ArticleAnalyser(logger)
-    articleAnalyser.analyseTopicsSentiment(preprocessed_text, article_text)
-    articleAnalyser.analyseEntitySentiment(articleAnalyser) # Pass unprocessed text (entity recognition may require details lost in pre-processing)
+    articleAnalyser = ArticleAnalyser(logger, preprocessor, article_text)
+    articleAnalyser.analyseTopicsSentiment()
+    articleAnalyser.analyseEntitySentiment() # Pass unprocessed text (entity recognition may require details lost in pre-processing)
 
     # Write analysis information to DynamoDB
     analysisUploader = AnalysisUploader(logger)
@@ -73,9 +75,3 @@ for article_url, article_metadata in database_entry.items():
 # Write to log file, stating program's completion
 log_line = "Script ran to completion - "
 logger.writeToLog(log_line, True)
-
-'''
-Look at chronjob (Linux) for script running on servers
-Basic sentiment analysis on articles?
-Log errors (need to check if script has been failing, and why)
-'''
