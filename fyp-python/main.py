@@ -66,7 +66,8 @@ for article_url, article_metadata in database_entry.items():
     # Get required information from the article
     articleAnalyser = ArticleAnalyser(logger, preprocessor, article_text)
     articleAnalyser.analyseTopicsSentiment()
-    articleAnalyser.analyseEntitySentiment() # Pass unprocessed text (entity recognition may require details lost in pre-processing)
+    articleAnalyser.analyseEntitySentiment()
+    mostSimilarManifesto = articleAnalyser.analyseManifestoSimilarity()
 
     # Write analysis information to DynamoDB
     analysisUploader = AnalysisUploader(logger)

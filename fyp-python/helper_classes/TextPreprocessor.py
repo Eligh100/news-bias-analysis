@@ -1,7 +1,7 @@
 import re
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
 
 class TextPreprocessor: # TODO add logging
 
@@ -26,7 +26,7 @@ class TextPreprocessor: # TODO add logging
         return word_tokenize(text) 
     
     def tokenizeSentences(self, text): # TODO better tokenizer?
-        return 
+        return sent_tokenize(text)
 
     def removeStopWords(self, words): # TODO bespoke/custom stopword list? with party names in, for instance
         return [word for word in words if word not in self.stopWords] 
@@ -46,4 +46,4 @@ class TextPreprocessor: # TODO add logging
         return lemmatizedText
 
     def useOriginalWords(self, words):
-        words = " ".join(words)
+        return " ".join(words)

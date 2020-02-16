@@ -7,7 +7,6 @@ Let's use textblob and analyse with the polarity score - perhaps subjectivity sc
 import os
 import re
 from textblob import TextBlob
-from nltk import sent_tokenize
 
 from helper_classes.Logger import Logger
 from helper_classes.TextPreprocessor import TextPreprocessor

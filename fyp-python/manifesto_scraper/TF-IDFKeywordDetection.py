@@ -19,9 +19,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import re
 
-from helper_classes.Logger import Logger
-from helper_classes.TextPreprocessor import TextPreprocessor
-
 parties = {
     0: "Brexit Party",
     1: "Conservatives",
@@ -32,9 +29,6 @@ parties = {
     6: "SNP",
     7: "UKIP"
 }
-
-logger = Logger("manifesto_scraper/keywordDetectionLog.txt")
-preprocessor = TextPreprocessor(logger)
 
 vectorizerParameters = [(1,2), (2,2), (3,3)] # This determines whether unigram, bigram, or trigram
 fileOutputParameters = ["unibimix", "bigrams", "trigrams"]
@@ -48,23 +42,16 @@ while (userChoice not in [1, 2, 3]):
 
 # TODO remove party name from text? i.e. labour is common word in labour manifesto, but not necessarily helpful?
 
-# preprocess each article, and store bag of words in list
-for manifesto in os.listdir('manifestos'):
-    manifestoFilePath = "manifestos/" + manifesto
+# Get preprocessed manifesto text
+manifestoTexts = []
+for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+    manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
     with open(manifestoFilePath , "r", encoding="utf-8") as manifestoText:
         text = manifestoText.read()
-
-        text = preprocessor.changeToLower(text)
-        text = preprocessor.replaceNewline(text, ' ')
-        text = preprocessor.removeSpecialChars(text)
-        words = preprocessor.tokenizeWords(text)
-        words = preprocessor.removeStopWords(words)
-        preprocessed_text = preprocessor.useOriginalWords(words)
-        
-        manifestoTexts.append(preprocessed_text)
+        manifestoTexts.append(text)
         manifestoText.close()
 
-# finally, perform tf-idf to gather unique keywords for each document
+# Vectorise, and get top 20 words, with highest TF-IDF score
 
 keywords = {}
 
@@ -82,6 +69,8 @@ for i in range(0,len(parties)):
 
             keywords[i].append(top_words[0:20])
 
+# Accumulate scores of TF-IDF keywords that appear more than once (e.g. high scorer for M1 -> M2, and M1 -> M4)
+
 totalScoresDict = {}
 
 for partyIndex,partyKeywordList in keywords.items():
@@ -93,8 +82,9 @@ for partyIndex,partyKeywordList in keywords.items():
                 totalScoresDict[partyName][currentKeyword] = 0.0
             totalScoresDict[partyName][currentKeyword] += currentKeywordScore
 
+# Write to file
 for party,keywordScores in totalScoresDict.items():
-    keywordsFilePath = fileOutputParameters[userChoice-1] + "/" + party + "-" + fileOutputParameters[userChoice-1] + ".txt"
+    keywordsFilePath = "manifesto_scraper/" + fileOutputParameters[userChoice-1] + "/" + party + "-" + fileOutputParameters[userChoice-1] + ".txt"
     with open(keywordsFilePath, "w", encoding="utf-8") as keywordFile:
         for keyword,score in keywordScores.items():
             keywordScores[keyword] = score/(len(parties)-1)
@@ -104,8 +94,9 @@ for party,keywordScores in totalScoresDict.items():
             keywordFile.write("\n")
         keywordFile.close()
 
+# Code for wordcloud
 wc = WordCloud(background_color="white",width=1000,height=1000, max_words=50,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(totalScoresDict["Green"])
 plt.imshow(wc)
 plt.show()
 
-# save to dynamodb database
+# TODO save these word clouds to DynamoDB table

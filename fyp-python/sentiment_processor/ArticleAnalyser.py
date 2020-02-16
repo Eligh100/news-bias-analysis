@@ -29,19 +29,13 @@ class ArticleAnalyser: # TODO add logging
         9:[0,0]
     }
 
-    chosenPoliticalParty = ""
-
-    partyToManifesto = {
-        PoliticalParty.brexitParty : ""
-    }
-
     def __init__(self, logger, article_text, preprocessor):
         self.logger = logger
         self.article_text = article_text
         self.preprocessor = preprocessor
 
-        topic_model_path = "model/topic_model.pkl"
-        vectorizer_path = "model/vectorizer.pkl"
+        topic_model_path = "sentiment_processor/model/topic_model.pkl"
+        vectorizer_path = "sentiment_processor/model/vectorizer.pkl"
 
         try:
             self.model = cPickle.load(open(topic_model_path, 'rb'))
@@ -105,10 +99,41 @@ class ArticleAnalyser: # TODO add logging
 
     # i.e. mentions of "Labour", "Jeremy Corbyn", "Momentum", etc. - use MPs.csv, and own domain knowledge
     def analyseEntitySentiment(self):
-        print("") # TODO implement me
+        # Use the unprocessed text, as entity information can be lost (i.e. removal of capital letters)
+        text = self.article_text
 
-    def analyseManifestoSimilarity(self): # TODO finish implementing TF-IDF on articles/manifesto
-        print("")
+    def analyseManifestoSimilarity(self): # TODO test this
+        
+        # First, preprocess the article text
+        text = self.article_text
+        text = self.preprocessor.changeToLower(text)
+        text = self.preprocessor.replaceNewline(text, ' ')
+        text = self.preprocessor.removeSpecialChars(text)
+        words = self.preprocessor.tokenizeWords(text)
+        words = self.preprocessor.removeStopWords(words)
+        preprocessed_text = self.preprocessor.useOriginalWords(words)
+
+        # Gather processed manifesto texts
+        similarityTexts = [preprocessed_text]
+
+        for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+            manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
+            with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
+                manifestoText = manifestoTextFile.read()
+                similarityTexts.append(manifestoText)
+
+        # Perform TF-IDF on article and manifestos
+        tfidf_vectorizer = TfidfVectorizer(min_df=1)
+        tfidf = tfidf_vectorizer.fit_transform(similarityTexts)
+        pairwise_similarity = tfidf * tfidf.T
+
+        # Find cosine similarity, and say two most similar (?)
+        n, _ = pairwise_similarity.shape                                                                                                                                                                                                                         
+        pairwise_similarity[np.arange(n), np.arange(n)] = -1.0
+        most_similar_manifesto = pairwise_similarity[0].argmax() # 0 is the index of the article - so compares to all manifestos
+
+        return PoliticalParty(most_similar_manifesto)
+
 
     def analyseHeadlineSentiment(self, headline):
         print("")# TODO implement me
