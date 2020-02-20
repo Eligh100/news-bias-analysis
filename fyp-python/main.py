@@ -64,9 +64,9 @@ for article_url, article_metadata in database_entry.items():
     article_headline = article_metadata[1]
 
     # Get required information from the article
-    articleAnalyser = ArticleAnalyser(logger, preprocessor, article_text)
+    articleAnalyser = ArticleAnalyser(logger, article_text, article_headline, preprocessor)
     articleAnalyser.analyseTopicsSentiment()
-    articleAnalyser.analyseEntitySentiment()
+    #articleAnalyser.analyseEntitySentiment() # TODO add back this call once func implemented
     mostSimilarManifesto = articleAnalyser.analyseManifestoSimilarity()
 
     # Write analysis information to DynamoDB

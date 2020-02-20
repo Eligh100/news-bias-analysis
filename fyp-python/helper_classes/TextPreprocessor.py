@@ -28,8 +28,10 @@ class TextPreprocessor: # TODO add logging
     def tokenizeSentences(self, text): # TODO better tokenizer?
         return sent_tokenize(text)
 
-    def removeStopWords(self, words): # TODO bespoke/custom stopword list? with party names in, for instance
-        return [word for word in words if word not in self.stopWords] 
+    def removeStopWords(self, text): # TODO bespoke/custom stopword list? with party names in, for instance
+        for stopword in self.stopWords:
+            text = re.sub(rf' {stopword} ', ' ', text)
+        return text
 
     def stemText(self, words): # TODO better stemmer?
         stemmedText = ""
@@ -42,6 +44,7 @@ class TextPreprocessor: # TODO add logging
         lemmatizedText = ""
         for w in words:
             lemmatizedText += self.lemmatizer.lemmatize(w) + " "
+            
 
         return lemmatizedText
 

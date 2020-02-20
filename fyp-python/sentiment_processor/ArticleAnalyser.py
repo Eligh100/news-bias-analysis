@@ -16,26 +16,14 @@ from helper_classes.Enums import PoliticalParty
 
 class ArticleAnalyser: # TODO add logging
 
-    topicSentimentScores = {
-        0:[0,0],
-        1:[0,0],
-        2:[0,0],
-        3:[0,0],
-        4:[0,0],
-        5:[0,0],
-        6:[0,0],
-        7:[0,0],
-        8:[0,0],
-        9:[0,0]
-    }
-
-    def __init__(self, logger, article_text, preprocessor):
+    def __init__(self, logger, article_text, headline, preprocessor):
         self.logger = logger
         self.article_text = article_text
+        self.headline = headline
         self.preprocessor = preprocessor
 
-        topic_model_path = "sentiment_processor/model/topic_model.pkl"
-        vectorizer_path = "sentiment_processor/model/vectorizer.pkl"
+        topic_model_path = "assets/model/topic_model.pkl"
+        vectorizer_path = "assets/model/vectorizer.pkl"
 
         try:
             self.model = cPickle.load(open(topic_model_path, 'rb'))
@@ -58,22 +46,26 @@ class ArticleAnalyser: # TODO add logging
 
         preprocessed_text = self.preprocessor.changeToLower(preprocessed_text)
         preprocessed_text = self.preprocessor.replaceNewline(preprocessed_text, ' ')
+        preprocessed_text = self.preprocessor.removeStopWords(preprocessed_text)
         preprocessed_text = self.preprocessor.removeSpecialChars(preprocessed_text)
         words = self.preprocessor.tokenizeWords(preprocessed_text)
-        words = self.preprocessor.removeStopWords(preprocessed_text)
         preprocessed_text = self.preprocessor.lemmatizeText(words)
 
         # Next, find overall most likely topics
         text_vectorized = self.vectorizer.transform([preprocessed_text])
         text_vectorized = ss.csr_matrix(text_vectorized)
         topic_predictions = self.model.predict(text_vectorized)
+        print(topic_predictions)
 
         likely_topics = [topic_index for topic_index in range(len(topic_predictions[0])) if topic_predictions[0][topic_index] == True]
 
-        print(likely_topics)
-
         # Then, sentence split on original (unprocessed) text and find sentences related to these topics
         sentences = sent_tokenize(original_text)
+
+        topicSentimentScores = {
+            0:[0,0], 1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0],
+            5:[0,0], 6:[0,0], 7:[0,0], 8:[0,0], 9:[0,0]
+        }
 
         for sentence in sentences:
             sentence_vectorized = self.vectorizer.transform([sentence])
@@ -81,22 +73,35 @@ class ArticleAnalyser: # TODO add logging
             sentence_predictions = self.model.predict(sentence_vectorized)
 
             likely_sentence_topics = [topic_index for topic_index in range(len(sentence_predictions[0])) if sentence_predictions[0][topic_index] == True]
-            
+
             shared_topics = [topic for topic in likely_topics if topic in likely_sentence_topics]
 
             # If the sentence is likely talking about a topic found in the overall article, get sentiment
             for topic_num in shared_topics: 
                 sentencePolarity = TextBlob(sentence).sentiment.polarity
-                self.topicSentimentScores[topic_num][0] += sentencePolarity
-                self.topicSentimentScores[topic_num][1] += 1
+                topicSentimentScores[topic_num][0] += sentencePolarity
+                topicSentimentScores[topic_num][1] += 1
+
+        articleTopicSentimentsMatrix = []
+
+        mostCounts = 0
+        self.main_topic = -1
 
         # Once all sentences have been analysed, get mean of sentiment scores
-        for topic_index, sentimentScoreAndCounter in self.topicSentimentScores.items():
+        for topic_index, sentimentScoreAndCounter in topicSentimentScores.items():
             sentimentScore = sentimentScoreAndCounter[0]
             sentimentCounter = sentimentScoreAndCounter[1]
             if (sentimentCounter > 0):
-                self.topicSentimentScores[topic_index][0] = sentimentScore / sentimentCounter
+                if sentimentCounter > mostCounts:
+                    mostCounts = sentimentCounter
+                    self.main_topic = topic_index
 
+                topicSentimentScores[topic_index][0] = sentimentScore / sentimentCounter
+                articleTopicSentimentsMatrix.append((topic_index, topicSentimentScores[topic_index][0]))
+
+        # Return list of pairs of topic, and overall sentiment score (from article)
+        return articleTopicSentimentsMatrix
+ 
     # i.e. mentions of "Labour", "Jeremy Corbyn", "Momentum", etc. - use MPs.csv, and own domain knowledge
     def analyseEntitySentiment(self):
         # Use the unprocessed text, as entity information can be lost (i.e. removal of capital letters)
@@ -108,9 +113,9 @@ class ArticleAnalyser: # TODO add logging
         text = self.article_text
         text = self.preprocessor.changeToLower(text)
         text = self.preprocessor.replaceNewline(text, ' ')
+        text = self.preprocessor.removeStopWords(text)
         text = self.preprocessor.removeSpecialChars(text)
         words = self.preprocessor.tokenizeWords(text)
-        words = self.preprocessor.removeStopWords(words)
         preprocessed_text = self.preprocessor.useOriginalWords(words)
 
         # Gather processed manifesto texts
@@ -134,11 +139,43 @@ class ArticleAnalyser: # TODO add logging
 
         return PoliticalParty(most_similar_manifesto)
 
+    def analyseHeadlineSentiment(self):
+        headline = self.headline
+        headline_polarity = TextBlob(headline).sentiment.polarity
 
-    def analyseHeadlineSentiment(self, headline):
-        print("")# TODO implement me
+        print(headline_polarity)
 
-    def calculateBiasScore(self):
+        # headline_vectorized = self.vectorizer.transform([headline])
+        # headline_vectorized = ss.csr_matrix(headline_vectorized)
+        # headline_prediction = self.model.predict_proba(headline_vectorized)
+
+        # Thus, headline has x polarity, about the article's topic (store this in DynamoDB)
+        return ((self.main_topic, headline_polarity))
+
+
+    # Gets top 20 uni/bigrams from article, for word maps
+    def getTopWords(self):
+
+         # First, preprocess the article text
+        text = self.article_text
+        text = self.preprocessor.changeToLower(text)
+        text = self.preprocessor.replaceNewline(text, ' ')
+        text = self.preprocessor.removeStopWords(text)
+        text = self.preprocessor.removeSpecialChars(text)
+        words = self.preprocessor.tokenizeWords(text)
+        preprocessed_text = self.preprocessor.useOriginalWords(words)
+
+        # Then, vectorize, and get the top 20 words (word frequency)
+        vectorizer = CountVectorizer(ngram_range=(1,2))
+        vectors = vectorizer.fit_transform([preprocessed_text])
+        feature_names = vectorizer.get_feature_names()
+        dense = vectors.todense()
+        denselist = dense.tolist()
+        df = pd.DataFrame(denselist, columns=feature_names)
+        top_words = df.iloc[[0]].sum(axis=0).sort_values(ascending=False)
+        return top_words[0:20]
+
+    def calculateBiasScore(self): 
         print("") # TODO implement me
         
 

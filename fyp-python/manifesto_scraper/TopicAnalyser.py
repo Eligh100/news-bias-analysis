@@ -48,16 +48,16 @@ if (new_model_choice == "n"):
 
     # then, pre-process (remove stop words and stem) 
 
-    for manifesto in os.listdir('manifestos'):
-        manifestoFilePath = "manifestos/" + manifesto
+    for manifesto in os.listdir('manifesto_scraper/manifestos'):
+        manifestoFilePath = "manifesto_scraper/manifestos/" + manifesto
         with open(manifestoFilePath , "r", encoding="utf-8") as manifestoText:
             text = manifestoText.read()
 
             text = preprocessor.changeToLower(text)
             text = preprocessor.replaceNewline(text, ' ')
+            text = preprocessor.removeStopWords(text)
             text = preprocessor.removeSpecialChars(text)
             words = preprocessor.tokenizeWords(text)
-            words = preprocessor.removeStopWords(words)
             preprocessed_text = preprocessor.lemmatizeText(words)
             
             manifestoTexts.append(preprocessed_text)
@@ -70,7 +70,7 @@ if (new_model_choice == "n"):
     words = list(np.asarray(vectorizer.get_feature_names()))
 
     # pickle vectoriser for testing model
-    cPickle.dump(vectorizer, open("vectorizer.pkl", "wb"))
+    cPickle.dump(vectorizer, open("assets/model/vectorizer.pkl", "wb"))
 
     # Anchors designed to nudge the model towards measuring specific genres
     anchors = [
@@ -106,7 +106,7 @@ if (new_model_choice == "n"):
 
     best_model = None
 
-    for i in range(0, 10): # run the model generation 10 times
+    for i in range(0, 5): # run the model generation 5 times
             
         model = ct.Corex(
             n_hidden=NUM_TOPICS,
@@ -125,10 +125,10 @@ if (new_model_choice == "n"):
             best_model = model
 
     model = best_model
-    model.save("topic_model.pkl", ensure_compatibility=False)
+    model.save("assets/model/topic_model.pkl", ensure_compatibility=False)
 else:
-    topic_model_path = "topic_model.pkl"
-    vectorizer_path = "vectorizer.pkl"
+    topic_model_path = "assets/model/topic_model.pkl"
+    vectorizer_path = "assets/model/vectorizer.pkl"
     
     try:
         model = cPickle.load(open(topic_model_path, 'rb'))
@@ -142,7 +142,7 @@ else:
         print("Vectorizer: " + vectorizer_path + " not found")
         exit(0)
 
-with open("testDoc.txt", "r", encoding="utf-8") as testDoc:
+with open("assets/test_articles/testDoc.txt", "r", encoding="utf-8") as testDoc:
     doc_word = vectorizer.transform([testDoc.read()])
     doc_word = ss.csr_matrix(doc_word)
     print(model.predict(doc_word))
