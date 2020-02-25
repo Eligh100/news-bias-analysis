@@ -7,7 +7,7 @@ from news_scraper.ArticleTrimmer import ArticleTrimmer
 from news_scraper.ArticleUploader import ArticleUploader
 
 # Text analysis classes
-from sentiment_processor.ArticlePreProcessor import ArticlePreProcessor
+from helper_classes.TextPreprocessor import TextPreprocessor
 from sentiment_processor.ArticleAnalyser import ArticleAnalyser
 from sentiment_processor.AnalysisUploader import AnalysisUploader
 
@@ -70,7 +70,7 @@ for article_url, article_metadata in database_entry.items():
     mostSimilarManifesto = articleAnalyser.analyseManifestoSimilarity()
 
     # Write analysis information to DynamoDB
-    analysisUploader = AnalysisUploader(logger)
+    analysisUploader = AnalysisUploader(logger) # TODO INCLUDING ARTICLE PUBLISH TIME!!
     analysisUploader.pushAnalysis()
 
 # Write to log file, stating program's completion

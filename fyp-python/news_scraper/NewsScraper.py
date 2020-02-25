@@ -9,20 +9,6 @@ STEPS (per news org):
 4. Send to other script for trimming
 """ # TODO update this
 
-# BBC News - https://www.bbc.co.uk/news/election/2019   
-#   URL will change after election, tool must be updated
-# Daily mail - https://www.dailymail.co.uk/news/index.rss 
-#   Won't need soup-ing
-# Guardian -  https://www.theguardian.com/politics/rss 
-#   Should I include opinion pieces?
-#   Won't need soup-ing
-#   If URL includes commentisfree, then an opinion piece
-# Independent - http://www.independent.co.uk/news/uk/politics/rss 
-# Mirror - https://www.mirror.co.uk/news/politics/
-#   Will require soup-ing
-# Telegraph - https://www.telegraph.co.uk/politics/
-#   Will require soup-ing
-
 # IMPORTS
 import urllib3
 import certifi
@@ -34,16 +20,16 @@ from time import mktime
 import time
 import boto3
 
-# TODO add logging for errors
 class NewsScraper():
 
     # Base urls to fetch articles from - mixture of RSS and non-RSS
     news_base_urls = {
         "BBC": ["http://feeds.bbci.co.uk/news/politics/rss.xml"],
-        "DAILY MAIL": ["https://www.dailymail.co.uk/news/uk-politics/index.rss", "https://www.dailymail.co.uk/news/general-election-2019/index.rss"],
+        "DAILY MAIL": ["https://www.dailymail.co.uk/news/uk-politics/index.rss", "https://www.dailymail.co.uk/news/general-election-2019/index.rss", "https://www.dailymail.co.uk/news/brexit/index.rss"],
+        "DAILY MAIL ALL": ["https://www.dailymail.co.uk/articles.rss"],
         "GUARDIAN": ["https://www.theguardian.com/politics/rss"],
         "INDEPENDENT":["http://www.independent.co.uk/news/uk/politics/rss"],
-        "TELEGRAPH": ["https://www.telegraph.co.uk/politics/rss.xml"],
+        "TELEGRAPH": ["https://www.telegraph.co.uk/politics/rss.xml"], # TODO telegraph has paywall - note this as reason for less articles
         "MIRROR": ["https://www.mirror.co.uk/news/politics/?service=rss"],
     }
 
@@ -51,6 +37,7 @@ class NewsScraper():
     news_search_terms = {
         "BBC": [["uk-politics","politics", "election-2019", "election"],["/live/","/correspondents/", "#comp-comments-button"]],
         "DAILY MAIL": [[],[]],
+        "DAILY MAIL ALL": [[],[]],
         "GUARDIAN": [[],["/commentisfree/", "/live/"]],
         "INDEPENDENT": [[],["/authors/"]],
         "TELEGRAPH": [["politics"],["/authors/","us-politics", "all-sections#politics"]],
@@ -61,6 +48,7 @@ class NewsScraper():
     news_filtered_urls = {
         "BBC": set([]),
         "DAILY MAIL": set([]),
+        "DAILY MAIL ALL": set([]),
         "GUARDIAN": set([]),
         "INDEPENDENT": set([]),
         "TELEGRAPH": set([]),
@@ -79,26 +67,27 @@ class NewsScraper():
 
     def scrapeArticles(self):
         for org_name, urls in self.news_base_urls.items():
-            for url in urls:
-                try:
-                    rss_feed = feedparser.parse(url) 
-                except Exception as e:
-                    log_line = "Link failed - check url validity: " + url
-                    log_line += "\nFailed with following exception:\n"
-                    log_line += str(e)
-                    log_line += "\n"
-                    self.logger.writeToLog(log_line, False)
-                else:
-                    for entry in rss_feed.entries:
-                        for curr_url in entry.links:
-                            if (curr_url.type == "text/html" ): # ignore images and other media
+            if (org_name == "TELEGRAPH"):
+                for url in urls:
+                    try:
+                        rss_feed = feedparser.parse(url) 
+                    except Exception as e:
+                        log_line = "Link failed - check url validity: " + url
+                        log_line += "\nFailed with following exception:\n"
+                        log_line += str(e)
+                        log_line += "\n"
+                        self.logger.writeToLog(log_line, False)
+                    else:
+                        for entry in rss_feed.entries:
+                            for curr_url in entry.links:
+                                if (curr_url.type == "text/html" ): # ignore images and other media
 
-                                href_url = curr_url.href
+                                    href_url = curr_url.href
 
-                                articleValid = self.checkArticleValidity(entry, href_url, org_name)
+                                    articleValid = self.checkArticleValidity(entry, href_url, org_name)
 
-                                if (articleValid):
-                                    self.news_filtered_urls[org_name].add(href_url)
+                                    if (articleValid):
+                                        self.news_filtered_urls[org_name].add(href_url)
 
         return self.news_filtered_urls
 
@@ -128,8 +117,8 @@ class NewsScraper():
                 else:
                     return False # ignore already stored articles
             else:
-                if (published_time >= week_prior or updated_time >= week_prior): # only consider articles from one week ago (mostly important for first run of tool)
-                    return True
+                #if (published_time >= week_prior or updated_time >= week_prior): # only consider articles from one week ago (mostly important for first run of tool)
+                return True
     
     def articleAlreadyStored(self, curr_url):
         table = self.dynamodb.Table('Articles-Table') 
