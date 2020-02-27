@@ -214,12 +214,12 @@ FINAL RESULTS:
         Independent: 393 articles
         Guardian: 592 articles
         Telegraph: 50 articles
-    So, we want train/test split of 80%, meaning:
-        Total: 1600 tr, 400 te
-        BBC: 258 tr, 65 te
-        Daily Mail: 190 tr, 48 te
-        Mirror: 323 tr, 81 te
-        Independent: 314 tr, 79 te
-        Guardian: 474 tr, 118 te
-        Telegraph: 40 tr, 10 te
+    So, we want train/test split of 90%/10%, meaning:
+        Total: 1800 tr, 400 te
+        BBC: 291 tr, 32 te
+        Daily Mail: 214 tr, 24 te
+        Mirror: 364 tr, 40 te
+        Independent: 354 tr, 39 te
+        Guardian: 534 tr, 60 te
+        Telegraph: 45 tr, 5 te
 '''

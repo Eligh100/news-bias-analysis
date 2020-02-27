@@ -1,97 +1,108 @@
-First, I ran CorEx, a semi-supervised learning technique. This works similarly to LDA, but allows the usage of anchor words, to help
-guide the model. I did the first run without anchor words, to see what unsupervised topics would be generated:
+I am using CorEx (Correlation Explanation), via a semi-supervised anchoring method to model topics on 2000 articles
+Firstly, I split the 2000 articles into an 90/10 train/test split, with 1800 training and 200 testing files
+In terms of split over news organisations, this is as follows:
+        Total: 1800 tr, 400 te
+        BBC: 291 tr, 32 te
+        Daily Mail: 214 tr, 24 te
+        Mirror: 364 tr, 40 te
+        Independent: 354 tr, 39 te
+        Guardian: 534 tr, 60 te
+        Telegraph: 45 tr, 5 te
 
-Topic #1: pledge, accessible, powerful, poverty inequality, policies, points, playing field, powers, plastic, petrol diesel
-Topic #2: ability, policing, politics, poor, poorest, practice, premium, prioritise, prison, processes
-Topic #3: abroad, preventing, pregnant, powerhouse, policy, playing, play, priorities, platforms, petrol
-Topic #4: accept, pounds, ports, political parties, political, police force, places, perpetrators, per cent, people face
-Topic #5: academic, police forces, politically, positive, preserve, prices, prioritising, private investment, privatisation, privatisation nhs
-Topic #6: abolish, principles, primates, prevent, pressure, prepared, practices, postbrexit, possession, plastic waste
-Topic #7: abolishing, products, profits, project, proportional, provides, public transport, publication, published, purpose
-Topic #8: abusers, pfi, planet, planning system, politicians, post, power, precious, prepare, prevention
-Topic #9: able, rate, racism, pubs, provide support, protection, protect, received, property, projects
-Topic #10: across uk, present, prescription, pregnancy, practical, population, pollution, pressing, planned, places worship
+Firstly, I trained the model with the 1800 articles, looking for 50 hidden latent topics
+I've picked such a high number so as to find the cutoff point when topics no longer aid to the total correlation (TC)
+This is the score that the CorEx model strives to maximise
+I've plotted the topics over the TC:
+    When more topics no longer aids the overall TC, we can say that they are less useful
+    Thus, visually, I chose to cutoff the number of topics at 15
+    This graph can be viewed in (figure x)
 
+The top words for these 50 topics are as such:
 
-I then went through these words and discarded ambiguous words (i.e. 'play', 'prepare'). I've put these discarded words into their
-own anchor, so that irrelevant words join that topic (a filtering topic, to purify the other topics). The topics looked as such after
-filtering:
+0: facebook messenger,messenger messenger,messenger twitter,linkedin copy,new window,email facebook,pinterest,pinterest whatsapp,link these,share this
+1: register with,log in,to log,social account,inbox register,your social,your inbox,log,account or,or clickâ
+2: long bailey,rebecca long,bailey,rebecca,keir,starmer,keir starmer,nandy,lisa nandy,lisa
+3: the eu,eu,agreement,deal,trade,trade deal,brussels,european,the uk,the european
+4: readers click,letters click,letters theguardian,ll publish,more guardian,our print,photo youâ,have photo,guardian letters,print edition
+5: vote,voters,election,seats,constituency,candidates,to vote,win,seat,candidate
+6: year old,old,father,mother,family,died,son,went,wife,who was
+7: corbyn,jeremy,jeremy corbyn,labour,the labour,leader,party,labour leader,the party,labour party
+8: the tories,tories,north,east,in 2017,north east,sedgefield,workington,seat of,kensington
+9: time,then,when,at the,lot,were,off,before,still,down
+10: cost,tax,pay,spending,investment,budget,plans,economy,funding,to pay
+11: trump,donald,the us,president,donald trump,ireland,irish,us president,northern ireland,us
+12: sturgeon,nicola sturgeon,nicola,scottish,snp,the snp,the scottish,scotland,independence referendum,independence
+13: so,they,some,like,know,their,there,many,get,them
+14: first,second,lost,back,the first,years,another,for the,again,only
+15: referendum,brexit,leave,remain,majority,voted,farage,nigel,second referendum,the brexit
+16: think,going,do,going to,you,because,what,things,very,to do
+17: liberal,lib,liberal democrats,the liberal,democrats,the lib,dems,lib dems,lib dem,dem
+18: cummings,dominic cummings,downing street,downing,no 10,commons,dominic,adviser,street,reshuffle
+19: she,her,she was,said she,she said,she had,she would,ms,that she,of her
+20: iâ,me,my,ve,him,got,donâ,itâ,really,iâ ve
+21: rise,increase,decade,below,fiscal,for fiscal,increase in,fiscal studies,the form,form below
+22: nhs,the nhs,more,care,average,health,england,than,most,hospitals
+23: prime,boris,johnson,prime minister,boris johnson,the prime,minister,mr johnson,johnsonâ,johnson has
+24: he was,did,media,appeared,later,of his,attack,interview,as he,being
+25: he said,asked,said,told,added,would,insisted,said he,he,saying
+26: future,to leave,leave the,wants,11pm,leaving,departure,at 11pm,wants to,leaving the
+27: even,who,been,that he,in his,ago,perhaps,though,sense,he is
+28: manifesto,promised,pledge,policy,the manifesto,plan,pledges,policies,pledged,pledge to
+29: other,up,one,while,four,into,also,including,says,to the
+30: mp,mps,mp for,former,elected,labour mp,labour mps,an mp,the mp,ian
+31: allegations,accused,antisemitism,jewish,racism,allegations of,the jewish,apologise,women,of antisemitism
+32: climate,the climate,climate change,climate crisis,emissions,carbon,climate emergency,net zero,zero,crisis
+33: want,way,can,want to,if,have to,say,is that,to be,believe
+34: anti,anti semitism,semitism,racist,party in,muslim,of anti,islamophobia,community,ranks
+35: court,law,rights,legal,legislation,of justice,court of,the law,laws,justice
+36: investigation,had,had been,he had,alleged,posted,when he,social media,incident,video
+37: we,our,country,need,we can,need to,we need,that we,the country,we are
+38: theresa,may,likely,likely to,such,theresa may,continue,such as,but the,months
+39: police,officers,hospital,charges,matt hancock,hancock,the family,the police,matt,crown
+40: with the,no,would be,could,any,it would,that the,that it,immigration,if the
+41: shadow,the shadow,secretary,mcdonnell,john mcdonnell,shadow chancellor,shadow cabinet,cabinet,chancellor john,business
+42: more than,number,number of,according to,according,million,the number,figures,already,compared
+43: expected,will be,its,next,will,expected to,the next,deadline,final,ahead
+44: sources,office,prince,ministry,ministry of,the ministry,threat,emerged,following,source
+45: it is,under,there are,there is,which,the same,system,same,longer,by
+46: the government,government,ministers,department,ensure,work,the department,government has,government to,scheme
+47: used,company,information,reported,used to,high,owned,world,spent,the world
+48: wrote,response,twitter com,pic twitter,pic,journalists,broadcaster,broadcast,seems,audience
+49: the governmentâ,committee,governmentâ,patel,priti,ukâ,the ukâ,priti patel,officials,warned
 
-Topic #1: poverty inequality, playing field, plastic, petrol diesel
-Topic #2: policing, poor, poorest, prison
-Topic #3: powerhouse, petrol
-Topic #4: pounds, police force, perpetrators
-Topic #5: academic, police forces, private investment, privatisation, privatisation nhs
-Topic #6: postbrexit, plastic waste
-Topic #7: public transport
-Topic #8: abusers, planet
-Topic #9: racism
-Topic #10: pollution, places worship
+As we can see, some intelligent grouping has already been done - but we can optimise this further with anchor words
 
-Then, I attempted to categorise the remaining words into political topics (i.e. brexit, climate change, crime, etc.) 
-This involved moving some words/bigrams around, and shortening the amount of topics:
+I visually went through the top words from the different topics, and classed them together
+This is where the semi-supervised aspect of the model comes in
+CorEx has a feature of anchor words - keywords that incentivise the model to classify certain text as a given topics
+For instance, one anchor could be "[jeremy corbyn, labour, corbyn, long bailey]", and would group these words, and correlating
+words together - for this example, it would be for a 'Labour party' topic
+This also allows me to group together junk words
+    For instance, some article text has words like 'register with' and 'log in'
+    By creating an anchor with these words, the junk gets grouped together
+    And we can essentially ignore this topic, and ensure our meaningful topics are less cluttered/more accurate
 
-Topic #1 (Poverty/Income Equality): poverty inequality, playing field, poor, poorest
-Topic #2 (Policing/Crime): policing, prison, police force, perpetrators, racism, police forces, places worship, abusers
-Topic #3 (Economy): powerhouse, pounds, privatisation, private investment
-Topic #4 (Education/Schooling): academic
-Topic #5 (NHS/Healthcare): privatisation, privatisation nhs
-Topic #6 (Brexit): postbrexit, 
-Topic #7 (Environment/Climate Change): planet, plastic, petrol diesel, plastic waste, pollution, petrol, public transport
-
-I'll use these words as my anchors, along with some words from my intuition (i.e. 'brexit' for the brexit topic, 'climate change' 
-for the environment/climate change topic, etc.)
-
-The complete list of anchors at this stage are as follows:
+Through a combination of combining word classes, creating a junk class, and creating my own anchor classes, these are the 15 topics:
 
 anchors = [
-    ["poverty inequality","playing field", "poor", "poorest", "poverty", "income tax"], # Poverty/Income Inequality
-    ["policing", "prison", "police force", "perpetrators", "racism", "police forces", "places worship", "abusers, ""crime", "knife", "criminals", "police"], # crime and policing
-    ["economy", "economics", "exchange rate", "pound", "tariff", "business", "powerhouse", "pounds", "privatisation", "private investment"], # business and economics
-    ["education", "schools", "school", "teaching", "teachers", "curriculum", "grammar school", "academic"], # education
-    ["nhs", "national health", "hospitals", "nurses", "doctors", "medicine", "privatisation", "privatisation nhs"], # healthcare
-    ["brexit" "nodeal brexit", "no deal", "postbrexit", "brussels", "EU", "european union", "eu", "European Union"], # Brexit
-    ["climate change", "climate", "climate emergency", "environment", "fossil fuels", "carbon", "zero carbon", "zerocarbon", "planet", "plastic", "petrol diesel", "plastic waste", "pollution", "petrol", "public transport"], # environment and climate change
-    ["pledge", "accessible", "powerful", "policies", "points", "powers", "ability", "politics", "practice", "premium", "prioritise", 
-    "processes", "abroad", "preventing", "pregnant", "policy", "playing", "play", "priorities", "platforms", "accept", "ports", 
-    "political parties", "political", "places", "per cent", "people face", "politically", "positive", "preserve", "prices", "prioritising",
-    "abolish", "principles", "primates", "prevent", "pressure", "prepared", "practices", "possession", "abolishing", "products", "profits", "project", 
-    "provides", "publication", "published", "purpose", "proportional", "pfi", "planning system", "politicians", "post", "power", "precious", "prepare", "prevention",
-    "able", "rate", "pubs", "provide support", "protection", "protect", "received", "property", "projects", "across uk", "present", "prescription", "pregnancy", 
-    "practical", "population", "pressing", "planned"] # FILTER TOPIC - FILLED WITH AMBIGUOUS WORDS
+    JUNK - ["facebook", "messenger", "linkedin", "whatsapp", "pinterest", "facebook messenger","messenger messenger","messenger twitter","linkedin copy","new window","email facebook","pinterest","pinterest whatsapp","link these","share this", "register with","log in","to log", "social account","inbox register","your social","your inbox","log","account or","or clickâ","iâ","ve","donâ","itâ","iâ ve", "readers click","letters click","letters theguardian","ll publish","more guardian","our print","photo youâ","have photo","guardian letters","print edition", "twitter com","pic twitter","pic","journalists"], # Junk
+    CONSERVATIVES/GOVERNMENT - ["the tories","tories", "prime","boris","johnson","prime minister","boris johnson","the prime","minister","mr johnson","johnsonâ","johnson has", "theresa", "theresa may", "cummings","dominic cummings","downing street","downing","no 10","dominic","reshuffle", "matt hancock", "hancock", "ministry", "the ministry", "ministry of", "the government","government","ministers","department","ensure","work","the department","government has","government to","scheme", "patel","priti","priti patel"], # Conservative party and the Government
+    LABOUR PARTY - ["long bailey","rebecca long","bailey","rebecca","keir","starmer","keir starmer","nandy","lisa nandy","lisa", "corbyn","jeremy","jeremy corbyn","labour","the labour","labour leader","labour party", "shadow","the shadow","secretary","mcdonnell","john mcdonnell","shadow chancellor","shadow cabinet","chancellor john", "labour mp", "labour mps"], # Labour party
+    LIB DEMS - ["liberal","lib","liberal democrats","the liberal","democrats","the lib","dems","lib dems","lib dem"], # Liberal Democrats
+    SNP/SCOTLAND - ["sturgeon","nicola sturgeon","nicola","snp","the snp","the scottish","scotland","independence referendum","independence"], # SNP
+    IRELAND - ["ireland","irish","northern ireland"], # Ireland
+    EU/BREXIT - ["the eu","eu","agreement","deal","trade","trade deal","brussels","european","the european", "referendum","brexit","leave","remain","farage","nigel","second referendum","the brexit", "future","to leave","leave the","11pm","leaving","departure","at 11pm","leaving the"], # EU and Brexit
+    ECONOMICS/BUSINESS - ["cost","tax","pay","spending","investment","budget","plans","economy","funding", "rise","increase","decade","below","fiscal","for fiscal","increase in","fiscal studies"], # Economy and Business
+    HEALTHCARE/NHS - ["nhs","the nhs","care", "average","health","hospitals", "hospital"], # Healthcare/NHS
+    FOREIGN POLICY/US - ["trump","donald","the us","president","donald trump","us president","us"] # Foreign Policy/US
+    RACISM - ["allegations","accused","antisemitism","jewish","racism","allegations of","the jewish","apologise","women","of antisemitism", "anti","anti semitism","semitism","racist","party in","muslim","of anti","islamophobia","community","ranks"], # Racism
+    ENVIRONMENT/CLIMATE CHANGE - ["climate","the climate","climate change","climate crisis","emissions","carbon","climate emergency","net zero","zero","crisis"] # Environment/Climate change
+    LAW/POLICE - ["court","law","rights","legal","legislation","of justice","court of","the law","laws","justice", "investigation","alleged", "incident","police","officers","charges","the police","crown"], # Police/Legal
+    EDUCATION - ["education", "schools", "school", "teaching", "teachers", "curriculum", "grammar school", "academic"], # education
+    IMMIGRATION - ["immigration", "border", "australia", "points", "open borders", "free movement", "movement of", "of labour"] # Immigration
 ]
 
-After running CorEx with these anchors (and removing the filtering topic), with an anchor weighting of 3, 20 words from each topic were:
+Next, I fitted this model 5 times, and took the model with the greatest TC, and saved it
 
-Topic #1: accountability, private, prison sentences, price, poverty inequality, poverty, potential, poorest, poor, playing field, 
-            physical health, permitted, people want, pension funds, peace, pay gap, passenger, party, private sector, partners
-Topic #2: accelerating, public money, proven, proposals, procurement, prison officers, prison, priority, pride, publish, prevents, 
-            police forces, police force, police, plan, places worship, persons, perpetrators, per, policing
-Topic #3: abuse bill, proceeds, proactive, privatisation, private investment, prime, primary, pricing, preventative, powerhouse, 
-            pounds, police officers, police crime, point, played, peoples lives, people learning, pension, paternity, partnership
-Topic #4: academic, provide additional, protections, protecting, protected, prosperous, promised, progressive, producers, process, 
-            problems, problem, prisoners, placed, phase, persecution, permission, people work, pay fair, patients
-Topic #5: according, removing, reliable, release, rehabilitation, regeneration, refused, refugee, reduction, reducing, reduce carbon, 
-            recruit, rape, quickly, questions, put, repeat, public service, replace, requires
-Topic #6: abuse, produced, principle, press, postbrexit, possible, plastics, planting, physical, personal, peoples, people need, 
-            people mental, people, passed, pass, parties, parliament, packaging, outcome
-Topic #7: abusers, plastic waste, plastic, plants, plans, planning, planet, place, petrol diesel, petrol, personnel, performance, 
-            people make, people live, pensions, payments, paying, past decade, past, parts
-
-And after adjusting the anchor weighting to 5:
-
-Topic #1: across eu, rebalance, really, realise, rape, puts, public sector, provide free, properly, proof, promoted, programme, 
-            profit, professionals, producing, poverty inequality, poverty, poorest, recruit, poor
-Topic #2: accountable, provided, proposals, progress, producers, proceeds, proactive, prison sentences, public health, prison, 
-            police forces, police force, police, played, plans, places worship, perpetrators, policing, period, pushing
-Topic #3: abusers, parts uk, partnership, particular, part country, parliaments, parliamentary, parliament, parks, pathways, 
-            paris, outside eu, opportunity, one, often, offshore wind, offers, obesity, north, paid
-Topic #4: academic, prisons, pricing, press, possible, police crime, planting, person, permitted, peoples lives, payment, past, 
-            passing, parental, packaging, order, operations, onshore, older people, offices
-Topic #5: abuse bill, prior, potential, position, plants, physical, per, people live, people get, people across, privatisation, 
-            pay gap, paternity, past decade, passed, party, partnerships, owned, owe, overwhelmingly
-Topic #6: abuse, qualified, pursuing, publish, public services, public service, providers, proven, protects, rather, prosecution, 
-            postbrexit, plastics, personnel, permission, permanent, pensioners, patients, pass, price
-Topic #7: accelerating, receives, reality, rail, push, publicly owned, public transport, public, provide additional, recognition act, provide, proportion, 
-            promised, production, procurement, probation, private, prison officers, primary, proportionate
+Then, I labelled my 200 test articles with the most likely topics, and tested this. The results are as follows:
 
