@@ -16,7 +16,7 @@ export class StartScreenComponent implements OnInit {
 
   newspapers: FormSelectOption[] = [
     {value: 'bbc', viewValue: "BBC News"},
-    {value: 'daily_mail', viewValue: "The Daily Mail"},
+    //{value: 'daily_mail', viewValue: "The Daily Mail"},
     {value: 'guardian', viewValue: "The Guardian"},
     {value: 'independent', viewValue: "The Independent"},
     {value: 'telegraph', viewValue: "The Telegraph"},
@@ -35,11 +35,22 @@ export class StartScreenComponent implements OnInit {
   ];
 
   topics: FormSelectOption[] = [
-    {value: 'brexit', viewValue: "Brexit"},
-    {value: 'environment', viewValue: "Environment & Climate Change"},
-    {value: 'economy', viewValue: "Economy and Business"},
-    {value: 'crime', viewValue: "Crime"},
-    {value: 'health', viewValue: "Healthcare and the NHS"},
+    {value: 'brexit', viewValue: "Brexit/EU"},
+    {value: 'economy', viewValue: "Economy/Business"},
+    {value: 'health', viewValue: "Healthcare/NHS"},
+    {value: 'foreign', viewValue: "Foreign Affairs"},
+    {value: 'racism', viewValue: "Racism"},
+    {value: 'environment', viewValue: "Environment/Climate Change"},
+    {value: 'crime', viewValue: "Crime/Law"},
+    {value: 'schools', viewValue: "Education"},
+    {value: 'immigration', viewValue: "Immigration"},
+    {value: 'govt', viewValue: "Conservatives/Government"},
+    {value: 'labour', viewValue: "Labour Party"},
+    {value: 'lib_dem', viewValue: "Liberal Democrats"},
+    {value: 'scotland', viewValue: "Scotland"},
+    {value: 'wales', viewValue: "Wales"},
+    {value: 'ireland', viewValue: "Ireland"},
+
   ];
 
   expansionPanelHeaderText = "";

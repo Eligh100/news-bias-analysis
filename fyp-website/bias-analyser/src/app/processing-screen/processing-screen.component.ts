@@ -10,7 +10,7 @@ import { AnalysisParametersService } from '../analysis-parameters.service';
 })
 export class ProcessingScreenComponent implements OnInit {
 
-  counter = 3;
+  counter = 1;
 
   constructor(private router: Router, private route: ActivatedRoute, private analysisParameters: AnalysisParametersService) { }
 

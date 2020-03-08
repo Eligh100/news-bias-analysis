@@ -15,8 +15,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMomentDateModule } from '@angular/material-moment-adapter'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatExpansionModule } from '@angular/material/expansion'
-import { GaugeChartModule } from 'angular-gauge-chart'
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+import { GaugeChartModule } from 'angular-gauge-chart';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+
+import { HttpClientModule }    from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,7 @@ import { GaugeChartModule } from 'angular-gauge-chart'
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
@@ -38,7 +43,9 @@ import { GaugeChartModule } from 'angular-gauge-chart'
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
-    GaugeChartModule
+    MatDividerModule,
+    GaugeChartModule,
+    TagCloudModule
   ],
   providers: [],
   bootstrap: [AppComponent]
