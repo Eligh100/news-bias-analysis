@@ -1,0 +1,23 @@
+time data '' does not match format '%Y-%m-%d'
+
+https://www.theguardian.com/politics/2019/dec/08/jo-swinson-lib-dems-farage-brexit-party-johnson-stitch-up failed
+time data '' does not match format '%Y-%m-%d'
+
+https://www.theguardian.com/uk-news/2020/feb/21/prevent-environment-animal-activists-referred-extremism failed
+time data '' does not match format '%Y-%m-%d'
+
+https://www.telegraph.co.uk/politics/0/boris-johnson-cabinet-reshuffle/ failed
+time data '' does not match format '%Y-%m-%d'
+
+https://www.theguardian.com/society/2020/feb/12/children-placed-in-unregulated-care-homes-ban-proposed failed
+time data '' does not match format '%Y-%m-%d'
+
+https://www.theguardian.com/education/2020/feb/20/thousands-of-university-workers-strike-across-uk failed
+time data '' does not match format '%Y-%m-%d'
+
+https://www.telegraph.co.uk/politics/2020/02/01/passengers-first-post-brexit-ferry-calais-dover-say-leaving/ failed
+':\Users\eligh\Anaconda3\lib\site-packages\sklearn\feature_extraction\text.py:140: DeprecationWarning: invalid escape sequence '\
+  doc = doc.decode(self.encoding, self.decode_error)
+time data '' does not match format '%Y-%m-%d'
+
+https://www.theguardian.com/politics/2020/feb/22/home-office-immigration-head-quits-row-patel failed

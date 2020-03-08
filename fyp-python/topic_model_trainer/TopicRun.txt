@@ -104,5 +104,40 @@ anchors = [
 
 Next, I fitted this model 5 times, and took the model with the greatest TC, and saved it
 
-Then, I labelled my 200 test articles with the most likely topics, and tested this. The results are as follows:
+Then, I labelled 30 test articles with the most likely topics, and tested this. The results are as follows:
+    23 correctly identified
+    7 incorrectly identified
+    i.e. a 77.67% success rate
+
+Whilst labelling the data, I noticed the need to add more anchor words
+    For instance, the foreign policy section only discusses the US
+    I added China, Canada, Australia, India, Israel, and Saudia Arabia
+    I chose these countries namely due to their likelihood to be mentioned in the news
+    Hopefully, these will pull in information about other countries too
+Moreover, I've added a 16th (15th, not including the junk topic) topic, for Wales
+The updated set of anchor words are as follows:
+
+anchors = [
+    ["facebook", "messenger", "linkedin", "whatsapp", "pinterest", "facebook messenger","messenger messenger","messenger twitter","linkedin copy","new window","email facebook","pinterest","pinterest whatsapp","link","share", "register","log", "social account","inbox register","social","inbox","account","iâ","donâ","itâ", "readers click","letters click","letters theguardian","photo youâ","guardian letters","print edition", "twitter com","pic twitter","pic","journalists"], # Junk
+    ["long bailey","rebecca long","bailey","rebecca","keir","starmer","keir starmer","nandy","lisa nandy","lisa", "corbyn","jeremy","jeremy corbyn","labour","labour leader","labour party", "shadow","secretary","mcdonnell","john mcdonnell","shadow chancellor","shadow cabinet","chancellor john", "labour mp", "labour mps", "welsh labour", "scottish labour", "tony blair", "blair"], # Labour party
+    ["conservative", "conservatives","tories", "prime","boris","johnson","prime minister","boris johnson","prime","minister","mr johnson","johnsonâ", "theresa", "theresa may", "cummings","dominic cummings","downing street","downing","dominic","reshuffle", "matt hancock", "hancock", "ministry","government","ministers","department","ensure","work","department","scheme", "patel","priti","priti patel", "scottish conservatives", "welsh conservative", "scottish conservative", "david cameron", "cameron"], # Conservative party and the Government
+    ["liberal","lib","liberal democrats","democrats","lib","dems","lib dems","lib dem", "jo", "swinson", "jo swinson"], # Liberal Democrats
+    ["sturgeon","nicola sturgeon","nicola","snp","scotland","independence referendum","independence", "holyrood", "edinburgh"], # SNP
+    ["ireland","irish","northern ireland", "dup", "sinn", "fein", "sinn fein", "backstop", "dublin", "belfast", "stormont"], # Ireland
+    ["eu","agreement","deal","trade","trade deal","brussels","european", "referendum","brexit","leave","remain","farage","nigel","second referendum", "future","11pm","leaving","departure"], # EU and Brexit
+    ["cost","tax","pay","spending","investment","budget","plans","economy","funding", "rise","increase","decade","fiscal","fiscal studies", "poverty", "council"], # Economy and Business
+    ["nhs","care", "average","health","hospitals", "hospital", "virus"], # Healthcare/NHS
+    ["trump","donald","us","president","donald trump","us president","us", "china", "israel", "india", "canada", "saudi arabia", "australia"], # Foreign Policy/US
+    ["allegations","accused","antisemitism","jewish","racism","apologise","women", "anti","anti semitism","semitism","racist","muslim","islamophobia","community","ranks"], # Racism
+    ["climate","climate change","climate crisis","emissions","carbon","climate emergency","net zero","zero","crisis"], # Environment/Climate change
+    ["court","law","rights","legal","legislation","laws","justice", "investigation","alleged", "incident","police","officers","charges","crown"], # Police/Legal
+    ["education", "schools", "school", "teaching", "teachers", "grammar", "academic"], # education
+    ["immigration", "border", "australia", "points", "borders", "open", "free movement", "movement"], # Immigration
+    ["wales", "welsh", "assembly", "plaid", "cymru", "plaid cymru", "cardiff"] # Wales
+]
+
+The updated results were:
+
+24.5/30, or ~82% success rate
+
 
