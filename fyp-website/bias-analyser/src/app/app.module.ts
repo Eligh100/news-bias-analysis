@@ -12,13 +12,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatMomentDateModule } from '@angular/material-moment-adapter'
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { GaugeChartModule } from 'angular-gauge-chart';
 import { TagCloudModule } from 'angular-tag-cloud-module';
+import { ChartsModule } from 'angular-bootstrap-md';
 
 import { HttpClientModule }    from '@angular/common/http';
 
@@ -45,7 +46,8 @@ import { HttpClientModule }    from '@angular/common/http';
     MatExpansionModule,
     MatDividerModule,
     GaugeChartModule,
-    TagCloudModule
+    TagCloudModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -24,6 +24,15 @@ export class BiasAnalysisScreenComponent implements OnInit {
       needleStartValue: 50,
   }
 
+  public biasChangeChartType: string = 'line';
+
+  public biasChangeChartData: Array<any> = [{ data: [65, 59, 80, 81, 56, 55, 40], label: 'My First dataset' }];
+  public biasChangeChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+  public biasChangeChartOptions: any = {
+    responsive: true
+  };
+
   @ViewChild(TagCloudComponent, {static: false}) wordCloudComponent: TagCloudComponent;
 
   public cloudOptions: CloudOptions = {
@@ -86,6 +95,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public currentParty;
 
   public newspaperToPartyBiasScore = 0;
+
+  public dateToPartyBiasScore = {}; // filled with key: date and values: bias scores - to be plotted
 
   constructor(private _analysisParametersService: AnalysisParametersService) { }
 
@@ -156,6 +167,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   analyseArticleInformation(){
     this.articles_information.forEach( (article) => {
+
+      let articlePartyBiasScore = 0 // current article's party bias score
+
       // Get the most likely topics, to display what the newspaper discusses the most
       let article_topics = (article["articleTopics"]).split(", ")
 
@@ -177,12 +191,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
           if (this.partyTopicScores[split[0]]){
             if (this.partyTopicScores[split[0]] < 0 && headline_score < 0 || this.partyTopicScores[split[0]] > 0 && headline_score > 0){ // if same polarity
               let difference = Math.abs(this.partyTopicScores[split[0]] - headline_score)
-              this.newspaperToPartyBiasScore += 1 - difference
+              articlePartyBiasScore += 1 - difference
             } else if (this.partyTopicScores[split[0]] > 0 && headline_score < 0 || this.partyTopicScores[split[0]] < 0 && headline_score > 0){ // if different 
               let difference = Math.abs(this.partyTopicScores[split[0]] - headline_score)
-              this.newspaperToPartyBiasScore -= difference * 10
+              articlePartyBiasScore -= difference * 10
             } else { // if both zero (i.e. neutral)
-              this.newspaperToPartyBiasScore += 1;
+              articlePartyBiasScore += 1;
             }
           }
           this.overallTopicOpinions[split[0]] += headline_score;
@@ -200,12 +214,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
           if (this.partyTopicScores[split[0]]){
             if (this.partyTopicScores[split[0]] < 0 && article_score < 0 || this.partyTopicScores[split[0]] > 0 && article_score > 0){ // if same polarity
               let difference = Math.abs(this.partyTopicScores[split[0]] - article_score)
-              this.newspaperToPartyBiasScore += 1 - difference
+              articlePartyBiasScore += 1 - difference
             } else if (this.partyTopicScores[split[0]] > 0 && article_score <= 0 || this.partyTopicScores[split[0]] <= 0 && article_score > 0){ // if different 
               let difference = Math.abs(this.partyTopicScores[split[0]] - article_score)
-              this.newspaperToPartyBiasScore -= difference
+              articlePartyBiasScore -= difference
             } else { // if both zero (i.e. neutral)
-              this.newspaperToPartyBiasScore += 1;
+              articlePartyBiasScore += 1;
             }
           }
           this.overallTopicOpinions[split[0]] += article_score;
@@ -223,28 +237,28 @@ export class BiasAnalysisScreenComponent implements OnInit {
       if (this.currentParty == "Conservatives") {
         if (this.overallTopicOpinions["Conservatives/Government"]) { // if the conservatives are a mentioned topic
           if (this.overallTopicOpinions["Conservatives/Government"] > 1) {
-            this.newspaperToPartyBiasScore += 10
+            articlePartyBiasScore += 10
           } else if (this.overallTopicOpinions["Conservatives/Government"] < -1) {
-            this.newspaperToPartyBiasScore += -10
+            articlePartyBiasScore += -10
           } else {
-            this.newspaperToPartyBiasScore += this.overallTopicOpinions["Conservatives/Government"] * 10
+            articlePartyBiasScore += this.overallTopicOpinions["Conservatives/Government"] * 10
           }
         }
       } else {
         if (this.overallTopicOpinions[this.currentParty]) {
           if (this.overallTopicOpinions[this.currentParty] > 1) {
-            this.newspaperToPartyBiasScore += 10
+            articlePartyBiasScore += 10
           } else if (this.overallTopicOpinions[this.currentParty] < -1) {
-            this.newspaperToPartyBiasScore += -10
+            articlePartyBiasScore += -10
           } else {
-            this.newspaperToPartyBiasScore += this.overallTopicOpinions[this.currentParty] * 10
+            articlePartyBiasScore += this.overallTopicOpinions[this.currentParty] * 10
           }
         }
       }
 
       // If most likely party is THE party in question, add +10 or -10 accordingly
       if (article["mostLikelyParty"] == this.currentParty){
-        this.newspaperToPartyBiasScore += (article_sentiment_overall*10)
+        articlePartyBiasScore += (article_sentiment_overall*10)
       }
 
       // Get the top words, and store in dict - if exists, update with frequency
@@ -261,16 +275,30 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
         });
       }
+        
+      articlePartyBiasScore = articlePartyBiasScore / 10;
+      articlePartyBiasScore = +articlePartyBiasScore.toFixed(1);
+      articlePartyBiasScore = articlePartyBiasScore/2 + 50;
+
+      this.newspaperToPartyBiasScore += articlePartyBiasScore
+
+      let articlePubDate = this.articles_information["articlePubDate"];
+
+      if (articlePubDate != "NO INFO" || articlePubDate != ""){
+        if (!this.dateToPartyBiasScore[articlePubDate]){
+          this.dateToPartyBiasScore = []
+        } 
+        this.dateToPartyBiasScore[articlePubDate].push(articlePartyBiasScore)
+      }
 
     })
 
-    this.newspaperToPartyBiasScore = this.newspaperToPartyBiasScore / 10
-    this.newspaperToPartyBiasScore = +this.newspaperToPartyBiasScore.toFixed(1)
-
-    this.needleValue = this.newspaperToPartyBiasScore/2 + 50
+    this.needleValue = this.newspaperToPartyBiasScore
 
     this.getMostDiscussedTopics();
     this.getOverallTopicOpinions();
+
+    this.plotBiasChangeGraph();
 
     this.constructManifestoWordCloud();
     this.constructArticlesWordCloud();
@@ -285,7 +313,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
   }
 
-  getOverallTopicOpinions(){
+  getOverallTopicOpinions() {
     for (let key in this.overallTopicOpinions) {
       if (key != "NO INFO"){
         let value = this.overallTopicOpinions[key];
@@ -310,7 +338,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
   }
 
-  constructManifestoWordCloud(){
+  plotBiasChangeGraph() {
+
+  }
+
+  constructManifestoWordCloud() {
     let tempData: CloudData[] = [];
 
     for (let key in this.partyTopWords) {
@@ -327,7 +359,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.wordCloudComponent.reDraw();
   }
 
-  constructArticlesWordCloud(){
+  constructArticlesWordCloud() {
     let tempData: CloudData[] = [];
 
     let sortedValues = [];
@@ -363,5 +395,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     this.wordCloudComponent.reDraw();
   }
+
+  public biasChangeChartClicked(e: any): void { }
+  public biasChangeChartHovered(e: any): void { }
 
 }
