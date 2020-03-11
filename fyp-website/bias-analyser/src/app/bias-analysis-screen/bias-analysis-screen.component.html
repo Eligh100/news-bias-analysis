@@ -11,12 +11,59 @@
         </div>
         <div class="col-sm-4"></div>
     </div>
+    <mat-divider class="my-3"></mat-divider>
     <div class="row">
-        <div class="col-sm-12 text-center">
-            <p>{{most_discussed_string}}</p>
-            <p>{{overall_opinion_string}}</p>
+        <div class="col-sm-6 text-center">
+            <h3 class="mb-3">Change in party bias over time</h3>
+            <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
+                [chartType]="lineChart"
+                [datasets]="biasChangeChartData"
+                [labels]="biasChangeChartLabels"
+                [options]="biasChangeChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>
+        <div class="col-sm-6 text-center">
+            <h3 class="mb-3">Change in topic opinions over time</h3>
+            <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
+                [chartType]="lineChart"
+                [datasets]="topicOpinionChangeChartData"
+                [labels]="topicOpinionChangeChartLabels"
+                [colors]="topicOpinionChangeChartColors"
+                [options]="topicOpinionChangeChartOptions"
+                [legend]="true">
+            </canvas>
         </div>
     </div>
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row pt-3">
+        <div class="col-sm-6 text-center">
+            <h3 class="mr-2">Topic frequency in [NEWSPAPER_NAME]</h3>
+            <canvas class="ml-5" width="600" height="350" style="display: block; height: 220px; width: 382px;" mdbChart
+                [chartType]="doughnutChart"
+                [datasets]="discussionChartData"
+                [labels]="discussionChartLabels"
+                [colors]="discussionChartColors"
+                [options]="discussionChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>            
+        <div class="col-sm-6 text-center">
+            <h3 class="mr-2">Topic popularity in [NEWSPAPER_NAME]</h3>
+            <canvas class="ml-5" width="600" height="350" style="display: block; height: 220px; width: 382px;" mdbChart
+                [chartType]="radarChart"
+                [datasets]="topicPopularityChartData"
+                [labels]="topicPopularityChartLabels"
+                [options]="topicPopularityChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>
+    </div>
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row pt-3">
+        
+    </div>
+    <mat-divider class="my-3"></mat-divider>
     <div class="row">
         <div class="col-sm-12 text-center">
             <h3>Most frequent words in the manifesto</h3>
@@ -27,6 +74,12 @@
         <div class="col-sm-12 text-center">
             <h3>Most frequent words across all articles</h3>
             <angular-tag-cloud [config]="cloudOptions" [data]="articlesWordCloudData"></angular-tag-cloud>
+        </div>
+    </div>
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h4><em>{{metaInformation}}</em></h4>
         </div>
     </div>
 </div>

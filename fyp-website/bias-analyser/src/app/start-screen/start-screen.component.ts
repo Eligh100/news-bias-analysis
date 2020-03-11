@@ -77,7 +77,7 @@ export class StartScreenComponent implements OnInit {
 
   changePanelState(){
     this.isDisabled = false; // don't want to disable this again - only for the first input
-    this.expansionPanelHeaderText = (this.isExpanded) ? "" : "Adjust parameters";
+    this.expansionPanelHeaderText = (this.isExpanded) ? "" : "Edit parameters";
   }
 
   changePanelSize(){
