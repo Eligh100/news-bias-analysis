@@ -16,7 +16,7 @@ export class StartScreenComponent implements OnInit {
 
   newspapers: FormSelectOption[] = [
     {value: 'bbc', viewValue: "BBC News"},
-    //{value: 'daily_mail', viewValue: "The Daily Mail"},
+    {value: 'daily_mail', viewValue: "The Daily Mail"},
     {value: 'guardian', viewValue: "The Guardian"},
     {value: 'independent', viewValue: "The Independent"},
     {value: 'telegraph', viewValue: "The Telegraph"},

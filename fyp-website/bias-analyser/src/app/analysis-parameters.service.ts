@@ -9,9 +9,11 @@ export class AnalysisParametersService {
 
   analysisParameters: FormGroup
 
+  lastEvaluatedKey: String = "";
+
   apiURLs = {
     "bbc": "BBC",
-    "daily_mail": "DAILY%20MAIL",
+    "daily_mail": "DAILY MAIL",
     "guardian": "GUARDIAN",
     "independent": "INDEPENDENT",
     "telegraph": "TELEGRAPH",
@@ -26,8 +28,16 @@ export class AnalysisParametersService {
   }
 
   getArticlesInformation() {
-    let api_gateway = "https://68m93scoy5.execute-api.eu-west-2.amazonaws.com/Production/" + this.apiURLs[this.analysisParameters.get("selectedNewspaper").value]
-    return this.http.get(api_gateway, {responseType: "text"});
+    if (this.lastEvaluatedKey == "") {
+      let api_gateway = "https://68m93scoy5.execute-api.eu-west-2.amazonaws.com/Production/" + this.apiURLs[this.analysisParameters.get("selectedNewspaper").value]
+      return this.http.get(api_gateway, {responseType: "text"});
+    } else {
+      let queryString = "?lastEvaluatedKey=" + this.lastEvaluatedKey
+      let api_gateway = "https://68m93scoy5.execute-api.eu-west-2.amazonaws.com/Production/" + this.apiURLs[this.analysisParameters.get("selectedNewspaper").value] + queryString
+      this.lastEvaluatedKey = "";
+      return this.http.get(api_gateway, {responseType: "text"});
+    }
+    
   }
 
 }

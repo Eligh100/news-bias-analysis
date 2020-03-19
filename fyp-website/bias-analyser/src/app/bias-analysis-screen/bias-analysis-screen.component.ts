@@ -11,9 +11,6 @@ import { Observable, of } from 'rxjs';
 export class BiasAnalysisScreenComponent implements OnInit {
 
   public topicColours = {
-    "Labour": ["#FF0000", "#FF3727"],
-    "Conservatives/Government": ["#0095FF","#42B1FF"],
-    "Liberal Democrats": ["#FF5900", "#F7752F"],
     "Scotland": ["#FFF700", "#FAF43F"],
     "Ireland": ["#004806", "#1D5622"],
     "Brexit/EU": ["#6900FF", "#944DF9"],
@@ -25,11 +22,18 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Law/Police": ["#000A37", "#0F1739"],
     "Education/Schools": ["#717600", "#71751B"],
     "Immigration": ["#464346", "#867E86"],
-    "Wales": ["#660900", "#6E2F29"]
+    "Wales": ["#FF0000", "#FF3727"]
   };
 
   public partyColours = {
-
+    "Labour": ["#FF0000", "#FF3727"],
+    "Conservatives": ["#0095FF","#42B1FF"],
+    "Liberal Democrats": ["#FF5900", "#F7752F"],
+    "Brexit Party": ["#0004ff", "#6669fa"],
+    "Green": ["#04ff00", "#77ff75"],
+    "SNP": ["#ffe600", "#fced60"],
+    "Plaid Cymru": ["#00630c", "#2c6333"],
+    "UKIP": ["#7300ff", "#ac6bfa"]
   };
 
   public canvasWidth = 400
@@ -63,11 +67,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
   };
 
   public topicOpinionChangeChartData: Array<any> = [
-    { data: [], label: 'Labour' },
-    { data: [], label: 'Conservatives/Government' },
-    { data: [], label: 'Liberal Democrats' },
     { data: [], label: 'Scotland' },
     { data: [], label: 'Ireland' },
+    { data: [], label: 'Wales' },
     { data: [], label: 'Brexit/EU' },
     { data: [], label: 'Economy/Business' },
     { data: [], label: 'Healthcare/NHS' },
@@ -76,14 +78,36 @@ export class BiasAnalysisScreenComponent implements OnInit {
     { data: [], label: 'Environment/Climate Change' },
     { data: [], label: 'Law/Police' },
     { data: [], label: 'Education/Schools' },
-    { data: [], label: 'Immigration' },
-    { data: [], label: 'Wales' }
+    { data: [], label: 'Immigration' }
   ];
 
   public topicOpinionChangeChartLabels: Array<any> = [];
   public topicOpinionChangeChartColors: Array<any> = [];
 
   public topicOpinionChangeChartOptions: any = {
+    responsive: false,
+    spanGaps: true,
+    scales: {
+      xAxes: [{ type: 'time', time: { unit: 'month' } }],
+      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: -1, max: 1 , } }, ]
+    }
+  };
+
+  public partyOpinionChangeChartData: Array<any> = [
+    { data: [], label: 'Labour' },
+    { data: [], label: 'Conservatives' },
+    { data: [], label: 'Liberal Democrats' },
+    { data: [], label: 'Brexit Party' },
+    { data: [], label: 'Green' },
+    { data: [], label: 'SNP' },
+    { data: [], label: 'Plaid Cymru' },
+    { data: [], label: 'UKIP' }
+  ];
+
+  public partyOpinionChangeChartLabels: Array<any> = [];
+  public partyOpinionChangeChartColors: Array<any> = [];
+
+  public partyOpinionChangeChartOptions: any = {
     responsive: false,
     spanGaps: true,
     scales: {
@@ -119,23 +143,23 @@ export class BiasAnalysisScreenComponent implements OnInit {
     overflow: true,
   };
 
-  public manifestoWordCloudData: CloudData[] = [];
-  public articlesWordCloudData: CloudData[] = [];
+  public manifestoWordCloudData: CloudData[] = []; // Word cloud data object of manifestos
+  public articlesWordCloudData: CloudData[] = []; // Word cloud data object of articles
 
-  public parties_information;
-  public articles_information;
+  public parties_information; // JSON object with 'parties-table' entries
+  public articles_information; // JSON object with 'articles-table' entries
+  public temp_info;
 
   public partyTopicScores = {};
+  public partyToOtherPartiesScores = {};
   public partyTopWords = {};
 
   public newspaperTopWords = {}
 
   public mostDiscussedArticleTopics = {
-    "Labour": 0,
-    "Conservatives/Government": 0,
-    "Liberal Democrats": 0,
     "Scotland": 0,
     "Ireland": 0,
+    "Wales": 0,
     "Brexit/EU": 0,
     "Economy/Business": 0,
     "Healthcare/NHS": 0,
@@ -144,16 +168,24 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Environment/Climate Change": 0,
     "Law/Police": 0,
     "Education/Schools": 0,
-    "Immigration": 0,
-    "Wales": 0
+    "Immigration": 0
+  }
+
+  public mostDiscussedArticleParties = {
+    "Labour": 0,
+    "Conservatives": 0,
+    "Liberal Democrats": 0,
+    "Brexit Party": 0,
+    "Green": 0,
+    "SNP": 0,
+    "Plaid Cymru": 0,
+    "UKIP": 0
   }
 
   public overallTopicOpinions = {
-    "Labour": 0,
-    "Conservatives/Government": 0,
-    "Liberal Democrats": 0,
     "Scotland": 0,
     "Ireland": 0,
+    "Wales": 0,
     "Brexit/EU": 0,
     "Economy/Business": 0,
     "Healthcare/NHS": 0,
@@ -162,8 +194,29 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Environment/Climate Change": 0,
     "Law/Police": 0,
     "Education/Schools": 0,
-    "Immigration": 0,
-    "Wales": 0
+    "Immigration": 0
+  }
+
+  public overallPartyOpinions = {
+    "Labour": 0,
+    "Conservatives": 0,
+    "Liberal Democrats": 0,
+    "Brexit Party": 0,
+    "Green": 0,
+    "SNP": 0,
+    "Plaid Cymru": 0,
+    "UKIP": 0
+  }
+
+  public similarToPartyText = {
+    "Labour": 0,
+    "Conservatives": 0,
+    "Liberal Democrats": 0,
+    "Brexit Party": 0,
+    "Green": 0,
+    "SNP": 0,
+    "Plaid Cymru": 0,
+    "UKIP": 0
   }
 
   public currentParty;
@@ -172,6 +225,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public dateToPartyBiasScore = {}; // filled with key: date and values: bias scores - to be plotted
   public dateToTopicScores = {}; // key: date, value: {} of key: topic, value: score
+  public dateToPartyScores = {}; // key: date, value: {} of key: party, value: score
 
   public metaInformation: string = "";
 
@@ -180,6 +234,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
   ngOnInit() {
     //this.needleValue = Math.floor(Math.random() * Math.floor(100));
     this.needleValue = 69;
+
+    this.articles_information = "";
 
     this.getPartiesInformation();
     this.getArticlesInformation();
@@ -202,33 +258,76 @@ export class BiasAnalysisScreenComponent implements OnInit {
   getArticlesInformation() {
     this._analysisParametersService.getArticlesInformation().subscribe(
       // the first argument is a function which runs on success
-      data => { this.articles_information = data},//data["articleInfo"]},
+      data => {
+        if (this.articles_information['articleInfo']) {
+          this.temp_info = data
+        } else {
+          this.articles_information = data
+        }
+      },
       // the second argument is a function which runs on error
       err => console.error(err),
       // the third argument is a function which runs on completion
       () => {
         console.log('done loading articles');
-        try {
-          this.articles_information = JSON.parse(this.articles_information)
-        } catch {
-          this.articles_information = this.articles_information.slice(0, this.articles_information.length - 10) + " " + this.articles_information.slice(this.articles_information.length - 9)
-          this.articles_information = JSON.parse(this.articles_information)
+
+        let lastEvaluatedKey = ""
+
+        if (this.articles_information['articleInfo']) {
+          try {
+            this.temp_info = JSON.parse(this.temp_info)
+          } catch {
+            let sliceIndex = this.temp_info.indexOf("\"lastEvaluatedKey\"");
+
+            this.temp_info = this.temp_info.slice(0, (sliceIndex-13)) + " " + this.temp_info.slice(sliceIndex-12)
+            this.temp_info = JSON.parse(this.temp_info)
+          }
+          this.articles_information["articleInfo"] = this.articles_information["articleInfo"].concat(this.temp_info["articleInfo"])
+          lastEvaluatedKey = this.temp_info["lastEvaluatedKey"]
+        } else {
+          
+          try {
+            this.articles_information = JSON.parse(this.articles_information)
+          } catch {
+            let sliceIndex = this.articles_information.indexOf("\"lastEvaluatedKey\"");
+
+            this.articles_information = this.articles_information.slice(0, (sliceIndex-13)) + " " + this.articles_information.slice(sliceIndex-12)
+            this.articles_information = JSON.parse(this.articles_information)
+          }
+
+          lastEvaluatedKey = this.articles_information["lastEvaluatedKey"]
+        
         }
 
-        this.articles_information = this.articles_information["articleInfo"];
-        this.analyseArticleInformation()
+        if (lastEvaluatedKey != "") {
+          this._analysisParametersService.lastEvaluatedKey = lastEvaluatedKey;
+          this.getArticlesInformation();
+        } else {
+          console.log(this.articles_information["articleInfo"])
+          this.articles_information = this.articles_information["articleInfo"];
+          this.analyseArticleInformation()
+        }
       }
     );
   }
 
   encodePartyInfo(){
-    let topic_sentiment_matrix_string = this.parties_information["topicsSentimentMatrix"]
+    let topic_sentiment_matrix_string = this.parties_information["topicsSentimentMatrix"];
 
     topic_sentiment_matrix_string.split(", ").forEach( (topicAndScore) => {
       let split = topicAndScore.split(" = ");
-      let topicScore = +(split[1])
-      topicScore = +topicScore.toFixed(2)
-      this.partyTopicScores[split[0]] = topicScore
+      let topicScore = +(split[1]);
+      topicScore = +topicScore.toFixed(2);
+      this.partyTopicScores[split[0]] = topicScore;
+    });
+
+    let party_sentiment_matrix_string = this.parties_information["partiesSentimentMatrix"];
+
+    party_sentiment_matrix_string.split(", ").forEach( (partyAndScore) => {
+      let split = partyAndScore.split(" = ");
+      let partyScore = +(split[1]);
+      partyScore = +partyScore.toFixed(2);
+      this.partyToOtherPartiesScores[split[0]] = partyScore;
     });
 
     this.currentParty = this.parties_information["partyName"]
@@ -246,11 +345,18 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
       let articlePartyBiasScore = 0 // current article's party bias score
 
-      // Get the most likely topics, to display what the newspaper discusses the most
+      // Get the most likely topics, to display what topics the newspaper discusses the most
       let article_topics = (article["articleTopics"]).split(", ")
 
       article_topics.forEach(element => {
         this.mostDiscussedArticleTopics[element] += 1
+      });
+
+      // Get the most likely parties, to display what parties the newspaper discusses the most
+      let article_parties = (article["articleParties"]).split(", ")
+
+      article_parties.forEach(element => {
+        this.mostDiscussedArticleParties[element] += 1
       });
 
       // Get headline and article topic sentiments
@@ -258,9 +364,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
       // Round to 2 d.p
       // If they don't align, subtract from overall bias score
       // Add/subtract score - take 1, and subtract difference (i.e. if party=0.8, and article=0.4, 1 - 0.4 = 0.6 to score)
-      let headline_sentiments = article["headline-topic-sentiments"]
-      if (headline_sentiments != "NO INFO"){
-        headline_sentiments.split(", ").forEach(element => {
+      let headline_topic_sentiments = article["headlineTopicSentiments"]
+      if (headline_topic_sentiments != "NO INFO"){
+        headline_topic_sentiments.split(", ").forEach(element => {
           let split = element.split(" = ");
           let headline_score = +(split[1])
           headline_score = +headline_score.toFixed(2)
@@ -279,13 +385,35 @@ export class BiasAnalysisScreenComponent implements OnInit {
         });
       }
 
-      let article_sentiment_overall = 0
+      // TODO if article negative about topic, but headline positive - switch polarity (and vice versa)
+      let headline_party_sentiments = article["headlinePartySentiments"];
+      if (headline_party_sentiments != "NO INFO"){
+        headline_party_sentiments.split(", ").forEach(element => {
+          let split = element.split(" = ");
+          let headline_score = +(split[1])
+          headline_score = +headline_score.toFixed(2)
+          if (this.partyToOtherPartiesScores[split[0]]){
+            if (this.partyToOtherPartiesScores[split[0]] < 0 && headline_score < 0 || this.partyToOtherPartiesScores[split[0]] > 0 && headline_score > 0){ // if same polarity
+              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - headline_score)
+              articlePartyBiasScore += 1 - difference
+            } else if (this.partyToOtherPartiesScores[split[0]] > 0 && headline_score < 0 || this.partyToOtherPartiesScores[split[0]] < 0 && headline_score > 0){ // if different 
+              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - headline_score)
+              articlePartyBiasScore -= difference * 10
+            } else { // if both zero (i.e. neutral)
+              articlePartyBiasScore += 1;
+            }
+          } else if (split[0] == this.currentParty) { // If the headline has an opinion about the party in question
+            articlePartyBiasScore += headline_score * 10
+          }
+          this.overallPartyOpinions[split[0]] += headline_score;
+        });
+      }
 
       let topics_to_sentiment = {};
 
-      let article_sentiments = article["articleTopicSentiments"]
-      if (article_sentiments != "NO INFO") {
-        article_sentiments.split(", ").forEach(element => {
+      let article_topic_sentiments = article["articleTopicSentiments"]
+      if (article_topic_sentiments != "NO INFO") {
+        article_topic_sentiments.split(", ").forEach(element => {
           let split = element.split(" = ");
           let article_score = +(split[1])
           article_score = +article_score.toFixed(2)
@@ -301,43 +429,52 @@ export class BiasAnalysisScreenComponent implements OnInit {
             }
           }
           this.overallTopicOpinions[split[0]] += article_score;
-          topics_to_sentiment[split[0]] = article_score
-          article_sentiment_overall += article_score;
+          topics_to_sentiment[split[0]] = article_score;
         });
       }
 
-      if (article_sentiment_overall > 1) {
-        article_sentiment_overall = 1;
-      } else if (article_sentiment_overall < -1) {
-        article_sentiment_overall = -1;
+      let parties_to_sentiment = {};
+
+      let article_party_sentiments = article["articlePartySentiments"]
+      if (article_party_sentiments != "NO INFO") {
+        article_party_sentiments.split(", ").forEach(element => {
+          let split = element.split(" = ");
+          let article_score = +(split[1])
+          article_score = +article_score.toFixed(2)
+          if (this.partyToOtherPartiesScores[split[0]]){
+            if (this.partyToOtherPartiesScores[split[0]] < 0 && article_score < 0 || this.partyToOtherPartiesScores[split[0]] > 0 && article_score > 0){ // if same polarity
+              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - article_score)
+              articlePartyBiasScore += 1 - difference
+            } else if (this.partyToOtherPartiesScores[split[0]] > 0 && article_score <= 0 || this.partyToOtherPartiesScores[split[0]] <= 0 && article_score > 0){ // if different 
+              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - article_score)
+              articlePartyBiasScore -= difference
+            } else { // if both zero (i.e. neutral)
+              articlePartyBiasScore += 1;
+            }
+          } else if (split[0] == this.currentParty){ // If the article has an opinion about the party in question
+            articlePartyBiasScore += article_score * 10;
+          }
+          this.overallPartyOpinions[split[0]] += article_score;
+          parties_to_sentiment[split[0]] = article_score;
+        });
       }
 
-      // If topic of article is THE party in question, add +10 or -10 accordingly
-      if (this.currentParty == "Conservatives") {
-        if (this.overallTopicOpinions["Conservatives/Government"]) { // if the conservatives are a mentioned topic
-          if (this.overallTopicOpinions["Conservatives/Government"] > 1) {
-            articlePartyBiasScore += 10
-          } else if (this.overallTopicOpinions["Conservatives/Government"] < -1) {
-            articlePartyBiasScore += -10
-          } else {
-            articlePartyBiasScore += this.overallTopicOpinions["Conservatives/Government"] * 10
-          }
-        }
+      // Get most likely party, and store
+      let mostLikelyParty = article["mostLikelyParty"]
+      this.similarToPartyText[article[mostLikelyParty]] += 1;
+
+      // If the article is most similar to the current parties manifesto, add 10 to bias score
+      if (mostLikelyParty == this.currentParty){
+        articlePartyBiasScore += 10;
       } else {
-        if (this.overallTopicOpinions[this.currentParty]) {
-          if (this.overallTopicOpinions[this.currentParty] > 1) {
-            articlePartyBiasScore += 10
-          } else if (this.overallTopicOpinions[this.currentParty] < -1) {
-            articlePartyBiasScore += -10
-          } else {
-            articlePartyBiasScore += this.overallTopicOpinions[this.currentParty] * 10
-          }
+        // If article is using language similar to the Labour manifesto
+        // And we are evaluating the Conservative Party
+        // Since the Conservative Party has a negative opinion on the Labour party, we can say
+        // That the article is biased AGAINST the Conservative party
+        // Add or subtract 10, weighted by the current party's opinion about the article's most similar party
+        if (this.partyToOtherPartiesScores[mostLikelyParty]) {
+          articlePartyBiasScore += this.partyToOtherPartiesScores[mostLikelyParty] * 10
         }
-      }
-
-      // If most likely party is THE party in question, add +10 or -10 accordingly
-      if (article["mostLikelyParty"] == this.currentParty){
-        articlePartyBiasScore += (article_sentiment_overall*10)
       }
 
       // Get the top words, and store in dict - if exists, update with frequency
@@ -379,13 +516,26 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           this.dateToTopicScores[articlePubDate][key].push(topics_to_sentiment[key])
         }
+
+        if (!this.dateToPartyScores[articlePubDate]){
+          this.dateToPartyScores[articlePubDate] = {}
+        }
+
+        for (let key in parties_to_sentiment) {
+          if (!this.dateToPartyScores[articlePubDate][key]) {
+            this.dateToPartyScores[articlePubDate][key] = [];
+          }
+          this.dateToPartyScores[articlePubDate][key].push(parties_to_sentiment[key])
+        }
       }
     })
 
     this.needleValue = this.newspaperToPartyBiasScore
 
     this.plotBiasChangeGraph();
+
     this.plotTopicChangeGraph();
+    this.plotPartyChangeGraph();
 
     this.constructDiscussedTopicsDoughnut();
     this.constructTopicsPopularityDoughnut();
@@ -436,7 +586,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   plotTopicChangeGraph() {
     let data = [];
-    let label = "Newspaper topic opinions change over time";
+    let label = "[Newspaper] topic opinions change over time";
 
     let tempChartData = this.topicOpinionChangeChartData;
     let tempChartLabels = []
@@ -478,15 +628,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
           tempChartData[counter]["data"].push(average)
         } else { // if any articles from this date DON'T mention x topic
-          console.log(counter)
-          console.log(tempChartData)
-          console.log(tempChartData[counter]["data"])
           tempChartData[counter]["data"].push(null)
         }
 
         tempChartData[counter]["fill"] = false;
 
-        if (counter != 0 && counter != 1) {
+        if (counter != 0) {
           tempChartData[counter]["hidden"] = true;
         }
 
@@ -499,6 +646,71 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicOpinionChangeChartData = tempChartData;
     this.topicOpinionChangeChartLabels = tempChartLabels;
     this.topicOpinionChangeChartColors = tempColours;
+
+  }
+
+  plotPartyChangeGraph() {
+    let data = [];
+    let label = "[Newspaper] party opinions change over time";
+
+    let tempChartData = this.partyOpinionChangeChartData;
+    let tempChartLabels = []
+    let tempColours = []
+
+    let sortedDatesAndPartyScoreDict = [];
+
+    for (let date in this.dateToPartyScores){
+
+      let dateScoreDict = this.dateToPartyScores[date];
+
+      sortedDatesAndPartyScoreDict.push([date, dateScoreDict]);
+    }
+
+    sortedDatesAndPartyScoreDict = sortedDatesAndPartyScoreDict.sort(this.DateComparator);
+
+    for (let i = 0; i < sortedDatesAndPartyScoreDict.length; i++) {
+      let date = sortedDatesAndPartyScoreDict[i][0];
+      let partyScoreDict = sortedDatesAndPartyScoreDict[i][1];
+
+      tempChartLabels.push(date);
+      
+      let counter = 0
+      for (let party in this.partyColours) {
+        if (partyScoreDict[party]){ // if any articles from this date DO mention x topic
+
+          let scores = partyScoreDict[party];
+          let total = 0;
+          for (let i = 0; i < scores.length; i++){
+            let score = scores[i]
+            if (score < -1) {
+              score = -1
+            } else if (score > 1) {
+              score = 1
+            }
+            total += score;
+          }
+          let average = total / scores.length
+
+          tempChartData[counter]["data"].push(average)
+        } else { // if any articles from this date DON'T mention x topic
+          tempChartData[counter]["data"].push(null)
+        }
+
+        tempChartData[counter]["fill"] = false;
+
+        if (counter != 0) {
+          tempChartData[counter]["hidden"] = true;
+        }
+
+        tempColours.push({backgroundColor: this.partyColours[party][0], borderColor: this.partyColours[party][1]});
+
+        counter++;
+      }
+    }
+
+    this.partyOpinionChangeChartData = tempChartData;
+    this.partyOpinionChangeChartLabels = tempChartLabels;
+    this.partyOpinionChangeChartColors = tempColours;
 
   }
 

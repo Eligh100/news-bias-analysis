@@ -13,6 +13,8 @@
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row">
+        <div class="col-sm-3">
+        </div>
         <div class="col-sm-6 text-center">
             <h3 class="mb-3">Change in party bias over time</h3>
             <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
@@ -23,6 +25,11 @@
                 [legend]="true">
             </canvas>
         </div>
+        <div class="col-sm-3">
+        </div>
+    </div>
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row">
         <div class="col-sm-6 text-center">
             <h3 class="mb-3">Change in topic opinions over time</h3>
             <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
@@ -31,6 +38,17 @@
                 [labels]="topicOpinionChangeChartLabels"
                 [colors]="topicOpinionChangeChartColors"
                 [options]="topicOpinionChangeChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>
+        <div class="col-sm-6 text-center">
+            <h3 class="mb-3">Change in party opinions over time</h3>
+            <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
+                [chartType]="lineChart"
+                [datasets]="partyOpinionChangeChartData"
+                [labels]="partyOpinionChangeChartLabels"
+                [colors]="partyOpinionChangeChartColors"
+                [options]="partyOpinionChangeChartOptions"
                 [legend]="true">
             </canvas>
         </div>
