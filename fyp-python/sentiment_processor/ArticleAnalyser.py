@@ -23,94 +23,136 @@ class ArticleAnalyser: # TODO add logging
         self.headline = headline
         self.preprocessor = preprocessor
 
-        topic_model_path = "assets/model-updated/topic_model.pkl"
-        vectorizer_path = "assets/model-updated/vectorizer.pkl"
+        topic_model_path = "assets/model-final/topic_model.pkl"
+        topic_vectorizer_path = "assets/model-final/topic_vectorizer.pkl"
+
+        party_model_path = "assets/model-final/party_model.pkl"
+        party_vectorizer_path = "assets/model-final/party_vectorizer.pkl"
 
         try:
-            self.model = cPickle.load(open(topic_model_path, 'rb'))
+            self.topic_model = cPickle.load(open(topic_model_path, 'rb'))
         except:
             print("Model: " + topic_model_path + " not found")
             exit(0)
 
         try:
-            self.vectorizer = cPickle.load(open(vectorizer_path, "rb"))
+            self.topic_vectorizer = cPickle.load(open(topic_vectorizer_path, "rb"))
         except:
-            print("Vectorizer: " + vectorizer_path + " not found")
+            print("Vectorizer: " + topic_vectorizer_path + " not found")
+            exit(0)
+
+        try:
+            self.party_model = cPickle.load(open(party_model_path, 'rb'))
+        except:
+            print("Model: " + party_model_path + " not found")
+            exit(0)
+
+        try:
+            self.party_vectorizer = cPickle.load(open(party_vectorizer_path, "rb"))
+        except:
+            print("Vectorizer: " + party_vectorizer_path + " not found")
             exit(0)
     
 
-    def analyseTopicsSentiment(self):
+    def analyseArticleSentiment(self, for_topics):
+        
+        model = ""
+        vectorizer = ""
 
-        # First, preprocess the article text
-        original_text = self.article_text # Store the original text, for use later
-        # preprocessed_text = self.article_text
+        if (for_topics):
+            model = self.topic_model
+            vectorizer = self.topic_vectorizer
+        else:
+            model = self.party_model
+            vectorizer = self.party_vectorizer
 
-        # preprocessed_text = self.preprocessor.changeToLower(preprocessed_text)
-        # preprocessed_text = self.preprocessor.replaceNewline(preprocessed_text, ' ')
-        # preprocessed_text = self.preprocessor.removeStopWords(preprocessed_text)
-        # preprocessed_text = self.preprocessor.removeSpecialChars(preprocessed_text)
-        # words = self.preprocessor.tokenizeWords(preprocessed_text)
-        # preprocessed_text = self.preprocessor.lemmatizeText(words)
+        # Store the original text, for use later
+        original_text = self.article_text 
 
-        tempFileName = "temp_files/tempProcessing.txt"
+        tempFileName = "temp_files/tempProcessing2.txt"
 
         # Next, find overall most likely topics
-        text_vectorized = self.getVectorised(self.article_filename)
-        topic_binary_predictions = self.model.predict(text_vectorized)
-        topic_probabilities = self.model.predict_proba(text_vectorized)[0][0]
+        text_vectorized = self.getVectorised(self.article_filename, vectorizer)
+        topic_binary_predictions = model.predict(text_vectorized)
 
         likely_topics = np.nonzero(topic_binary_predictions == True)[1]
-        topic_probabilities = dict([(topic_index, round(topic_probabilities[topic_index], 1)) for topic_index in range(0, len(topic_probabilities)) if topic_index in likely_topics])
 
-        # Then, sentence split on original (unprocessed) text and find sentences related to these topics
-        sentences = sent_tokenize(original_text)
-
+        # Create dictionary, key: topic index, value: sentiment scores
         topic_sentiment_scores = {}
 
-        for topic in likely_topics:
-            topic_sentiment_scores[topic] = 0
+        # Then, split the original text into paragraphs and find the most likely topics
+        paragraphs = original_text.split("\n")
 
-        for sentence in sentences:
+        # Only consider a paragraph if it has five or more sentences
+        # If it doesn't, collate paragraphs into bigger paragraphs
+        composite_paragraph = ""
+
+        for paragraph in paragraphs:
+
+            original_paragraph = paragraph
+
+            if composite_paragraph != "":
+                paragraph = composite_paragraph + paragraph
+            
+            sentences = sent_tokenize(paragraph)
+
+            if (len(sentences) < 5):
+                composite_paragraph += original_paragraph + "\n"
+                continue
+            else:
+                composite_paragraph = ""
+
             with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
-                tempFile.write(sentence)
+                tempFile.write(paragraph)
                 tempFile.close()
+            
+            paragraph_vectorized = self.getVectorised(tempFileName, vectorizer) 
+            paragraph_binary_predictions = model.predict(paragraph_vectorized)
+            paragraph_probabilities = model.predict_proba(paragraph_vectorized)[0][0]
 
-            sentence_vectorized = self.getVectorised(tempFileName) 
-            sentence_binary_predictions = self.model.predict(sentence_vectorized)
+            likely_paragraph_topics = np.nonzero(paragraph_binary_predictions == True)[1]
+            paragraph_probabilities = dict([(paragraph_index, round(paragraph_probabilities[paragraph_index], 1)) for paragraph_index in range(0, len(paragraph_probabilities)) if paragraph_index in likely_paragraph_topics])
 
-            likely_sentence_topics = np.nonzero(sentence_binary_predictions == True)[1]
+            for topic in likely_paragraph_topics:
+                if (topic not in topic_sentiment_scores):
+                    topic_sentiment_scores[topic] = 0
 
-            shared_topics = [topic for topic in likely_topics if topic in likely_sentence_topics]
+            # Next, get sentiment of each sentence
+            for sentence in sentences:
+                # If the sentence is likely talking about a topic found in the current paragraph, get sentiment
+                for topic_num in likely_paragraph_topics:
+                    # Get the probability of it being that topic
+                    paragraph_topic_weighting = paragraph_probabilities[topic_num]
 
-            # If the sentence is likely talking about a topic found in the overall article, get sentiment
-            for topic_num in shared_topics: 
-                sentence_polarity = TextBlob(sentence).sentiment.polarity
-                topic_sentiment_scores[topic_num] += sentence_polarity
+                    # Get the polarity of the sentence
+                    sentence_polarity = TextBlob(sentence).sentiment.polarity
+
+                    if sentence_polarity < 0:
+                        sentence_polarity = sentence_polarity * 2 # TODO check this
+
+                    # Weight the polarity by the likelihood of the topic
+                    sentence_polarity = sentence_polarity * paragraph_topic_weighting
+                    topic_sentiment_scores[topic_num] += sentence_polarity
+
+        # Returned object, key: topic index, value: score
+        articleTopicSentimentsMatrix = {}
+
+        # Once the text has been fully analysed, bound the sentiment scores
+        for topic_index, sentiment_score in topic_sentiment_scores.items():
+            if (topic_index != 0):
+                if (sentiment_score > 1):
+                    sentiment_score = 1
+                elif (sentiment_score < -1):
+                    sentiment_score = -1
+                articleTopicSentimentsMatrix[topic_index] = sentiment_score
 
         try:
             os.remove(tempFileName)
         except:
             print("Couldn't delete " + tempFileName)
 
-        articleTopicSentimentsMatrix = {}
-
-        # Once all sentences have been analysed, get weighted sentiment scores
-        for topic_index, sentiment_score in topic_sentiment_scores.items():
-            overall_topic_weighting = topic_probabilities[topic_index]
-            weighted_score = sentiment_score * overall_topic_weighting
-            if (weighted_score > 1):
-                weighted_score = 1
-            elif (weighted_score < -1):
-                weighted_score = -1
-            articleTopicSentimentsMatrix[topic_index] = weighted_score
-
-        # Return list of pairs of topic and overall sentiment score (for article)
+        # Return list of pairs of topic/party and overall sentiment score (for article)
         return (likely_topics, articleTopicSentimentsMatrix)
- 
-    # i.e. mentions of "Labour", "Jeremy Corbyn", "Momentum", etc. - use MPs.csv, and own domain knowledge
-    def analyseEntitySentiment(self):
-        # Use the unprocessed text, as entity information can be lost (i.e. removal of capital letters)
-        text = self.article_text
 
     def analyseManifestoSimilarity(self): # TODO test this
         
@@ -144,7 +186,18 @@ class ArticleAnalyser: # TODO add logging
 
         return PoliticalPartyHelper.PoliticalParty(most_similar_manifesto)
 
-    def analyseHeadlineSentiment(self):
+    def analyseHeadlineSentiment(self, for_topics):
+
+        model = ""
+        vectorizer = ""
+
+        if (for_topics):
+            model = self.topic_model
+            vectorizer = self.topic_vectorizer
+        else:
+            model = self.party_model
+            vectorizer = self.party_vectorizer
+
         headline = self.headline
         headline_polarity = TextBlob(headline).sentiment.polarity
 
@@ -154,26 +207,27 @@ class ArticleAnalyser: # TODO add logging
             tempFile.write(headline)
             tempFile.close()
 
-        headline_vectorized = self.getVectorised(tempFileName)
-        topic_binary_predictions = self.model.predict(headline_vectorized)
-        topic_probabilities = self.model.predict_proba(headline_vectorized)[0][0]
+        # Find the most likely topic of the headline
+        headline_vectorized = self.getVectorised(tempFileName, vectorizer)
+        topic_binary_predictions = model.predict(headline_vectorized)
+        topic_probabilities = model.predict_proba(headline_vectorized)[0][0]
 
         likely_topics = np.nonzero(topic_binary_predictions == True)[1]
         topic_probabilities = dict([(topic_index, round(topic_probabilities[topic_index], 1)) for topic_index in range(0, len(topic_probabilities)) if topic_index in likely_topics])
 
         headline_topics_matrix = {}
         for likely_topic in likely_topics:
-            weighted_polarity = headline_polarity * topic_probabilities[likely_topic]
-            headline_topics_matrix[likely_topic] = weighted_polarity
+            if (likely_topic != 0): # Ignore the junk topic
+                weighted_polarity = headline_polarity * topic_probabilities[likely_topic]
+                headline_topics_matrix[likely_topic] = weighted_polarity
 
         try:
             os.remove(tempFileName)
         except:
             print("Couldn't delete " + tempFileName)
 
-        # Thus, headline has x polarity, about the article's topic (store this in DynamoDB)
+        # Return dict (key: topic/party num, value = score)
         return headline_topics_matrix
-
 
     # Gets top 20 uni/bigrams from article, for word maps
     def getTopWords(self):
@@ -200,10 +254,10 @@ class ArticleAnalyser: # TODO add logging
     def calculateBiasScore(self): 
         print("") # TODO implement me
 
-    def getVectorised(self, tempFileName):
-        text_vectorized = self.vectorizer.transform([tempFileName]) # The vectorizer needs files
+    def getVectorised(self, tempFileName, vectorizer):
+        text_vectorized = vectorizer.transform([tempFileName]) # The vectorizer needs files
         text_vectorized = ss.csr_matrix(text_vectorized)
-        words = list(np.asarray(self.vectorizer.get_feature_names()))
+        words = list(np.asarray(vectorizer.get_feature_names()))
         not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]
         text_vectorized = text_vectorized[:,not_digit_inds]
 

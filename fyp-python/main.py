@@ -56,6 +56,9 @@ articleUploader.uploadArticles(database_entry)
 log_line = "Article scraping ran to completion - "
 logger.writeToLog(log_line, True)
 
+local_filename = 'temp_files/tempArticleFile.txt'
+table = dynamodb.Table('Articles-Table')
+
 # Begin processing of all articles text
 for article_url, article_metadata in database_entry.items():
 
@@ -63,15 +66,39 @@ for article_url, article_metadata in database_entry.items():
     article_text = article_metadata[0]
     article_headline = article_metadata[1]
 
+    # Write article text to temporary file for processing
+    with open(local_filename, "w", encoding="unicode_escape") as article_text_file:
+        article_text_file.write(article_text)
+        article_text_file.close()
+
     # Get required information from the article
-    articleAnalyser = ArticleAnalyser(logger, article_text, article_headline, preprocessor)
-    articleAnalyser.analyseTopicsSentiment()
-    #articleAnalyser.analyseEntitySentiment() # TODO add back this call once func implemented
-    mostSimilarManifesto = articleAnalyser.analyseManifestoSimilarity()
+    articleAnalyser = ArticleAnalyser(logger, article_text, local_filename, article_headline, preprocessor)
+
+    analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
+    likely_topics = analysed_topics[0]
+    article_topic_sentiment_matrix = analysed_topics[1]
+
+    analysed_parties = articleAnalyser.analyseArticleSentiment(False) # Get party sentiment
+    likely_parties = analysed_parties[0]
+    article_party_sentiment_matrix = analysed_parties[1]
+
+    most_similar_party = articleAnalyser.analyseManifestoSimilarity()
+
+    headline_topics_sentiment_matrix = articleAnalyser.analyseHeadlineSentiment(True)
+    headline_parties_sentiment_matrix = articleAnalyser.analyseHeadlineSentiment(False)
+
+    top_words = articleAnalyser.getTopWords()
 
     # Write analysis information to DynamoDB
-    analysisUploader = AnalysisUploader(logger) # TODO INCLUDING ARTICLE PUBLISH TIME!!
-    analysisUploader.pushAnalysis()
+    analysisUploader = AnalysisUploader(logger, article_url, likely_topics, likely_parties, article_topic_sentiment_matrix, article_party_sentiment_matrix, most_similar_party, headline_topics_sentiment_matrix, headline_parties_sentiment_matrix, top_words) # TODO INCLUDING ARTICLE PUBLISH TIME!!
+    analysisUploader.encodeDataToString()
+    analysisUploader.pushAnalysis(table)
+
+try:
+    os.remove(local_filename)
+except:
+    log_line = "Failed to remove temp article text file"
+    logger.writeToLog(log_line, False)
 
 # Write to log file, stating program's completion
 log_line = "Script ran to completion - "

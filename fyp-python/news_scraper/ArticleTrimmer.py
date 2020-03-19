@@ -1,8 +1,9 @@
 import urllib3
 import certifi
+import requests
 from bs4 import BeautifulSoup
 from bs4.element import Comment
-import requests
+from datetime import datetime
 
 class ArticleTrimmer():
 
@@ -38,6 +39,15 @@ class ArticleTrimmer():
         "MIRROR": ["itemprop", "articleBody"]
     }
 
+    news_org_pub_date = {
+        "BBC": ["div", "class", "date date--v2"], # Get first one, and get text
+        "DAILY MAIL": ["meta", "property", "article:published_time"], # get content
+        "TELEGRAPH": ["meta", "itemprop", "datePublished"], # Get first one, and get ["content"],
+        "GUARDIAN": ["meta", "property", "article:published_time"], # Get content
+        "INDEPENDENT": ["meta", "property", "article:published_time"], # get content
+        "MIRROR": ["meta", "property","article:published_time"] # get content
+    }
+
     org_body_containers = ["div", "article"]
 
     daily_mail_valid_article_words = ["political", "whitehall"]
@@ -70,7 +80,7 @@ class ArticleTrimmer():
                         except:
                             log_line = "Soup-ing failed - is URL xml: " + article_url
                             log_line += "\nFailed with the folowing exception:\n"
-                            log_line += e
+                            log_line += str(e)
                             self.logger.writeToLog(log_line, False)
                             continue
 
@@ -135,6 +145,46 @@ class ArticleTrimmer():
                             except:
                                 article_author = org_name # if no author found, set to news orgs name (i.e. GUARDIAN)
 
+                    # Retrieve article's publish date
+                    article_pub_date = ""
+
+                    pub_dates = soup.find_all(self.news_org_pub_date[org_name][0], {self.news_org_pub_date[org_name][1]:self.news_org_pub_date[org_name][2]})
+
+                    for pub_date in pub_dates:
+                    
+                        if (org_name == "BBC"):
+                            article_pub_date = pub_date.getText()
+                            break
+                        elif (org_name == "TELEGRAPH"):
+                            try:
+                                article_pub_date = pub_date["datetime"]
+                            except:
+                                try:
+                                    article_pub_date = pub_date["content"]
+                                except:
+                                    continue
+                                else:
+                                    break
+                            else:
+                                break
+                        else:
+                            article_pub_date = pub_date["content"]
+                            break
+                    
+                    if (org_name != "BBC"):
+                        try:
+                            article_pub_date = datetime.strptime(article_pub_date.split("T")[0], "%Y-%m-%d")
+                        except Exception as e:
+                            log_line = "Failed to save article's publishing date: " + article_url
+                            log_line += "\nFailed with the folowing exception:\n"
+                            log_line += str(e)
+                            self.logger.writeToLog(log_line, False)
+                        else:
+                            article_pub_date = datetime.strftime(article_pub_date, "%d %B %Y")
+                    
+                    if article_pub_date == "":
+                        article_pub_date = "NO INFO"
+
                     # Retrieve article's contents
                     for org_body_container in self.org_body_containers:
                         story_div = soup.find_all(org_body_container, {self.org_body_styles[org_name][0]:self.org_body_styles[org_name][1]})
@@ -158,7 +208,7 @@ class ArticleTrimmer():
                         continue # don't bother adding article's with no text to DB (usually means error anyway)
                         
                     # Add the article and metadata to database dictionary
-                    self.database_entry[article_url] = [article_text, article_headline, article_author, org_name]
+                    self.database_entry[article_url] = [article_text, article_headline, article_author, org_name, article_pub_date]
             
         return self.database_entry
 

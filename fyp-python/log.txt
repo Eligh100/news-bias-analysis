@@ -58,3 +58,116 @@ Script started at: 01/03/2020, 12:38:11
 
 
 Script started at: 01/03/2020, 12:44:15
+
+
+Script started at: 17/03/2020, 15:49:55
+
+
+Script started at: 17/03/2020, 15:51:27
+
+
+Script started at: 18/03/2020, 15:21:45
+
+
+Script started at: 18/03/2020, 15:23:42
+
+
+Script started at: 18/03/2020, 15:25:10
+
+
+Script started at: 18/03/2020, 15:26:12
+
+
+Script started at: 18/03/2020, 16:26:12
+
+
+Script started at: 18/03/2020, 16:27:15
+
+
+Script started at: 18/03/2020, 16:27:37
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/02/29/boris-johnson-carrie-symonds-marry-couple-announce-pregnant/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/02/26/boris-johnson-commits-inquiry-scandal-subpostmasters-accused/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/02/29/sajid-javid-poised-cut-income-tax-budget-forced/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/02/29/retired-doctors-nurses-could-help-hospitals-deal-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Article scraping ran to completion - 18/03/2020, 16:27:57
+Script ran to completion - 18/03/2020, 16:28:02
+
+
+Script started at: 19/03/2020, 11:17:05
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Couldn't delete temp text file
+The following exception occured:
+[WinError 2] The system cannot find the file specified: 'temp.txt'
+Article scraping ran to completion - 19/03/2020, 11:17:18
+Failed to remove temp article text file
+Script ran to completion - 19/03/2020, 11:17:18
+
+
+Script started at: 19/03/2020, 11:25:56
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Couldn't delete temp text file
+The following exception occured:
+[WinError 2] The system cannot find the file specified: 'temp.txt'
+Article scraping ran to completion - 19/03/2020, 11:26:11
+Failed to remove temp article text file
+Script ran to completion - 19/03/2020, 11:26:11
+
+
+Script started at: 19/03/2020, 11:32:58
+
+
+Script started at: 19/03/2020, 17:33:55

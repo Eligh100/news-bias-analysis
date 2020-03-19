@@ -98,7 +98,8 @@ class ArticleUploader():
                             'article-headline': article_data[1],
                             'article-org': article_data[3], 
                             'article-author': article_data[2],
-                            'most-recent-update': date_time
+                            'most-recent-update': date_time,
+                            'article-pub-date': article_data[4]
                         }
                     )
                 except:
@@ -115,15 +116,17 @@ class ArticleUploader():
                         "#aa":"article-author",
                         "#mru":"most-recent-update",
                         "#ah":"article-headline",
-                        "#ao":"article-org"
+                        "#ao":"article-org",
+                        "#apd":"article-pub-date"
                     },
-                    UpdateExpression="SET #at=:t, #aa=:a, #mru=:u, #ah=:h, #ao=:o",
+                    UpdateExpression="SET #at=:t, #aa=:a, #mru=:u, #ah=:h, #ao=:o, #apd=:p",
                     ExpressionAttributeValues={
                         ':t': s3_url,
                         ':a': article_data[2],
                         ':u': date_time,
                         ':h': article_data[1],
-                        ':o': article_data[3]
+                        ':o': article_data[3],
+                        ':p': article_data[4]
                     },
                     ReturnValues="UPDATED_NEW"
                 )

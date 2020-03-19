@@ -17,8 +17,8 @@ from corextopic import vis_topic as vt
 
 matplotlib.use('TkAgg') # to display topic graphs
 
-topic_model_path = "assets/model-updated/topic_model.pkl"
-vectorizer_path = "assets/model-updated/vectorizer.pkl"
+topic_model_path = "assets/model-final/topic_model.pkl"
+vectorizer_path = "assets/model-final/topic_vectorizer.pkl"
 
 try:
     topic_model = cPickle.load(open(topic_model_path, 'rb'))
@@ -46,6 +46,8 @@ test_files = os.listdir("assets/model_data/small_test")
 test_files = ["assets/model_data/small_test/" + test_file for test_file in test_files]
 test_files_labels = [int(test_file[30:32]) for test_file in test_files]
 
+total = len(test_files_labels)
+
 doc_word = vectorizer.transform(test_files)
 doc_word = ss.csr_matrix(doc_word)
 words = list(np.asarray(vectorizer.get_feature_names()))
@@ -66,13 +68,26 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
 
     labelled_topic = test_files_labels[shared_index]
 
-    if (binary_prediction[labelled_topic] == True):
-        rounded_score = round(probability_prediction[labelled_topic], 1)
-        score += rounded_score
+    if (labelled_topic == 0):
+        if (not np.any(binary_prediction)):
+            score += 1
+    else:
+        if (binary_prediction[labelled_topic] == True):
+            rounded_score = round(probability_prediction[labelled_topic], 1)
+            score += rounded_score
+        else:
+            print("")
+            # print("File:")
+            # print(test_files[shared_index])
+            # print("\nMy guess:")
+            # print(labelled_topic)
+            # print("Predictions:")
+            # print(binary_prediction)
+            # print("Probabilities: ")
+            # print(probability_prediction)
 
-
-
-print(score)  
+print(str(score) + "/" + str(total))
+print("Accuracy of: " + str((score/total)*100) + "%")  
 
 # # print (topic_model.predict(doc_word))
 # # topic_probs = topic_model.predict_proba(doc_word)[0]
