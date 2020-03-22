@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import pandas as pd
-import tkinter
 import matplotlib
 import matplotlib.pyplot as plt
 import scipy.sparse as ss

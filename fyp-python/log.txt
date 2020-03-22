@@ -171,3 +171,24 @@ Script started at: 19/03/2020, 11:32:58
 
 
 Script started at: 19/03/2020, 17:33:55
+
+
+Script started at: 22/03/2020, 13:30:02
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Article scraping ran to completion - 22/03/2020, 13:30:21
+Script ran to completion - 22/03/2020, 13:30:28
