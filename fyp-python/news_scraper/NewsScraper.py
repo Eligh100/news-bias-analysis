@@ -67,27 +67,26 @@ class NewsScraper():
 
     def scrapeArticles(self):
         for org_name, urls in self.news_base_urls.items():
-            if (org_name == "TELEGRAPH"):
-                for url in urls:
-                    try:
-                        rss_feed = feedparser.parse(url) 
-                    except Exception as e:
-                        log_line = "Link failed - check url validity: " + url
-                        log_line += "\nFailed with following exception:\n"
-                        log_line += str(e)
-                        log_line += "\n"
-                        self.logger.writeToLog(log_line, False)
-                    else:
-                        for entry in rss_feed.entries:
-                            for curr_url in entry.links:
-                                if (curr_url.type == "text/html" ): # ignore images and other media
+            for url in urls:
+                try:
+                    rss_feed = feedparser.parse(url) 
+                except Exception as e:
+                    log_line = "Link failed - check url validity: " + url
+                    log_line += "\nFailed with following exception:\n"
+                    log_line += str(e)
+                    log_line += "\n"
+                    self.logger.writeToLog(log_line, False)
+                else:
+                    for entry in rss_feed.entries:
+                        for curr_url in entry.links:
+                            if (curr_url.type == "text/html" ): # ignore images and other media
 
-                                    href_url = curr_url.href
+                                href_url = curr_url.href
 
-                                    articleValid = self.checkArticleValidity(entry, href_url, org_name)
+                                articleValid = self.checkArticleValidity(entry, href_url, org_name)
 
-                                    if (articleValid):
-                                        self.news_filtered_urls[org_name].add(href_url)
+                                if (articleValid):
+                                    self.news_filtered_urls[org_name].add(href_url)
 
         return self.news_filtered_urls
 
