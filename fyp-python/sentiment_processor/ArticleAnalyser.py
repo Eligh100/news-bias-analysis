@@ -126,9 +126,6 @@ class ArticleAnalyser: # TODO add logging
                     # Get the polarity of the sentence
                     sentence_polarity = TextBlob(sentence).sentiment.polarity
 
-                    if sentence_polarity < 0:
-                        sentence_polarity = sentence_polarity * 2 # TODO check this
-
                     # Weight the polarity by the likelihood of the topic
                     sentence_polarity = sentence_polarity * paragraph_topic_weighting
                     topic_sentiment_scores[topic_num] += sentence_polarity

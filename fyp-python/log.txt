@@ -192,3 +192,36 @@ time data '' does not match format '%Y-%m-%d'
 No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
 Article scraping ran to completion - 22/03/2020, 13:30:21
 Script ran to completion - 22/03/2020, 13:30:28
+
+
+Script started at: 23/03/2020, 13:36:08
+No  content found in: https://www.bbc.co.uk/news/uk-politics-51966848
+No  content found in: https://www.bbc.co.uk/news/uk-politics-51987279
+No  content found in: https://www.bbc.co.uk/news/uk-politics-51965824
+No  content found in: https://www.bbc.co.uk/news/uk-politics-51962761
+No  content found in: https://www.bbc.co.uk/news/uk-politics-51980721
+No  content found in: https://www.bbc.co.uk/news/uk-politics-51973541
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/22/15-million-risk-shielded-coronavirus-staying-home-three-months/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Article scraping ran to completion - 23/03/2020, 13:42:31
+Script ran to completion - 23/03/2020, 13:49:35
+
+
+Script started at: 24/03/2020, 19:21:39
