@@ -65,7 +65,7 @@
                         <div class="col-sm-6 text-center">
                             <mat-form-field>
                                 <mat-label>Select start date <em>(Optional)</em></mat-label>
-                                <input matInput [matDatepicker]="startDatePicker" (dateInput)="setStartDate($event)" (dateChange)="setStartDate($event)">
+                                <input matInput #fromInput [min]="startDateMin" [max]="startDateMax" startAt="startDateMax" [matDatepicker]="startDatePicker" (dateInput)="setStartDate($event)" (dateChange)="setStartDate($event)">
                                 <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #startDatePicker></mat-datepicker>
                             </mat-form-field>
@@ -73,11 +73,14 @@
                         <div class="col-sm-6 text-center">
                             <mat-form-field>
                                 <mat-label>Select end date <em>(Optional)</em></mat-label>
-                                <input matInput [matDatepicker]="endDatePicker" (dateInput)="setEndDate($event)" (dateChange)="setEndDate($event)">
+                                <input matInput #toInput [min]="endDateMin" [max]="endDateMax" startAt="endDateMax" [matDatepicker]="endDatePicker" (dateInput)="setEndDate($event)" (dateChange)="setEndDate($event)">
                                 <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #endDatePicker></mat-datepicker>
                             </mat-form-field>
                         </div>
+                    </div>
+                    <div class="row py-4 justify-content-center">
+                        <button mat-raised-button (click)="clearForm();">Clear</button>
                     </div>
                     <mat-action-row class="justify-content-center pt-4">
                         <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState();beginAnalysis()">Analyse Bias</button>

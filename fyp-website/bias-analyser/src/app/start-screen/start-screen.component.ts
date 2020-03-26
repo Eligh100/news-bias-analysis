@@ -1,7 +1,8 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AnalysisParametersService } from '../analysis-parameters.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
 
 export interface FormSelectOption {
   value: string;
@@ -50,8 +51,23 @@ export class StartScreenComponent implements OnInit {
     {value: 'ireland', viewValue: "Ireland"},
   ];
 
+  @ViewChild('fromInput', {
+    read: MatInput
+  }) fromInput: MatInput;
+  
+  @ViewChild('toInput', {
+    read: MatInput
+  }) toInput: MatInput;
+
+
   startDate;
   endDate;
+
+  startDateMin: Date = new Date(2019, 7, 22) // Earliest article is 22nd August - nothing to be analysed before this
+  startDateMax: Date = new Date();
+
+  endDateMin: Date = new Date(2019, 7, 22) // Earliest article
+  endDateMax: Date = new Date();
 
   expansionPanelHeaderText = "";
   introText = "\nT\n";
@@ -60,6 +76,7 @@ export class StartScreenComponent implements OnInit {
   isDisabled = true;
 
   startScreenForm : FormGroup;
+
 
   constructor(private fb: FormBuilder, private analysisParameters:AnalysisParametersService) { }
 
@@ -98,11 +115,57 @@ export class StartScreenComponent implements OnInit {
   get selectedEndDate() { return this.startScreenForm.get('selectedEndDate'); }
 
   setStartDate(event: MatDatepickerInputEvent<Date>) {
-    this.startDate = event.value;
+    try {
+      this.startDate = event.value;
+    } catch {
+      this.startDate = null;
+    }
+
+    try {
+      this.endDateMin = new Date(this.startDate);
+    } catch {
+      this.endDateMin = new Date(2019, 7, 22);
+    }
   }
 
   setEndDate(event: MatDatepickerInputEvent<Date>) {
-    this.endDate = event.value;
+    try {
+      this.endDate = event.value;
+    } catch {
+      this.endDate = null;
+    }
+
+    try {
+      this.startDateMax = new Date(this.endDate); 
+    } catch {
+      this.startDateMax = new Date();
+    }
+  }
+
+  resetDates() {
+    this.startDate = null;
+    this.endDate = null;
+
+    this.startDateMin = new Date(2019, 7, 22);
+    this.endDateMin = new Date(2019, 7, 22);
+
+    this.startDateMax = new Date();
+    this.endDateMax = new Date();
+    
+    try {
+      this.endDateMin = new Date(this.startDate);
+    } catch {
+      this.endDateMin = new Date(2019, 7, 22);
+    }
+  }
+
+  clearForm() {
+    this.startScreenForm.reset();
+
+    this.resetDates();
+
+    this.fromInput.value = '';
+    this.toInput.value = '';
   }
 
 }
