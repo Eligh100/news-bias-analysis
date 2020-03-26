@@ -83,7 +83,7 @@
                         <button mat-raised-button (click)="clearForm();">Clear</button>
                     </div>
                     <mat-action-row class="justify-content-center pt-4">
-                        <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState();beginAnalysis()">Analyse Bias</button>
+                        <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState();beginAnalysis()" [disabled]="!startScreenForm.valid">Analyse Bias</button>
                     </mat-action-row>
                 </div>
             </mat-expansion-panel>

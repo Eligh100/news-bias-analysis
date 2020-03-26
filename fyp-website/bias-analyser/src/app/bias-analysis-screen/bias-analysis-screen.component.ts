@@ -581,6 +581,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
       articlePartyBiasScore = +articlePartyBiasScore.toFixed(1);
       //let cumulative = articlePartyBiasScore / 100;
       articlePartyBiasScore = 50 + articlePartyBiasScore
+
+      if (articlePartyBiasScore < 0) {
+        articlePartyBiasScore = 0;
+      } else if (articlePartyBiasScore > 100) {
+        articlePartyBiasScore = 100;
+      }
  
       this.newspaperToPartyBiasScore += articlePartyBiasScore;//cumulative
 
@@ -618,7 +624,15 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
     })
 
-    this.needleValue = this.newspaperToPartyBiasScore / this.analysedArticlesCount
+    let finalBiasValue = this.newspaperToPartyBiasScore / this.analysedArticlesCount
+    
+    if (finalBiasValue < 0) {
+      finalBiasValue = 0;
+    } else if (finalBiasValue > 100) {
+      finalBiasValue = 100;
+    }
+
+    this.needleValue = finalBiasValue
     console.log(this.needleValue)
 
     this.plotBiasChangeGraph();
@@ -666,7 +680,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       data.push(sortedDatesAndScore[i][1]);
     }
     
-    tempChartData.push({data: data, label: label, fill: false, pointRadius : 2});
+    tempChartData.push({data: data, label: label, fill: false, pointRadius : 2, pointBorderColor: "black"});
 
     this.biasChangeChartData = tempChartData;
     this.biasChangeChartLabels = tempChartLabels;
@@ -722,6 +736,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
         tempChartData[counter]["fill"] = false;
         tempChartData[counter]["pointRadius"] = 2;
+        tempChartData[counter]["pointBorderColor"] = "black";
 
         if (counter != 0) {
           tempChartData[counter]["hidden"] = true;
@@ -788,6 +803,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
         tempChartData[counter]["fill"] = false;
         tempChartData[counter]["pointRadius"] = 2;
+        tempChartData[counter]["pointBorderColor"] = "black";
 
         if (counter != 0) {
           tempChartData[counter]["hidden"] = true;
