@@ -13,16 +13,16 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public topicColours = {
     "Scotland": ["#FFF700", "#FAF43F"],
     "Ireland": ["#004806", "#1D5622"],
+    "Wales": ["#FF0000", "#FF3727"],
     "Brexit/EU": ["#6900FF", "#944DF9"],
     "Economy/Business": ["#9A5B00", "#9B6A23"],
-    "Healthcare/NHS": ["#00FF67", "#42FB8C"],
+    "Healthcare/NHS": ["#0D73B7", "#4588b5"],
     "Foreign Affairs": ["#FF00D4", "#FA42DB"],
     "Racism": ["#501919", "#532B2B"],
     "Environment/Climate Change": ["#2CFF01", "#63FF43"],
     "Law/Police": ["#000A37", "#0F1739"],
     "Education/Schools": ["#717600", "#71751B"],
-    "Immigration": ["#464346", "#867E86"],
-    "Wales": ["#FF0000", "#FF3727"]
+    "Immigration": ["#464346", "#867E86"]
   };
 
   public partyColours = {
@@ -36,7 +36,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "UKIP": ["#7300ff", "#ac6bfa"]
   };
 
-  public canvasWidth = 400
+  public canvasWidth = 500
   public needleValue = 100
   public centralLabel = ''
   public bottomLabel = ''
@@ -58,11 +58,17 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public biasChangeChartLabels: Array<any> = [];
 
   public biasChangeChartOptions: any = {
-    responsive: false,
+    responsive: true,
+    title: {
+      display: true,
+      text: "Change in party bias over time",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
     fill: false,
     scales: {
-      xAxes: [{ type: 'time', time: { unit: 'month' } }],
-      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: 0, max: 100 , } }, ]
+      xAxes: [{ type: 'time', time: { unit: 'month', scaleLabel: {display: true, fontStyle: 'italic', labelString: "Article Publish Date"}  } }],
+      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: 0, max: 100 , } , scaleLabel: {display: true, fontStyle: 'italic', labelString: "Bias Score"} }, ]
     }
   };
 
@@ -85,11 +91,28 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public topicOpinionChangeChartColors: Array<any> = [];
 
   public topicOpinionChangeChartOptions: any = {
-    responsive: false,
+    responsive: true,
     spanGaps: true,
+    title: {
+      display: true,
+      text: "Change in topic opinions over time",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    lineTension: 0,
     scales: {
-      xAxes: [{ type: 'time', time: { unit: 'month' } }],
-      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: -1, max: 1 , } }, ]
+      xAxes: [{ type: 'time', time: { unit: 'month' }, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Article Publish Date"} }],
+      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: -1, max: 1, callback: function(value) {
+        if (value == 1) { 
+          return value + " (Positive opinion)"; 
+        } else if (value == 0) {
+          return value + " (Neutral opinion)"; 
+        } else if (value == -1) {
+          return value + " (Negative opinion)"; 
+        } else {
+          return value.toFixed(1)
+        }
+      }}, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Topic Polarity"}  }, ]
     }
   };
 
@@ -108,11 +131,27 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public partyOpinionChangeChartColors: Array<any> = [];
 
   public partyOpinionChangeChartOptions: any = {
-    responsive: false,
+    responsive: true,
     spanGaps: true,
+    title: {
+      display: true,
+      text: "Change in party opinions over time",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
     scales: {
-      xAxes: [{ type: 'time', time: { unit: 'month' } }],
-      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: -1, max: 1 , } }, ]
+      xAxes: [{ type: 'time', time: { unit: 'month' }, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Article Publish Date"} }],
+      yAxes: [ { id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: -1, max: 1, callback: function(value) {
+        if (value == 1) { 
+          return value + " (Positive opinion)"; 
+        } else if (value == 0) {
+          return value + " (Neutral opinion)"; 
+        } else if (value == -1) {
+          return value + " (Negative opinion)"; 
+        } else {
+          return value.toFixed(1)
+        }
+      }}, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Topic Polarity"}  }, ]
     }
   };
 
@@ -121,14 +160,27 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public discussionChartColors: Array<any> = [];
 
   public discussionChartOptions: any = {
-    responsive: false
+    responsive: true,
+    title: {
+      display: true,
+      text: "Topic frequency in [NEWSPAPER_NAME]",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    }
   };
 
   public topicPopularityChartData: Array<any> = [];
   public topicPopularityChartLabels: Array<any> = [];
 
   public topicPopularityChartOptions: any = {
-    responsive: false,
+    responsive: true,
+    title: {
+      display: true,
+      text: "Topic popularity in [NEWSPAPER_NAME]",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    maintainAspectRatio: true,
     scale: {
       ticks: { min: 0, max: 100 , }
     }
@@ -140,7 +192,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     // if width is between 0 and 1 it will be set to the size of the upper element multiplied by the value 
     width: 1,
     height: 300,
-    overflow: true,
+    overflow: false,
   };
 
   public manifestoWordCloudData: CloudData[] = []; // Word cloud data object of manifestos
@@ -221,7 +273,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public currentParty;
 
-  public newspaperToPartyBiasScore = 0;
+  public newspaperToPartyBiasScore = 50;
 
   public dateToPartyBiasScore = {}; // filled with key: date and values: bias scores - to be plotted
   public dateToTopicScores = {}; // key: date, value: {} of key: topic, value: score
@@ -229,16 +281,36 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public metaInformation: string = "";
 
+  public startDate;
+  public endDate;
+
+  public analysedArticlesCount = 0;
+
   constructor(private _analysisParametersService: AnalysisParametersService) { }
 
   ngOnInit() {
     //this.needleValue = Math.floor(Math.random() * Math.floor(100));
-    this.needleValue = 69;
+    this.needleValue = 50;
 
     this.articles_information = "";
 
+    this.getMetadata();
     this.getPartiesInformation();
     this.getArticlesInformation();
+  }
+
+  getMetadata(){
+    try {
+      this.startDate = this._analysisParametersService.startDate._d;
+    } catch {
+      this.startDate = ""
+    }
+
+    try {
+      this.endDate = this._analysisParametersService.endDate._d;
+    } catch {
+      this.endDate = ""
+    }
   }
 
   getPartiesInformation() {
@@ -303,7 +375,6 @@ export class BiasAnalysisScreenComponent implements OnInit {
           this._analysisParametersService.lastEvaluatedKey = lastEvaluatedKey;
           this.getArticlesInformation();
         } else {
-          console.log(this.articles_information["articleInfo"])
           this.articles_information = this.articles_information["articleInfo"];
           this.analyseArticleInformation()
         }
@@ -343,6 +414,20 @@ export class BiasAnalysisScreenComponent implements OnInit {
   analyseArticleInformation(){
     this.articles_information.forEach( (article) => {
 
+      let articlePubDate = article["articlePubDate"];
+
+      if (articlePubDate != "NO INFO" && articlePubDate != ""){
+        if (!this.DateRangeCheck(articlePubDate)){
+          return;
+        }
+      } else{
+        if (this.startDate != "" && this.endDate != ""){
+          return;
+        }
+      }
+      
+      this.analysedArticlesCount++;
+
       let articlePartyBiasScore = 0 // current article's party bias score
 
       // Get the most likely topics, to display what topics the newspaper discusses the most
@@ -376,7 +461,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
               articlePartyBiasScore += 1 - difference
             } else if (this.partyTopicScores[split[0]] > 0 && headline_score < 0 || this.partyTopicScores[split[0]] < 0 && headline_score > 0){ // if different 
               let difference = Math.abs(this.partyTopicScores[split[0]] - headline_score)
-              articlePartyBiasScore -= difference * 10
+              articlePartyBiasScore -= difference 
             } else { // if both zero (i.e. neutral)
               articlePartyBiasScore += 1;
             }
@@ -395,15 +480,15 @@ export class BiasAnalysisScreenComponent implements OnInit {
           if (this.partyToOtherPartiesScores[split[0]]){
             if (this.partyToOtherPartiesScores[split[0]] < 0 && headline_score < 0 || this.partyToOtherPartiesScores[split[0]] > 0 && headline_score > 0){ // if same polarity
               let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - headline_score)
-              articlePartyBiasScore += 1 - difference
+              articlePartyBiasScore += 20 - (difference * 20)
             } else if (this.partyToOtherPartiesScores[split[0]] > 0 && headline_score < 0 || this.partyToOtherPartiesScores[split[0]] < 0 && headline_score > 0){ // if different 
               let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - headline_score)
-              articlePartyBiasScore -= difference * 10
+              articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 1;
+              articlePartyBiasScore += 20;
             }
           } else if (split[0] == this.currentParty) { // If the headline has an opinion about the party in question
-            articlePartyBiasScore += headline_score * 10
+            articlePartyBiasScore += headline_score * 20
           }
           this.overallPartyOpinions[split[0]] += headline_score;
         });
@@ -420,12 +505,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
           if (this.partyTopicScores[split[0]]){
             if (this.partyTopicScores[split[0]] < 0 && article_score < 0 || this.partyTopicScores[split[0]] > 0 && article_score > 0){ // if same polarity
               let difference = Math.abs(this.partyTopicScores[split[0]] - article_score)
-              articlePartyBiasScore += 1 - difference
+              articlePartyBiasScore += 20 - (difference * 20)
             } else if (this.partyTopicScores[split[0]] > 0 && article_score <= 0 || this.partyTopicScores[split[0]] <= 0 && article_score > 0){ // if different 
               let difference = Math.abs(this.partyTopicScores[split[0]] - article_score)
-              articlePartyBiasScore -= difference
+              articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 1;
+              articlePartyBiasScore += 20;
             }
           }
           this.overallTopicOpinions[split[0]] += article_score;
@@ -444,15 +529,15 @@ export class BiasAnalysisScreenComponent implements OnInit {
           if (this.partyToOtherPartiesScores[split[0]]){
             if (this.partyToOtherPartiesScores[split[0]] < 0 && article_score < 0 || this.partyToOtherPartiesScores[split[0]] > 0 && article_score > 0){ // if same polarity
               let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - article_score)
-              articlePartyBiasScore += 1 - difference
+              articlePartyBiasScore += 10 - (difference * 20)
             } else if (this.partyToOtherPartiesScores[split[0]] > 0 && article_score <= 0 || this.partyToOtherPartiesScores[split[0]] <= 0 && article_score > 0){ // if different 
               let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - article_score)
-              articlePartyBiasScore -= difference
+              articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 1;
+              articlePartyBiasScore += 20;
             }
           } else if (split[0] == this.currentParty){ // If the article has an opinion about the party in question
-            articlePartyBiasScore += article_score * 10;
+            articlePartyBiasScore += article_score * 20;
           }
           this.overallPartyOpinions[split[0]] += article_score;
           parties_to_sentiment[split[0]] = article_score;
@@ -491,14 +576,17 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
         });
       }
-        
-      articlePartyBiasScore = articlePartyBiasScore / 10;
+   
+      //console.log(articlePartyBiasScore)
       articlePartyBiasScore = +articlePartyBiasScore.toFixed(1);
-      articlePartyBiasScore = articlePartyBiasScore/2 + 50;
+      //let cumulative = articlePartyBiasScore / 100;
+      articlePartyBiasScore = 50 + articlePartyBiasScore
+ 
+      this.newspaperToPartyBiasScore += articlePartyBiasScore;//cumulative
 
-      this.newspaperToPartyBiasScore += articlePartyBiasScore
-
-      let articlePubDate = article["articlePubDate"];
+      //console.log(cumulative)
+      // console.log(this.newspaperToPartyBiasScore)
+      // console.log("---\n")
 
       if (articlePubDate != "NO INFO" && articlePubDate != ""){
         if (!this.dateToPartyBiasScore[articlePubDate]){
@@ -530,7 +618,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
     })
 
-    this.needleValue = this.newspaperToPartyBiasScore
+    this.needleValue = this.newspaperToPartyBiasScore / this.analysedArticlesCount
+    console.log(this.needleValue)
 
     this.plotBiasChangeGraph();
 
@@ -577,7 +666,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       data.push(sortedDatesAndScore[i][1]);
     }
     
-    tempChartData.push({data: data, label: label, fill: false});
+    tempChartData.push({data: data, label: label, fill: false, pointRadius : 2});
 
     this.biasChangeChartData = tempChartData;
     this.biasChangeChartLabels = tempChartLabels;
@@ -632,6 +721,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
         }
 
         tempChartData[counter]["fill"] = false;
+        tempChartData[counter]["pointRadius"] = 2;
 
         if (counter != 0) {
           tempChartData[counter]["hidden"] = true;
@@ -697,6 +787,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
         }
 
         tempChartData[counter]["fill"] = false;
+        tempChartData[counter]["pointRadius"] = 2;
 
         if (counter != 0) {
           tempChartData[counter]["hidden"] = true;
@@ -853,7 +944,19 @@ export class BiasAnalysisScreenComponent implements OnInit {
   }
 
   setMetaInfo(startDate, endDate){
-    this.metaInformation = String(this.articles_information.length) + " articles analysed, from " + startDate + " to " + endDate
+    if (this.startDate != ""){
+      startDate = new Date(this.startDate).toLocaleString("en-GB").split(",")[0];
+    } else {
+      startDate = new Date(startDate).toLocaleString("en-GB").split(",")[0]; 
+    }
+
+    if (this.endDate != ""){
+      endDate = new Date(this.endDate).toLocaleString("en-GB").split(",")[0];
+    } else {
+      endDate = new Date(endDate).toLocaleString("en-GB").split(",")[0]; 
+    }
+
+    this.metaInformation = String(this.analysedArticlesCount) + " articles analysed, from " + startDate + " to " + endDate
   }
 
   public DateComparator(a, b) {
@@ -862,6 +965,28 @@ export class BiasAnalysisScreenComponent implements OnInit {
     if (date1 < date2) return -1;
     if (date1 > date2) return 1;
     return 0;
+  }
+
+  public DateRangeCheck(current_date) {
+    let date = new Date(current_date);
+    let start = null
+    let end = null
+
+    if (this.startDate != ""){
+      start = new Date(this.startDate);
+    } 
+
+    if (this.endDate != ""){
+      end = new Date(this.endDate);
+    }
+
+    if (start == null || date >= start) {
+      if (end == null || date <= end) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AnalysisParametersService } from '../analysis-parameters.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 export interface FormSelectOption {
   value: string;
@@ -24,7 +25,7 @@ export class StartScreenComponent implements OnInit {
   ];
 
   politicalParties: FormSelectOption[] = [
-    {value: 'conservative', viewValue: "Conservative"},
+    {value: 'conservative', viewValue: "Conservatives"},
     {value: 'labour', viewValue: "Labour"},
     {value: 'lib_dem', viewValue: "Liberal Democrats"},
     {value: 'snp', viewValue: "Scottish National Party (SNP)"},
@@ -41,17 +42,16 @@ export class StartScreenComponent implements OnInit {
     {value: 'foreign', viewValue: "Foreign Affairs"},
     {value: 'racism', viewValue: "Racism"},
     {value: 'environment', viewValue: "Environment/Climate Change"},
-    {value: 'crime', viewValue: "Crime/Law"},
-    {value: 'schools', viewValue: "Education"},
+    {value: 'crime', viewValue: "Law/Police"},
+    {value: 'schools', viewValue: "Education/Schools"},
     {value: 'immigration', viewValue: "Immigration"},
-    {value: 'govt', viewValue: "Conservatives/Government"},
-    {value: 'labour', viewValue: "Labour Party"},
-    {value: 'lib_dem', viewValue: "Liberal Democrats"},
     {value: 'scotland', viewValue: "Scotland"},
     {value: 'wales', viewValue: "Wales"},
     {value: 'ireland', viewValue: "Ireland"},
-
   ];
+
+  startDate;
+  endDate;
 
   expansionPanelHeaderText = "";
   introText = "\nT\n";
@@ -87,6 +87,8 @@ export class StartScreenComponent implements OnInit {
   // send selected options to processing component
   beginAnalysis() {
     this.analysisParameters.analysisParameters = this.startScreenForm;
+    this.analysisParameters.startDate = this.startDate;
+    this.analysisParameters.endDate = this.endDate
   }
 
   get selectedNewspaper() { return this.startScreenForm.get('selectedNewspaper'); }
@@ -94,6 +96,14 @@ export class StartScreenComponent implements OnInit {
   get selectedTopics() { return this.startScreenForm.get('selectedTopics'); }
   get selectedStartDate() { return this.startScreenForm.get('selectedStartDate'); }
   get selectedEndDate() { return this.startScreenForm.get('selectedEndDate'); }
+
+  setStartDate(event: MatDatepickerInputEvent<Date>) {
+    this.startDate = event.value;
+  }
+
+  setEndDate(event: MatDatepickerInputEvent<Date>) {
+    this.endDate = event.value;
+  }
 
 }
  

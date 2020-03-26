@@ -1,23 +1,18 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4 gauge-align">
-            <rg-gauge-chart class="gauge-align"
-            [canvasWidth]="canvasWidth"
-            [needleValue]="needleValue"
-            [centralLabel]="centralLabel"
-            [options]="options"
-            [bottomLabel]="bottomLabel"></rg-gauge-chart>
-        </div>
-        <div class="col-sm-4"></div>
+<div class="container-fluid" style="overflow-x: hidden;">
+    <div class="row justify-content-center">
+        <rg-gauge-chart
+        [canvasWidth]="canvasWidth"
+        [needleValue]="needleValue"
+        [centralLabel]="centralLabel"
+        [options]="options"
+        [bottomLabel]="bottomLabel"></rg-gauge-chart>
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row">
         <div class="col-sm-3">
         </div>
         <div class="col-sm-6 text-center">
-            <h3 class="mb-3">Change in party bias over time</h3>
-            <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
+            <canvas style="position: relative" mdbChart
                 [chartType]="lineChart"
                 [datasets]="biasChangeChartData"
                 [labels]="biasChangeChartLabels"
@@ -30,9 +25,10 @@
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row">
-        <div class="col-sm-6 text-center">
-            <h3 class="mb-3">Change in topic opinions over time</h3>
-            <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
+        <div class="col-sm-1 text-center">
+        </div>
+        <div class="col-sm-5 text-center">
+            <canvas class="mr-3" height="200" style="display: block; height: 200px;" mdbChart
                 [chartType]="lineChart"
                 [datasets]="topicOpinionChangeChartData"
                 [labels]="topicOpinionChangeChartLabels"
@@ -41,9 +37,8 @@
                 [legend]="true">
             </canvas>
         </div>
-        <div class="col-sm-6 text-center">
-            <h3 class="mb-3">Change in party opinions over time</h3>
-            <canvas class="ml-5" width="600" height="550" style="display: block; height: 220px; width: 382px;" mdbChart
+        <div class="col-sm-5 text-center">
+            <canvas class="ml-3" height="200" style="display: block; height: 200px;" mdbChart
                 [chartType]="lineChart"
                 [datasets]="partyOpinionChangeChartData"
                 [labels]="partyOpinionChangeChartLabels"
@@ -52,12 +47,14 @@
                 [legend]="true">
             </canvas>
         </div>
+        <div class="col-sm-1 text-center">
+        </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
+    <!--Two dougnut charts extra TODO - POS/NEG/NEU TOPICS AND POS/NEG/NEU PARTY OPINIONS (NUMBERS)-->
     <div class="row pt-3">
         <div class="col-sm-6 text-center">
-            <h3 class="mr-2">Topic frequency in [NEWSPAPER_NAME]</h3>
-            <canvas class="ml-5" width="600" height="350" style="display: block; height: 220px; width: 382px;" mdbChart
+            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
                 [chartType]="doughnutChart"
                 [datasets]="discussionChartData"
                 [labels]="discussionChartLabels"
@@ -65,10 +62,9 @@
                 [options]="discussionChartOptions"
                 [legend]="true">
             </canvas>
-        </div>            
+        </div>             
         <div class="col-sm-6 text-center">
-            <h3 class="mr-2">Topic popularity in [NEWSPAPER_NAME]</h3>
-            <canvas class="ml-5" width="600" height="350" style="display: block; height: 220px; width: 382px;" mdbChart
+            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
                 [chartType]="radarChart"
                 [datasets]="topicPopularityChartData"
                 [labels]="topicPopularityChartLabels"

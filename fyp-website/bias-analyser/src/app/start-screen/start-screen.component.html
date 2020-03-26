@@ -65,7 +65,7 @@
                         <div class="col-sm-6 text-center">
                             <mat-form-field>
                                 <mat-label>Select start date <em>(Optional)</em></mat-label>
-                                <input matInput [matDatepicker]="startDatePicker">
+                                <input matInput [matDatepicker]="startDatePicker" (dateInput)="setStartDate($event)" (dateChange)="setStartDate($event)">
                                 <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #startDatePicker></mat-datepicker>
                             </mat-form-field>
@@ -73,7 +73,7 @@
                         <div class="col-sm-6 text-center">
                             <mat-form-field>
                                 <mat-label>Select end date <em>(Optional)</em></mat-label>
-                                <input matInput [matDatepicker]="endDatePicker">
+                                <input matInput [matDatepicker]="endDatePicker" (dateInput)="setEndDate($event)" (dateChange)="setEndDate($event)">
                                 <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #endDatePicker></mat-datepicker>
                             </mat-form-field>

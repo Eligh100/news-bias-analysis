@@ -3,3 +3,6 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+h1 {font-family: Roboto, "Helvetica Neue", "Helvetica", "Arial", san-serif; color: #666; font-style: 'bold';}
+h3 {font-family: Roboto, "Helvetica Neue", "Helvetica", "Arial", san-serif; color: #666; font-style: 'bold';}
+h4 {font-family: Roboto, "Helvetica Neue", "Helvetica", "Arial", san-serif; color: #666; font-style: 'bold';}

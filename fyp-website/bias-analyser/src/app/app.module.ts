@@ -22,6 +22,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ChartsModule } from 'angular-bootstrap-md';
 
 import { HttpClientModule }    from '@angular/common/http';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { HttpClientModule }    from '@angular/common/http';
     TagCloudModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'en_GB'},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
