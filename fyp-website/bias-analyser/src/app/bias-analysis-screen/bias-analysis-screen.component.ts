@@ -51,6 +51,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
   }
 
   public lineChart: string = "line";
+  public barChart: string = "bar";
   public doughnutChart: string = "doughnut";
   public radarChart: string = "radar";
 
@@ -74,18 +75,18 @@ export class BiasAnalysisScreenComponent implements OnInit {
   };
 
   public topicOpinionChangeChartData: Array<any> = [
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] },
-    { data: [] }
+    { data: [], label: 'Scotland' },
+    { data: [], label: 'Ireland' },
+    { data: [], label: 'Wales' },
+    { data: [], label: 'Brexit/EU' },
+    { data: [], label: 'Economy/Business' },
+    { data: [], label: 'Healthcare/NHS' },
+    { data: [], label: 'Foreign Affairs' },
+    { data: [], label: 'Racism' },
+    { data: [], label: 'Environment/Climate Change' },
+    { data: [], label: 'Law/Police' },
+    { data: [], label: 'Education/Schools' },
+    { data: [], label: 'Immigration' }
   ];
 
   public topicOpinionChangeChartLabels: Array<any> = [];
@@ -170,22 +171,31 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
   };
 
-  public topicPopularityChartData: Array<any> = [];
-  public topicPopularityChartLabels: Array<any> = [];
-  public topicPopularityChartColors: Array<any> = [];
+  public topicPolarityComparisonChartData: Array<any> = [];
+  public topicPolarityComparisonChartLabels: Array<any> = [];
+  public topicPolarityComparisonChartColors: Array<any> = [];
 
-  public topicPopularityChartOptions: any = {
+  public topicPolarityComparisonChartOptions: any = {
     responsive: true,
     title: {
       display: true,
-      text: "Topics polarity in [NEWSPAPER_NAME]",
+      text: "Topics opinions comparison",
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
     },
     maintainAspectRatio: true,
-    scale: {
-      ticks: { min: -1, max: 1 , }
-    }
+    xAxes: [{ scaleLabel: {display: true, fontStyle: 'italic', labelString: "Topic"} }],
+    yAxes: [ { id: 'y-axis-1', position: 'left', ticks: { min: -1, max: 1, callback: function(value) {
+      if (value == 1) { 
+        return value + " (Positive opinion)"; 
+      } else if (value == 0) {
+        return value + " (Neutral opinion)"; 
+      } else if (value == -1) {
+        return value + " (Negative opinion)"; 
+      } else {
+        return value.toFixed(1)
+      }
+    }}, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Topic Polarity"}  }, ]
   };
 
   public partyDiscussionChartData: Array<any> = [{}];
@@ -681,7 +691,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.plotPartyChangeGraph();
 
     this.constructDiscussedTopicsDoughnut();
-    this.constructTopicsPopularityDoughnut();
+    this.constructTopicOpinionComparisonGraph();
 
     this.constructDiscussedPartiesDoughnut();
     this.constructPartiesPopularityDoughnut();
@@ -777,7 +787,6 @@ export class BiasAnalysisScreenComponent implements OnInit {
           tempChartData[counter]["data"].push(null)
         }
 
-        tempChartData[counter]["label"] = topic;
         tempChartData[counter]["fill"] = false;
         tempChartData[counter]["pointRadius"] = 2;
         tempChartData[counter]["pointBorderColor"] = "black";
@@ -913,49 +922,62 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
-  constructTopicsPopularityDoughnut() {
-    let data = [];
-    let label = "Newspaper's opinions on topics";
-    let colours = [];
-
+  constructTopicOpinionComparisonGraph() {
     let tempData = [];
-    let radarLabels = [];
+    let labels = [];
+    let colours = ["#8c8c8c", this.partyColours[this.currentParty][0]];
 
-    for (let key in this.overallTopicOpinions) {
-      if (key != "NO INFO" && key != "" && key != undefined){
-        let value = this.overallTopicOpinions[key][0];
-        value = (value / this.overallTopicOpinions[key][1]).toFixed(3);
+    let newspaperData = [];
+    let newspaperLabel = this.currentNewspaper + this.GrammarChecker() + " opinion on topics";
 
-        if (value > 1) {
-          value = 1
-        } else if (value < -1){
-          value = -1
+    let partyData = [];
+    let partyLabel = this.currentParty + this.GrammarChecker() + " opinion on topics";
+
+    for (let key in this.topicColours) {
+      let value;
+
+      // First, get newspaper's average polarity on topic
+      if (this.overallTopicOpinions[key]){
+        if (this.overallTopicOpinions[key][1] != 0) {
+          value = this.overallTopicOpinions[key][0];
+          value = (value / this.overallTopicOpinions[key][1]).toFixed(3); // Get average polarity score for topic
+        } else {
+          value = 0;
         }
-
-        // if (value < 0) {
-        //   value = Math.abs(value)
-        //   value = value / 2
-        //   value = 0 + (value * 100)
-        // } else if (value > 0) {
-        //   value = Math.abs(value)
-        //   value = value / 2
-        //   value = 50 + (value * 100)
-        // } else {
-        //   value = 50;
-        // }
-
-        data.push(value)
-        radarLabels.push(key)
-        colours.push(this.topicColours[key][0])
+      } else {
+        value = 0;
       }
+
+      console.log(value)
+
+      if (value > 1) {
+        value = 1;
+      } else if (value < -1){
+        value = -1;
+      }
+
+      newspaperData.push(value);
+
+      // Then, get party's polarity on topic
+      if (this.partyTopicScores[key]){
+        value = this.partyTopicScores[key]
+      } else {
+        value = 0;
+      }
+
+      partyData.push(value);
+
+      // Add the topic for our X-axis
+      labels.push(key);
     }
 
-    tempData.push({data: data, label: label, pointBackgroundColor: colours, borderColor: "#878787", radius: 6, pointRadius: 6, pointBorderColor: "black" });
-    
-    this.topicPopularityChartData = tempData;
-    this.topicPopularityChartLabels = radarLabels;
-    this.topicPopularityChartColors = colours;
-    this.topicPopularityChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " overall average topic opinions";
+    tempData.push({data: newspaperData, label: newspaperLabel, backgroundColor: "#8c8c8c", borderColor: "#696969" });
+    tempData.push({data: partyData, label: partyLabel, backgroundColor: this.partyColours[this.currentParty][1], borderColor: this.partyColours[this.currentParty][0] });
+
+    this.topicPolarityComparisonChartData = tempData;
+    this.topicPolarityComparisonChartLabels = labels;
+    this.topicPolarityComparisonChartColors = colours;
+    this.topicPolarityComparisonChartOptions["title"]["text"] = this.currentNewspaper + " and " + this.currentParty + this.GrammarChecker() + " opinions about topics";
 
   }
 

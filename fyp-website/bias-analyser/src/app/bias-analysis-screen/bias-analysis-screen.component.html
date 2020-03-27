@@ -25,6 +25,44 @@
         </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
+    <div class="row pt-3">
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-6 text-center">
+            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+            [chartType]="barChart"
+            [datasets]="topicPolarityComparisonChartData"
+            [labels]="topicPolarityComparisonChartLabels"
+            [colors]="topicPolarityComparisonChartColors"
+            [options]="topicPolarityComparisonChartOptions"
+            [legend]="true">
+        </canvas>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row pt-3">
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-6 text-center">
+            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+            [chartType]="barChart"
+            [datasets]="partyPolarityComparisonChartData"
+            [labels]="partyPolarityComparisonChartLabels"
+            [colors]="partyPolarityComparisonChartColors"
+            [options]="partyPolarityComparisonChartOptions"
+            [legend]="true">
+        </canvas>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <mat-divider class="my-3"></mat-divider>
     <div class="row">
         <div class="col-sm-1 text-center">
         </div>
@@ -52,7 +90,6 @@
         </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
-    <!--First row: Line chart of change in topic opinion for articles, then average article topic opinions next to chosen party opinions on same topics (grouped bar chart)-->
     <!--Second row: Line chart of change in party opinion for articles, then average article party opinions next to chosen party opinions on same parties (remove itself) (grouped bar chart)-->
     <!--Third row: (SWITCH) Bar chart of POS/NEG/NEU topic frequency, then doughnut chart of topic discussion frequency-->
     <!--Fourth row: (SWITCH) Bar chart of POS/NEG/NEU party frequency, then doughnut chart of party discussion frequency-->
@@ -69,34 +106,11 @@
         </div>             
         <div class="col-sm-6 text-center">
             <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
-                [chartType]="radarChart"
-                [datasets]="topicPopularityChartData"
-                [labels]="topicPopularityChartLabels"
-                [colors]="topicPopularityChartColors"
-                [options]="topicPopularityChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row pt-3">
-        <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
                 [chartType]="doughnutChart"
                 [datasets]="partyDiscussionChartData"
                 [labels]="partyDiscussionChartLabels"
                 [colors]="partyDiscussionChartColors"
                 [options]="partyDiscussionChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>             
-        <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
-                [chartType]="radarChart"
-                [datasets]="partyPopularityChartData"
-                [labels]="partyPopularityChartLabels"
-                [colors]="partyPopularityChartColors"
-                [options]="partyPopularityChartOptions"
                 [legend]="true">
             </canvas>
         </div>
