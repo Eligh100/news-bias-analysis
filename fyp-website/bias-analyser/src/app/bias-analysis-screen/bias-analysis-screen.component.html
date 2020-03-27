@@ -52,6 +52,7 @@
     </div>
     <mat-divider class="my-3"></mat-divider>
     <!--Two dougnut charts extra TODO - POS/NEG/NEU TOPICS AND POS/NEG/NEU PARTY OPINIONS (NUMBERS)-->
+     <!--Two dougnut charts extra TODO - Party frequency and party popularity-->
     <div class="row pt-3">
         <div class="col-sm-6 text-center">
             <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
@@ -68,6 +69,7 @@
                 [chartType]="radarChart"
                 [datasets]="topicPopularityChartData"
                 [labels]="topicPopularityChartLabels"
+                [colors]="topicPopularityChartColors"
                 [options]="topicPopularityChartOptions"
                 [legend]="true">
             </canvas>
@@ -75,7 +77,26 @@
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row pt-3">
-        
+        <div class="col-sm-6 text-center">
+            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+                [chartType]="doughnutChart"
+                [datasets]="partyDiscussionChartData"
+                [labels]="partyDiscussionChartLabels"
+                [colors]="partyDiscussionChartColors"
+                [options]="partyDiscussionChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>             
+        <div class="col-sm-6 text-center">
+            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+                [chartType]="radarChart"
+                [datasets]="partyPopularityChartData"
+                [labels]="partyPopularityChartLabels"
+                [colors]="partyPopularityChartColors"
+                [options]="partyPopularityChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row">

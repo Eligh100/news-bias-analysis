@@ -15,14 +15,14 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Ireland": ["#004806", "#1D5622"],
     "Wales": ["#FF0000", "#FF3727"],
     "Brexit/EU": ["#6900FF", "#944DF9"],
-    "Economy/Business": ["#9A5B00", "#9B6A23"],
+    "Economy/Business": ["#d19134", "#d4ab70"],
     "Healthcare/NHS": ["#0D73B7", "#4588b5"],
     "Foreign Affairs": ["#FF00D4", "#FA42DB"],
-    "Racism": ["#501919", "#532B2B"],
+    "Racism": ["#a37968", "#ebb098"],
     "Environment/Climate Change": ["#2CFF01", "#63FF43"],
     "Law/Police": ["#000A37", "#0F1739"],
-    "Education/Schools": ["#717600", "#71751B"],
-    "Immigration": ["#464346", "#867E86"]
+    "Education/Schools": ["#70fff1", "#befaf4"],
+    "Immigration": ["#ff5500", "#f7996a"]
   };
 
   public partyColours = {
@@ -163,7 +163,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     responsive: true,
     title: {
       display: true,
-      text: "Topic frequency in [NEWSPAPER_NAME]",
+      text: "Topic discussion frequency in [NEWSPAPER_NAME]",
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
     }
@@ -171,12 +171,45 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public topicPopularityChartData: Array<any> = [];
   public topicPopularityChartLabels: Array<any> = [];
+  public topicPopularityChartColors: Array<any> = [];
 
   public topicPopularityChartOptions: any = {
     responsive: true,
     title: {
       display: true,
-      text: "Topic popularity in [NEWSPAPER_NAME]",
+      text: "Topics polarity in [NEWSPAPER_NAME]",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    maintainAspectRatio: true,
+    scale: {
+      ticks: { min: 0, max: 100 , }
+    }
+  };
+
+  public partyDiscussionChartData: Array<any> = [{}];
+  public partyDiscussionChartLabels: Array<any> = [];
+  public partyDiscussionChartColors: Array<any> = [];
+
+  public partyDiscussionChartOptions: any = {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Party discussion frequency in [NEWSPAPER_NAME]",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    }
+  };
+
+  public partyPopularityChartData: Array<any> = [];
+  public partyPopularityChartLabels: Array<any> = [];
+  public partyPopularityChartColors: Array<any> = [];
+
+  public partyPopularityChartOptions: any = {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Parties polarity in [NEWSPAPER_NAME]",
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
     },
@@ -643,6 +676,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.constructDiscussedTopicsDoughnut();
     this.constructTopicsPopularityDoughnut();
 
+    this.constructDiscussedPartiesDoughnut();
+    this.constructPartiesPopularityDoughnut();
+
     this.constructManifestoWordCloud();
     this.constructArticlesWordCloud();
   }
@@ -850,7 +886,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
     }
 
-    tempDoughnutData.push({data: doughnutData, label: "Topic frequency over all articles"})
+    tempDoughnutData.push({data: doughnutData, label: "Topic discussion frequency over all articles"})
 
     tempColours.push(
       {
@@ -869,6 +905,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
   constructTopicsPopularityDoughnut() {
     let data = [];
     let label = "Newspaper's opinions on topics";
+    let colours = [];
 
     let tempData = [];
     let radarLabels = [];
@@ -896,14 +933,104 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
         data.push(value)
         radarLabels.push(key)
+        colours.push(this.topicColours[key][0])
       }
     }
 
-    tempData.push({data: data, label: label});
+    tempData.push({data: data, label: label, pointBackgroundColor: colours, borderColor: "#878787", radius: 6, pointRadius: 6, pointBorderColor: "black" });
     
     this.topicPopularityChartData = tempData;
     this.topicPopularityChartLabels = radarLabels;
+    this.topicPopularityChartColors = colours;
   }
+
+  constructDiscussedPartiesDoughnut() {
+    let tempDoughnutData = [];
+    let doughnutData = [];
+
+    let doughnutLabels = [];
+
+    let tempColours = [];
+    let doughnutMainColours = [];
+    let doughnutHoverColours = [];
+
+    for (let key in this.mostDiscussedArticleParties) {
+      if (key != "NO INFO" && key != "undefined"){
+        doughnutLabels.push(key);
+
+        let value = this.mostDiscussedArticleParties[key];
+        doughnutData.push(value);
+
+        try{
+          doughnutMainColours.push(this.partyColours[key][0])
+          doughnutHoverColours.push(this.partyColours[key][1])
+        }
+        catch {
+          doughnutLabels.pop();
+          doughnutData.pop();
+          continue;
+        }
+      }
+    }
+
+    tempDoughnutData.push({data: doughnutData, label: "Party discussion frequency over all articles"})
+
+    tempColours.push(
+      {
+        backgroundColor: doughnutMainColours,
+        hoverBackgroundColor: doughnutHoverColours,
+        borderWidth: 2,
+      }
+    )
+
+    this.partyDiscussionChartData = tempDoughnutData;
+    this.partyDiscussionChartLabels = doughnutLabels;
+    this.partyDiscussionChartColors = tempColours;
+
+  }
+
+  constructPartiesPopularityDoughnut() {
+    let data = [];
+    let label = "Newspaper's opinions on parties";
+    let colours = [];
+
+    let tempData = [];
+    let radarLabels = [];
+
+    for (let key in this.overallPartyOpinions) {
+      if (key != "NO INFO" && key != "" && key != undefined){
+        let value = this.overallPartyOpinions[key];
+        if (value > 1) {
+          value = 1
+        } else if (value < -1){
+          value = -1
+        }
+
+        if (value < 0) {
+          value = Math.abs(value)
+          value = value / 2
+          value = 0 + (value * 100)
+        } else if (value > 0) {
+          value = Math.abs(value)
+          value = value / 2
+          value = 50 + (value * 100)
+        } else {
+          value = 50;
+        }
+
+        data.push(value)
+        radarLabels.push(key)
+        colours.push(this.partyColours[key][0])
+      }
+    }
+
+    tempData.push({data: data, label: label, pointBackgroundColor: colours, borderColor: "#878787", radius: 6, pointRadius: 6, pointBorderColor: "black" });
+    
+    this.partyPopularityChartData = tempData;
+    this.partyPopularityChartLabels = radarLabels;
+    this.partyPopularityChartColors = colours;
+  }
+
 
   constructManifestoWordCloud() {
     let tempData: CloudData[] = [];
@@ -985,20 +1112,25 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public DateRangeCheck(current_date) {
     let date = new Date(current_date);
+
+    let absolute_min = new Date(2019, 7, 22);
     let start = null
     let end = null
 
-    if (this.startDate != ""){
-      start = new Date(this.startDate);
-    } 
+    if (date >= absolute_min){
 
-    if (this.endDate != ""){
-      end = new Date(this.endDate);
-    }
+      if (this.startDate != ""){
+        start = new Date(this.startDate);
+      } 
 
-    if (start == null || date >= start) {
-      if (end == null || date <= end) {
-        return true;
+      if (this.endDate != ""){
+        end = new Date(this.endDate);
+      }
+
+      if (start == null || date >= start) {
+        if (end == null || date <= end) {
+          return true;
+        }
       }
     }
 
