@@ -104,6 +104,17 @@ export class StartScreenComponent implements OnInit {
   // send selected options to processing component
   beginAnalysis() {
     this.analysisParameters.analysisParameters = this.startScreenForm;
+
+    let newspaperViewValue = "";
+    for (let i = 0; i < this.newspapers.length; i++) {
+      if (this.newspapers[i]["value"] == this.startScreenForm.get('selectedNewspaper').value) {
+        newspaperViewValue = this.newspapers[i]["viewValue"];
+        break;
+      }
+    }
+  
+    this.analysisParameters.currentNewspaper = newspaperViewValue
+
     this.analysisParameters.startDate = this.startDate;
     this.analysisParameters.endDate = this.endDate
   }

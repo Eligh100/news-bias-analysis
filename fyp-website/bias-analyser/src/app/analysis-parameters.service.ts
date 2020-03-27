@@ -12,6 +12,8 @@ export class AnalysisParametersService {
   startDate;
   endDate;
 
+  currentNewspaper = "";
+
   lastEvaluatedKey: String = "";
 
   apiURLs = {

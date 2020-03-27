@@ -56,6 +56,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public biasChangeChartData: Array<any> = [{}];
   public biasChangeChartLabels: Array<any> = [];
+  public biasChangeChartColors: Array<any> = [];
 
   public biasChangeChartOptions: any = {
     responsive: true,
@@ -73,18 +74,18 @@ export class BiasAnalysisScreenComponent implements OnInit {
   };
 
   public topicOpinionChangeChartData: Array<any> = [
-    { data: [], label: 'Scotland' },
-    { data: [], label: 'Ireland' },
-    { data: [], label: 'Wales' },
-    { data: [], label: 'Brexit/EU' },
-    { data: [], label: 'Economy/Business' },
-    { data: [], label: 'Healthcare/NHS' },
-    { data: [], label: 'Foreign Affairs' },
-    { data: [], label: 'Racism' },
-    { data: [], label: 'Environment/Climate Change' },
-    { data: [], label: 'Law/Police' },
-    { data: [], label: 'Education/Schools' },
-    { data: [], label: 'Immigration' }
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] },
+    { data: [] }
   ];
 
   public topicOpinionChangeChartLabels: Array<any> = [];
@@ -305,6 +306,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
   }
 
   public currentParty;
+  public currentNewspaper;
 
   public newspaperToPartyBiasScore = 50;
 
@@ -445,6 +447,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
   }
 
   analyseArticleInformation(){
+    this.currentNewspaper = this._analysisParametersService.currentNewspaper;
+
     this.articles_information.forEach( (article) => {
 
       let articlePubDate = article["articlePubDate"];
@@ -531,7 +535,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
       let article_topic_sentiments = article["articleTopicSentiments"]
       if (article_topic_sentiments != "NO INFO") {
-        article_topic_sentiments.split(", ").forEach(element => {
+        article_topic_sentiments.split(", ").forEach(element => { // TODO FIX THIS MESS
           let split = element.split(" = ");
           let article_score = +(split[1])
           article_score = +article_score.toFixed(2)
@@ -610,9 +614,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
         });
       }
    
-      //console.log(articlePartyBiasScore)
       articlePartyBiasScore = +articlePartyBiasScore.toFixed(1);
-      //let cumulative = articlePartyBiasScore / 100;
       articlePartyBiasScore = 50 + articlePartyBiasScore
 
       if (articlePartyBiasScore < 0) {
@@ -621,11 +623,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
         articlePartyBiasScore = 100;
       }
  
-      this.newspaperToPartyBiasScore += articlePartyBiasScore;//cumulative
-
-      //console.log(cumulative)
-      // console.log(this.newspaperToPartyBiasScore)
-      // console.log("---\n")
+      this.newspaperToPartyBiasScore += articlePartyBiasScore;
 
       if (articlePubDate != "NO INFO" && articlePubDate != ""){
         if (!this.dateToPartyBiasScore[articlePubDate]){
@@ -685,7 +683,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   plotBiasChangeGraph() {
     let data = [];
-    let label = "Party bias change over time";
+    let label = this.currentNewspaper + this.GrammarChecker() + " bias score towards " + this.currentParty;
 
     let tempChartData = []
     let tempChartLabels = []
@@ -713,22 +711,23 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     for (let i = 0; i < sortedDatesAndScore.length; i++) {
       tempChartLabels.push(sortedDatesAndScore[i][0]);
-      data.push(sortedDatesAndScore[i][1]);
+      data.push(sortedDatesAndScore[i][1].toFixed(3));
     }
     
-    tempChartData.push({data: data, label: label, fill: false, pointRadius : 2, pointBorderColor: "black"});
+    tempChartData.push({data: data, label: label, fill: false, backgroundColor: this.partyColours[this.currentParty][0], borderColor: this.partyColours[this.currentParty][1], pointRadius : 2, pointBorderColor: "black"});
 
     this.biasChangeChartData = tempChartData;
     this.biasChangeChartLabels = tempChartLabels;
+    this.biasChangeChartColors = this.partyColours[this.currentParty][0];
+
+    this.biasChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " change in bias towards " + this.currentParty;
 
   }
 
   plotTopicChangeGraph() {
-    let data = [];
-    let label = "[Newspaper] topic opinions change over time";
 
     let tempChartData = this.topicOpinionChangeChartData;
-    let tempChartLabels = []
+    let tempChartLabels = [];
     let tempColours = []
 
     let sortedDatesAndTopicScoreDict = [];
@@ -746,12 +745,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
       let date = sortedDatesAndTopicScoreDict[i][0];
       let topicScoreDict = sortedDatesAndTopicScoreDict[i][1];
 
-      tempChartLabels.push(date);
-      
+      tempChartLabels.push(date)
+
       let counter = 0
       for (let topic in this.topicColours) {
         if (topicScoreDict[topic]){ // if any articles from this date DO mention x topic
-
           let scores = topicScoreDict[topic];
           let total = 0;
           for (let i = 0; i < scores.length; i++){
@@ -765,11 +763,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           let average = total / scores.length
 
-          tempChartData[counter]["data"].push(average)
+          tempChartData[counter]["data"].push({"x": date, "y": average.toFixed(3)})
         } else { // if any articles from this date DON'T mention x topic
           tempChartData[counter]["data"].push(null)
         }
 
+        tempChartData[counter]["label"] = topic;
         tempChartData[counter]["fill"] = false;
         tempChartData[counter]["pointRadius"] = 2;
         tempChartData[counter]["pointBorderColor"] = "black";
@@ -813,7 +812,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       let date = sortedDatesAndPartyScoreDict[i][0];
       let partyScoreDict = sortedDatesAndPartyScoreDict[i][1];
 
-      tempChartLabels.push(date);
+      tempChartLabels.push(date)
       
       let counter = 0
       for (let party in this.partyColours) {
@@ -832,7 +831,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           let average = total / scores.length
 
-          tempChartData[counter]["data"].push(average)
+          tempChartData[counter]["data"].push({"x": date, "y": average.toFixed(3)})
         } else { // if any articles from this date DON'T mention x topic
           tempChartData[counter]["data"].push(null)
         }
@@ -1135,6 +1134,14 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
 
     return false;
+  }
+
+  public GrammarChecker(){
+    if (this.currentNewspaper[this.currentNewspaper.length-1] == "s") {
+      return "'";
+    } else {
+      return "'s";
+    }
   }
 
 }
