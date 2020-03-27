@@ -490,21 +490,22 @@ export class BiasAnalysisScreenComponent implements OnInit {
       if (headline_topic_sentiments != "NO INFO"){
         headline_topic_sentiments.split(", ").forEach(element => {
           let split = element.split(" = ");
+          let topic = split[0]
           let headline_score = +(split[1])
           headline_score = +headline_score.toFixed(2)
-          if (this.partyTopicScores[split[0]]){
-            if (this.partyTopicScores[split[0]] < 0 && headline_score < 0 || this.partyTopicScores[split[0]] > 0 && headline_score > 0){ // if same polarity
-              let difference = Math.abs(this.partyTopicScores[split[0]] - headline_score)
-              articlePartyBiasScore += 1 - difference
-            } else if (this.partyTopicScores[split[0]] > 0 && headline_score < 0 || this.partyTopicScores[split[0]] < 0 && headline_score > 0){ // if different 
-              let difference = Math.abs(this.partyTopicScores[split[0]] - headline_score)
-              articlePartyBiasScore -= difference 
+          if (this.partyTopicScores[topic]){ // If the party has an opinion about the topic (from our database)
+            if (this.partyTopicScores[topic] < 0 && headline_score < 0 || this.partyTopicScores[topic] > 0 && headline_score > 0){ // if same polarity
+              let difference = Math.abs(this.partyTopicScores[topic] - headline_score)
+              articlePartyBiasScore += 20 - (difference * 20)
+            } else if (this.partyTopicScores[topic] > 0 && headline_score < 0 || this.partyTopicScores[topic] < 0 && headline_score > 0){ // if different 
+              let difference = Math.abs(this.partyTopicScores[topic] - headline_score)
+              articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 1;
+              articlePartyBiasScore += 20;
             }
           }
-          this.overallTopicOpinions[split[0]][0] += headline_score;
-          this.overallTopicOpinions[split[0]][1] += 1;
+          this.overallTopicOpinions[topic][0] += headline_score;
+          this.overallTopicOpinions[topic][1] += 1;
         });
       }
 
@@ -513,24 +514,25 @@ export class BiasAnalysisScreenComponent implements OnInit {
       if (headline_party_sentiments != "NO INFO"){
         headline_party_sentiments.split(", ").forEach(element => {
           let split = element.split(" = ");
+          let party = split[0]
           let headline_score = +(split[1])
           headline_score = +headline_score.toFixed(2)
-          if (this.partyToOtherPartiesScores[split[0]]){
-            if (this.partyToOtherPartiesScores[split[0]] < 0 && headline_score < 0 || this.partyToOtherPartiesScores[split[0]] > 0 && headline_score > 0){ // if same polarity
-              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - headline_score)
+          if (this.partyToOtherPartiesScores[party]){ // If the party has an opinion about another party (from our database)
+            if (this.partyToOtherPartiesScores[party] < 0 && headline_score < 0 || this.partyToOtherPartiesScores[party] > 0 && headline_score > 0){ // if same polarity
+              let difference = Math.abs(this.partyToOtherPartiesScores[party] - headline_score)
               articlePartyBiasScore += 20 - (difference * 20)
-            } else if (this.partyToOtherPartiesScores[split[0]] > 0 && headline_score < 0 || this.partyToOtherPartiesScores[split[0]] < 0 && headline_score > 0){ // if different 
-              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - headline_score)
+            } else if (this.partyToOtherPartiesScores[party] > 0 && headline_score < 0 || this.partyToOtherPartiesScores[party] < 0 && headline_score > 0){ // if different 
+              let difference = Math.abs(this.partyToOtherPartiesScores[party] - headline_score)
               articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
               articlePartyBiasScore += 20;
             }
-          } else if (split[0] == this.currentParty) { // If the headline has an opinion about the party in question
+          } else if (party == this.currentParty) { // If the headline has an opinion about the party in question
             articlePartyBiasScore += headline_score * 20
           }
-          this.overallPartyOpinions[split[0]][0] += headline_score;
-          this.overallPartyOpinions[split[0]][1] += 1;
-          //parties_to_sentiment[split[0]] = headline_score; // TODO add this back? figure out how to?
+          this.overallPartyOpinions[party][0] += headline_score;
+          this.overallPartyOpinions[party][1] += 1;
+          //parties_to_sentiment[party] = headline_score; // TODO add this back? figure out how to?
         });
       }
 
@@ -538,24 +540,25 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
       let article_topic_sentiments = article["articleTopicSentiments"]
       if (article_topic_sentiments != "NO INFO") {
-        article_topic_sentiments.split(", ").forEach(element => { // TODO FIX THIS MESS
+        article_topic_sentiments.split(", ").forEach(element => { // TODO consider reworking
           let split = element.split(" = ");
+          let topic = split[0]
           let article_score = +(split[1])
           article_score = +article_score.toFixed(2)
-          if (this.partyTopicScores[split[0]]){
-            if (this.partyTopicScores[split[0]] < 0 && article_score < 0 || this.partyTopicScores[split[0]] > 0 && article_score > 0){ // if same polarity
-              let difference = Math.abs(this.partyTopicScores[split[0]] - article_score)
+          if (this.partyTopicScores[topic]){ // If the party has an opinion about the topic (from our database)
+            if (this.partyTopicScores[topic] < 0 && article_score < 0 || this.partyTopicScores[topic] > 0 && article_score > 0){ // if same polarity
+              let difference = Math.abs(this.partyTopicScores[topic] - article_score)
               articlePartyBiasScore += 20 - (difference * 20)
-            } else if (this.partyTopicScores[split[0]] > 0 && article_score <= 0 || this.partyTopicScores[split[0]] <= 0 && article_score > 0){ // if different 
-              let difference = Math.abs(this.partyTopicScores[split[0]] - article_score)
+            } else if (this.partyTopicScores[topic] > 0 && article_score <= 0 || this.partyTopicScores[topic] <= 0 && article_score > 0){ // if different 
+              let difference = Math.abs(this.partyTopicScores[topic] - article_score)
               articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
               articlePartyBiasScore += 20;
             }
           }
-          this.overallTopicOpinions[split[0]][0] += article_score;
-          this.overallTopicOpinions[split[0]][1] += 1;
-          topics_to_sentiment[split[0]] = article_score;
+          this.overallTopicOpinions[topic][0] += article_score;
+          this.overallTopicOpinions[topic][1] += 1;
+          topics_to_sentiment[topic] = article_score;
         });
       }
 
@@ -565,24 +568,25 @@ export class BiasAnalysisScreenComponent implements OnInit {
       if (article_party_sentiments != "NO INFO") {
         article_party_sentiments.split(", ").forEach(element => {
           let split = element.split(" = ");
+          let party = split[0]
           let article_score = +(split[1])
           article_score = +article_score.toFixed(2)
-          if (this.partyToOtherPartiesScores[split[0]]){
-            if (this.partyToOtherPartiesScores[split[0]] < 0 && article_score < 0 || this.partyToOtherPartiesScores[split[0]] > 0 && article_score > 0){ // if same polarity
-              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - article_score)
+          if (this.partyToOtherPartiesScores[party]){ // If the party has an opinion about another party (from our database)
+            if (this.partyToOtherPartiesScores[party] < 0 && article_score < 0 || this.partyToOtherPartiesScores[party] > 0 && article_score > 0){ // if same polarity
+              let difference = Math.abs(this.partyToOtherPartiesScores[party] - article_score)
               articlePartyBiasScore += 10 - (difference * 20)
-            } else if (this.partyToOtherPartiesScores[split[0]] > 0 && article_score <= 0 || this.partyToOtherPartiesScores[split[0]] <= 0 && article_score > 0){ // if different 
-              let difference = Math.abs(this.partyToOtherPartiesScores[split[0]] - article_score)
+            } else if (this.partyToOtherPartiesScores[party] > 0 && article_score <= 0 || this.partyToOtherPartiesScores[party] <= 0 && article_score > 0){ // if different 
+              let difference = Math.abs(this.partyToOtherPartiesScores[party] - article_score)
               articlePartyBiasScore -= (difference / 2) * 20
             } else { // if both zero (i.e. neutral)
               articlePartyBiasScore += 20;
             }
-          } else if (split[0] == this.currentParty){ // If the article has an opinion about the party in question
+          } else if (party == this.currentParty){ // If the article has an opinion about the party in question
             articlePartyBiasScore += article_score * 20;
           }
-          this.overallPartyOpinions[split[0]][0] += article_score;
-          this.overallPartyOpinions[split[0]][1] += 1;
-          parties_to_sentiment[split[0]] = article_score;
+          this.overallPartyOpinions[party][0] += article_score;
+          this.overallPartyOpinions[party][1] += 1;
+          parties_to_sentiment[party] = article_score;
         });
       }
 
@@ -612,9 +616,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
           let word_freq = +(split[1])
           word_freq = +word_freq.toFixed(2)
           if (this.newspaperTopWords[word]) { // if exists, add to score
-            this.newspaperTopWords[split[0]] += word_freq;
+            this.newspaperTopWords[word] += word_freq;
           } else { // otherwise, make new entry
-            this.newspaperTopWords[split[0]] = word_freq;
+            this.newspaperTopWords[word] = word_freq;
           }
         });
       }
