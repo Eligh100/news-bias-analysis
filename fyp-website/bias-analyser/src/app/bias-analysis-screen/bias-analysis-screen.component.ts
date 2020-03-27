@@ -184,7 +184,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     },
     maintainAspectRatio: true,
     scale: {
-      ticks: { min: 0, max: 100 , }
+      ticks: { min: -1, max: 1 , }
     }
   };
 
@@ -216,7 +216,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     },
     maintainAspectRatio: true,
     scale: {
-      ticks: { min: 0, max: 100 , }
+      ticks: { min: -1, max: 1 , }
     }
   };
 
@@ -269,29 +269,29 @@ export class BiasAnalysisScreenComponent implements OnInit {
   }
 
   public overallTopicOpinions = {
-    "Scotland": 0,
-    "Ireland": 0,
-    "Wales": 0,
-    "Brexit/EU": 0,
-    "Economy/Business": 0,
-    "Healthcare/NHS": 0,
-    "Foreign Affairs": 0,
-    "Racism": 0,
-    "Environment/Climate Change": 0,
-    "Law/Police": 0,
-    "Education/Schools": 0,
-    "Immigration": 0
+    "Scotland": [0, 0],
+    "Ireland": [0, 0],
+    "Wales": [0, 0],
+    "Brexit/EU": [0, 0],
+    "Economy/Business": [0, 0],
+    "Healthcare/NHS": [0, 0],
+    "Foreign Affairs": [0, 0],
+    "Racism": [0, 0],
+    "Environment/Climate Change": [0, 0],
+    "Law/Police": [0, 0],
+    "Education/Schools": [0, 0],
+    "Immigration": [0, 0]
   }
 
   public overallPartyOpinions = {
-    "Labour": 0,
-    "Conservatives": 0,
-    "Liberal Democrats": 0,
-    "Brexit Party": 0,
-    "Green": 0,
-    "SNP": 0,
-    "Plaid Cymru": 0,
-    "UKIP": 0
+    "Labour": [0, 0],
+    "Conservatives": [0, 0],
+    "Liberal Democrats": [0, 0],
+    "Brexit Party": [0, 0],
+    "Green": [0, 0],
+    "SNP": [0, 0],
+    "Plaid Cymru": [0, 0],
+    "UKIP": [0, 0]
   }
 
   public similarToPartyText = {
@@ -503,7 +503,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
               articlePartyBiasScore += 1;
             }
           }
-          this.overallTopicOpinions[split[0]] += headline_score;
+          this.overallTopicOpinions[split[0]][0] += headline_score;
+          this.overallTopicOpinions[split[0]][1] += 1;
         });
       }
 
@@ -527,7 +528,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
           } else if (split[0] == this.currentParty) { // If the headline has an opinion about the party in question
             articlePartyBiasScore += headline_score * 20
           }
-          this.overallPartyOpinions[split[0]] += headline_score;
+          this.overallPartyOpinions[split[0]][0] += headline_score;
+          this.overallPartyOpinions[split[0]][1] += 1;
+          //parties_to_sentiment[split[0]] = headline_score; // TODO add this back? figure out how to?
         });
       }
 
@@ -550,7 +553,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
               articlePartyBiasScore += 20;
             }
           }
-          this.overallTopicOpinions[split[0]] += article_score;
+          this.overallTopicOpinions[split[0]][0] += article_score;
+          this.overallTopicOpinions[split[0]][1] += 1;
           topics_to_sentiment[split[0]] = article_score;
         });
       }
@@ -576,7 +580,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
           } else if (split[0] == this.currentParty){ // If the article has an opinion about the party in question
             articlePartyBiasScore += article_score * 20;
           }
-          this.overallPartyOpinions[split[0]] += article_score;
+          this.overallPartyOpinions[split[0]][0] += article_score;
+          this.overallPartyOpinions[split[0]][1] += 1;
           parties_to_sentiment[split[0]] = article_score;
         });
       }
@@ -786,6 +791,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicOpinionChangeChartData = tempChartData;
     this.topicOpinionChangeChartLabels = tempChartLabels;
     this.topicOpinionChangeChartColors = tempColours;
+    this.topicOpinionChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " change in topic opinions over time";
 
   }
 
@@ -853,6 +859,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.partyOpinionChangeChartData = tempChartData;
     this.partyOpinionChangeChartLabels = tempChartLabels;
     this.partyOpinionChangeChartColors = tempColours;
+    this.partyOpinionChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " change in party opinions over time";
 
   }
 
@@ -898,6 +905,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.discussionChartData = tempDoughnutData;
     this.discussionChartLabels = doughnutLabels;
     this.discussionChartColors = tempColours;
+    this.discussionChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " frequency of discussed topics";
 
   }
 
@@ -911,24 +919,26 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     for (let key in this.overallTopicOpinions) {
       if (key != "NO INFO" && key != "" && key != undefined){
-        let value = this.overallTopicOpinions[key];
+        let value = this.overallTopicOpinions[key][0];
+        value = (value / this.overallTopicOpinions[key][1]).toFixed(3);
+
         if (value > 1) {
           value = 1
         } else if (value < -1){
           value = -1
         }
 
-        if (value < 0) {
-          value = Math.abs(value)
-          value = value / 2
-          value = 0 + (value * 100)
-        } else if (value > 0) {
-          value = Math.abs(value)
-          value = value / 2
-          value = 50 + (value * 100)
-        } else {
-          value = 50;
-        }
+        // if (value < 0) {
+        //   value = Math.abs(value)
+        //   value = value / 2
+        //   value = 0 + (value * 100)
+        // } else if (value > 0) {
+        //   value = Math.abs(value)
+        //   value = value / 2
+        //   value = 50 + (value * 100)
+        // } else {
+        //   value = 50;
+        // }
 
         data.push(value)
         radarLabels.push(key)
@@ -941,6 +951,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicPopularityChartData = tempData;
     this.topicPopularityChartLabels = radarLabels;
     this.topicPopularityChartColors = colours;
+    this.topicPopularityChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " overall average topic opinions";
+
   }
 
   constructDiscussedPartiesDoughnut() {
@@ -998,24 +1010,26 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     for (let key in this.overallPartyOpinions) {
       if (key != "NO INFO" && key != "" && key != undefined){
-        let value = this.overallPartyOpinions[key];
+        let value = this.overallPartyOpinions[key][0];
+        value = (value / this.overallPartyOpinions[key][1]).toFixed(3);
+
         if (value > 1) {
           value = 1
         } else if (value < -1){
           value = -1
         }
 
-        if (value < 0) {
-          value = Math.abs(value)
-          value = value / 2
-          value = 0 + (value * 100)
-        } else if (value > 0) {
-          value = Math.abs(value)
-          value = value / 2
-          value = 50 + (value * 100)
-        } else {
-          value = 50;
-        }
+        // if (value < 0) {
+        //   value = Math.abs(value)
+        //   value = value / 2
+        //   value = 0 + (value * 100)
+        // } else if (value > 0) {
+        //   value = Math.abs(value)
+        //   value = value / 2
+        //   value = 50 + (value * 100)
+        // } else {
+        //   value = 50;
+        // }
 
         data.push(value)
         radarLabels.push(key)

@@ -52,8 +52,10 @@
         </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
-    <!--Two dougnut charts extra TODO - POS/NEG/NEU TOPICS AND POS/NEG/NEU PARTY OPINIONS (NUMBERS)-->
-    <!--Topics in article, and how they align with party chosen chart TODO-->
+    <!--First row: Line chart of change in topic opinion for articles, then average article topic opinions next to chosen party opinions on same topics (grouped bar chart)-->
+    <!--Second row: Line chart of change in party opinion for articles, then average article party opinions next to chosen party opinions on same parties (remove itself) (grouped bar chart)-->
+    <!--Third row: (SWITCH) Bar chart of POS/NEG/NEU topic frequency, then doughnut chart of topic discussion frequency-->
+    <!--Fourth row: (SWITCH) Bar chart of POS/NEG/NEU party frequency, then doughnut chart of party discussion frequency-->
     <div class="row pt-3">
         <div class="col-sm-6 text-center">
             <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
@@ -102,7 +104,7 @@
     <mat-divider class="my-3"></mat-divider>
     <div class="row">
         <div class="col-sm-12 text-center">
-            <h3>Most frequent words in the manifesto</h3>
+            <h3>Most frequent words in the {{currentParty}} manifesto</h3>
             <angular-tag-cloud class="text-center" [config]="cloudOptions" [data]="manifestoWordCloudData"></angular-tag-cloud>
         </div>
     </div>
