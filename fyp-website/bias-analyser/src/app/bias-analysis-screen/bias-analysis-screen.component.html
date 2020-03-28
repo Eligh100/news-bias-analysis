@@ -26,11 +26,11 @@
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row pt-3">
-        <div class="col-sm-3">
+        <div class="col-sm-1">
 
         </div>
-        <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+        <div class="col-sm-10 text-center">
+            <canvas class="mr-5" width="800" height="300" style="display: block; width: 800px; height: 300px;" mdbChart
             [chartType]="barChart"
             [datasets]="topicPolarityComparisonChartData"
             [labels]="topicPolarityComparisonChartLabels"
@@ -39,17 +39,17 @@
             [legend]="true">
         </canvas>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-1">
 
         </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
     <div class="row pt-3">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
 
         </div>
-        <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+        <div class="col-sm-8 text-center">
+            <canvas class="mr-5" width="770" height="300" style="display: block; width: 770px; height: 300px;" mdbChart
             [chartType]="barChart"
             [datasets]="partyPolarityComparisonChartData"
             [labels]="partyPolarityComparisonChartLabels"
@@ -58,7 +58,7 @@
             [legend]="true">
         </canvas>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
 
         </div>
     </div>
@@ -90,12 +90,9 @@
         </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
-    <!--Second row: Line chart of change in party opinion for articles, then average article party opinions next to chosen party opinions on same parties (remove itself) (grouped bar chart)-->
-    <!--Third row: (SWITCH) Bar chart of POS/NEG/NEU topic frequency, then doughnut chart of topic discussion frequency-->
-    <!--Fourth row: (SWITCH) Bar chart of POS/NEG/NEU party frequency, then doughnut chart of party discussion frequency-->
     <div class="row pt-3">
         <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+            <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
                 [chartType]="doughnutChart"
                 [datasets]="discussionChartData"
                 [labels]="discussionChartLabels"
@@ -105,7 +102,20 @@
             </canvas>
         </div>             
         <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="770" height="385" style="display: block; width: 770px; height: 385px;" mdbChart
+            <canvas class="mr-5" height="200px" style="display: block; height: 200px;" mdbChart
+                [chartType]="barChart"
+                [datasets]="topicPolarityFrequencyChartData"
+                [labels]="topicPolarityFrequencyChartLabels"
+                [colors]="topicPolarityFrequencyChartColors"
+                [options]="topicPolarityFrequencyChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>
+    </div>
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row pt-3">
+        <div class="col-sm-6 text-center">
+            <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
                 [chartType]="doughnutChart"
                 [datasets]="partyDiscussionChartData"
                 [labels]="partyDiscussionChartLabels"
@@ -114,15 +124,25 @@
                 [legend]="true">
             </canvas>
         </div>
+        <div class="col-sm-6 text-center">
+            <canvas class="mr-5" height="200" style="display: block; height: 200px;" mdbChart
+                [chartType]="barChart"
+                [datasets]="partyPolarityFrequencyChartData"
+                [labels]="partyPolarityFrequencyChartLabels"
+                [colors]="partyPolarityFrequencyChartColors"
+                [options]="partyPolarityFrequencyChartOptions"
+                [legend]="true">
+            </canvas>
+        </div>
     </div>
     <mat-divider class="my-3"></mat-divider>
-    <div class="row">
+    <div class="row pt-3">
         <div class="col-sm-12 text-center">
             <h3>Most frequent words in the {{currentParty}} manifesto</h3>
             <angular-tag-cloud class="text-center" [config]="cloudOptions" [data]="manifestoWordCloudData"></angular-tag-cloud>
         </div>
     </div>
-    <div class="row">
+    <div class="row pt-3">
         <div class="col-sm-12 text-center">
             <h3>Most frequent words across all articles</h3>
             <angular-tag-cloud [config]="cloudOptions" [data]="articlesWordCloudData"></angular-tag-cloud>
