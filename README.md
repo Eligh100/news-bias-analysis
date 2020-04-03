@@ -1,5 +1,8 @@
 # FYP
 Github repository for final year project
 
-Login: External1/External2
-Pass: FYPViewServices2020
+Account ID/Alias: eligh-fyp
+
+IAM Username: External1/External2
+
+Password: FYPViewServices2020
