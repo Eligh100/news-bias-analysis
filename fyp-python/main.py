@@ -4,12 +4,11 @@ import boto3
 # News scraping classes
 from news_scraper.NewsScraper import NewsScraper
 from news_scraper.ArticleTrimmer import ArticleTrimmer
-from news_scraper.ArticleUploader import ArticleUploader
 
 # Text analysis classes
 from helper_classes.TextPreprocessor import TextPreprocessor
 from sentiment_processor.ArticleAnalyser import ArticleAnalyser
-from sentiment_processor.AnalysisUploader import AnalysisUploader
+from sentiment_processor.ArticleUploader import ArticleUploader
 
 # Helper classes
 from helper_classes.Logger import Logger
@@ -48,10 +47,6 @@ articles = newsScraper.scrapeArticles()
 articleTrimmer = ArticleTrimmer(logger)
 database_entry = articleTrimmer.trimArticle(articles)
 
-# Upload articles and relevant metadata to S3 and DynamoDB
-articleUploader = ArticleUploader(s3, bucket_name, dynamodb, logger)
-articleUploader.uploadArticles(database_entry)
-
 # Write to log file, stating scraping aspect's completion
 log_line = "Article scraping ran to completion - "
 logger.writeToLog(log_line, True)
@@ -89,10 +84,9 @@ for article_url, article_metadata in database_entry.items():
 
     top_words = articleAnalyser.getTopWords()
 
-    # Write analysis information to DynamoDB
-    analysisUploader = AnalysisUploader(logger, article_url, likely_topics, likely_parties, article_topic_sentiment_matrix, article_party_sentiment_matrix, most_similar_party, headline_topics_sentiment_matrix, headline_parties_sentiment_matrix, top_words) # TODO INCLUDING ARTICLE PUBLISH TIME!!
-    analysisUploader.encodeDataToString()
-    analysisUploader.pushAnalysis(table)
+    # Write analysis information to DynamoDB and upload article text
+    articleUploader = ArticleUploader(s3, bucket_name, table, logger, likely_topics, likely_parties, article_topic_sentiment_matrix, article_party_sentiment_matrix, most_similar_party, headline_topics_sentiment_matrix, headline_parties_sentiment_matrix, top_words)
+    articleUploader.uploadArticles(article_url, database_entry[article_url])
 
 try:
     os.remove(local_filename)

@@ -225,3 +225,46 @@ Script ran to completion - 23/03/2020, 13:49:35
 
 
 Script started at: 24/03/2020, 19:21:39
+
+
+Script started at: 26/03/2020, 19:05:40
+
+
+Script started at: 04/04/2020, 19:01:42
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52161091
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52164949
+Failed to save article's publishing date: https://www.theguardian.com/society/2020/apr/03/impose-strict-curbs-on-gambling-during-covid-19-lockdown-mps-urge
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society/2020/apr/03/impose-strict-curbs-on-gambling-during-covid-19-lockdown-mps-urge
+Failed to save article's publishing date: https://www.theguardian.com/politics/2020/apr/03/what-is-in-the-new-labour-leaders-in-tray
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/2020/apr/03/what-is-in-the-new-labour-leaders-in-tray
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/labour-party-leadership-election/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/29/boris-johnson-letter-nation-coronavirus-full-uk-government-advice/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/04/labour-party-leadership-election-announcement-today/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Article scraping ran to completion - 04/04/2020, 19:05:28
+Script ran to completion - 04/04/2020, 19:13:03
