@@ -22,7 +22,7 @@ import boto3
 
 class NewsScraper():
 
-    # Base urls to fetch articles from - mixture of RSS and non-RSS
+    # Base RSS urls to fetch articles from
     news_base_urls = {
         "BBC": ["http://feeds.bbci.co.uk/news/politics/rss.xml"],
         "DAILY MAIL": ["https://www.dailymail.co.uk/news/uk-politics/index.rss", "https://www.dailymail.co.uk/news/general-election-2019/index.rss", "https://www.dailymail.co.uk/news/brexit/index.rss"],

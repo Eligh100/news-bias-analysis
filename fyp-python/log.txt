@@ -268,3 +268,97 @@ Failed with the folowing exception:
 time data '' does not match format '%Y-%m-%d'
 Article scraping ran to completion - 04/04/2020, 19:05:28
 Script ran to completion - 04/04/2020, 19:13:03
+
+
+Script started at: 05/04/2020, 14:18:11
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52161091
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52164949
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+
+
+Script started at: 05/04/2020, 14:23:01
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52164949
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52161091
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+
+
+Script started at: 05/04/2020, 14:54:44
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52161091
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52164949
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+
+
+Script started at: 05/04/2020, 17:07:49
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52164949
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52161091
+Failed to save article's publishing date: https://www.theguardian.com/business/2020/apr/05/rees-mogg-firm-accused-of-cashing-in-on-coronavirus-crisis
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/business/2020/apr/05/rees-mogg-firm-accused-of-cashing-in-on-coronavirus-crisis
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+No  content found in: https://www.mirror.co.uk/news/politics/live-keir-starmer-labour-cabinet-21817056
+
+
+Script started at: 05/04/2020, 17:34:49
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52161091
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52164949

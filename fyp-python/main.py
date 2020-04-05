@@ -40,7 +40,7 @@ logger.writeToLog(log_line, True)
 preprocessor = TextPreprocessor(logger)
 
 # Get articles
-newsScraper = NewsScraper(dynamodb, logger) #TODO investigate why less daily mail and telegraph articles
+newsScraper = NewsScraper(dynamodb, logger)
 articles = newsScraper.scrapeArticles()
 
 # Extract text
