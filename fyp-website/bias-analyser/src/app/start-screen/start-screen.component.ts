@@ -75,6 +75,8 @@ export class StartScreenComponent implements OnInit {
   fullsize = true;
   isDisabled = true;
 
+  counter;
+
   startScreenForm : FormGroup;
 
 
@@ -90,10 +92,19 @@ export class StartScreenComponent implements OnInit {
       selectedEndDate: ['', []],
     })
 
+    this.isDisabled = true;
+    
+    this.counter = 0;
+
   }
 
   changePanelState(){
-    this.isDisabled = false; // don't want to disable this again - only for the first input
+    if (this.counter == 0){
+      this.counter++;
+      this.isDisabled = true;
+    } else {
+      this.isDisabled = false; // don't want to disable this again - only for the first input
+    }
     this.expansionPanelHeaderText = (this.isExpanded) ? "" : "Edit parameters";
   }
 
