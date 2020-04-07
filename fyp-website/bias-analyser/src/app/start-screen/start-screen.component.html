@@ -11,9 +11,7 @@
 
         <!--SPACING START-->
         <div [ngClass]="(isExpanded || fullsize) ? 'd-none' : 'col-sm-5'"></div>
-        <div [ngClass]="(isExpanded || fullsize) ? 'd-none' : 'col-sm-5'">
-            <h1 class="pt-2">BIAS REPORT</h1>
-        </div>
+        <div [ngClass]="(isExpanded || fullsize) ? 'd-none' : 'col-sm-5'"></div>
         <!--SPACING END-->
 
         <div [ngClass]="(isExpanded || fullsize) ? 'col-sm-12' : 'col-sm-2'">
@@ -50,19 +48,10 @@
                                 <mat-error *ngIf="selectedPoliticalParty.errors?.required">Select a political party</mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col sm text-center">
-                            <mat-form-field>
-                                <mat-label>Topic <em>(Optional)</em> </mat-label>
-                                <mat-select formControlName="selectedTopics" name="topicsSelect" multiple>
-                                    <mat-option *ngFor="let topic of topics" [value]="topic.value">
-                                    {{topic.viewValue}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
                     </div>
                     <div class="row pt-4">
-                        <div class="col-sm-6 text-center">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4 text-center">
                             <mat-form-field>
                                 <mat-label>Select start date <em>(Optional)</em></mat-label>
                                 <input matInput #fromInput [min]="startDateMin" [max]="startDateMax" startAt="startDateMax" [matDatepicker]="startDatePicker" (dateInput)="setStartDate($event)" (dateChange)="setStartDate($event)">
@@ -70,7 +59,7 @@
                                 <mat-datepicker #startDatePicker></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-6 text-center">
+                        <div class="col-sm-4 text-center">
                             <mat-form-field>
                                 <mat-label>Select end date <em>(Optional)</em></mat-label>
                                 <input matInput #toInput [min]="endDateMin" [max]="endDateMax" startAt="endDateMax" [matDatepicker]="endDatePicker" (dateInput)="setEndDate($event)" (dateChange)="setEndDate($event)">
@@ -78,11 +67,12 @@
                                 <mat-datepicker #endDatePicker></mat-datepicker>
                             </mat-form-field>
                         </div>
+                        <div class="col-sm-2"></div>
                     </div>
                     <div class="row py-4 justify-content-center">
                         <button mat-raised-button (click)="clearForm();">Clear</button>
                     </div>
-                    <mat-action-row class="justify-content-center pt-4">
+                    <mat-action-row class="justify-content-center pt-4 mr-3">
                         <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState();beginAnalysis()" [disabled]="!startScreenForm.valid">Analyse Bias</button>
                     </mat-action-row>
                 </div>

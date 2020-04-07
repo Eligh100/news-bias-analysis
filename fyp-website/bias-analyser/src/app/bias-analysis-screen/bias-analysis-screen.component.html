@@ -1,157 +1,172 @@
-<div class="container-fluid" style="overflow-x: hidden;">
-    <div class="row justify-content-center">
-        <rg-gauge-chart
-        [canvasWidth]="canvasWidth"
-        [needleValue]="needleValue"
-        [centralLabel]="centralLabel"
-        [options]="options"
-        [bottomLabel]="bottomLabel"></rg-gauge-chart>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
+<div *ngIf="!processingDone; else analysisContent" class="container-fluid pt-4">
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 d-flex justify-content-center">
+            <mat-spinner></mat-spinner>
         </div>
-        <div class="col-sm-6 text-center">
-            <canvas style="position: relative" mdbChart
-                [chartType]="lineChart"
-                [datasets]="biasChangeChartData"
-                [labels]="biasChangeChartLabels"
-                [colors]="biasChangeChartColors"
-                [options]="biasChangeChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-        <div class="col-sm-3">
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row pt-3">
-        <div class="col-sm-1">
-
-        </div>
-        <div class="col-sm-10 text-center">
-            <canvas class="mr-5" width="800" height="300" style="display: block; width: 800px; height: 300px;" mdbChart
-            [chartType]="barChart"
-            [datasets]="topicPolarityComparisonChartData"
-            [labels]="topicPolarityComparisonChartLabels"
-            [colors]="topicPolarityComparisonChartColors"
-            [options]="topicPolarityComparisonChartOptions"
-            [legend]="true">
-        </canvas>
-        </div>
-        <div class="col-sm-1">
-
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row pt-3">
-        <div class="col-sm-2">
-
-        </div>
-        <div class="col-sm-8 text-center">
-            <canvas class="mr-5" width="770" height="300" style="display: block; width: 770px; height: 300px;" mdbChart
-            [chartType]="barChart"
-            [datasets]="partyPolarityComparisonChartData"
-            [labels]="partyPolarityComparisonChartLabels"
-            [colors]="partyPolarityComparisonChartColors"
-            [options]="partyPolarityComparisonChartOptions"
-            [legend]="true">
-        </canvas>
-        </div>
-        <div class="col-sm-2">
-
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row">
-        <div class="col-sm-1 text-center">
-        </div>
-        <div class="col-sm-5 text-center">
-            <canvas class="mr-3" height="200" style="display: block; height: 200px;" mdbChart
-                [chartType]="lineChart"
-                [datasets]="topicOpinionChangeChartData"
-                [labels]="topicOpinionChangeChartLabels"
-                [colors]="topicOpinionChangeChartColors"
-                [options]="topicOpinionChangeChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-        <div class="col-sm-5 text-center">
-            <canvas class="ml-3" height="200" style="display: block; height: 200px;" mdbChart
-                [chartType]="lineChart"
-                [datasets]="partyOpinionChangeChartData"
-                [labels]="partyOpinionChangeChartLabels"
-                [colors]="partyOpinionChangeChartColors"
-                [options]="partyOpinionChangeChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-        <div class="col-sm-1 text-center">
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row pt-3">
-        <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
-                [chartType]="doughnutChart"
-                [datasets]="discussionChartData"
-                [labels]="discussionChartLabels"
-                [colors]="discussionChartColors"
-                [options]="discussionChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>             
-        <div class="col-sm-6 text-center">
-            <canvas class="mr-5" height="200px" style="display: block; height: 200px;" mdbChart
-                [chartType]="barChart"
-                [datasets]="topicPolarityFrequencyChartData"
-                [labels]="topicPolarityFrequencyChartLabels"
-                [colors]="topicPolarityFrequencyChartColors"
-                [options]="topicPolarityFrequencyChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row pt-3">
-        <div class="col-sm-6 text-center">
-            <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
-                [chartType]="doughnutChart"
-                [datasets]="partyDiscussionChartData"
-                [labels]="partyDiscussionChartLabels"
-                [colors]="partyDiscussionChartColors"
-                [options]="partyDiscussionChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-        <div class="col-sm-6 text-center">
-            <canvas class="mr-5" height="200" style="display: block; height: 200px;" mdbChart
-                [chartType]="barChart"
-                [datasets]="partyPolarityFrequencyChartData"
-                [labels]="partyPolarityFrequencyChartLabels"
-                [colors]="partyPolarityFrequencyChartColors"
-                [options]="partyPolarityFrequencyChartOptions"
-                [legend]="true">
-            </canvas>
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row pt-3">
-        <div class="col-sm-12 text-center">
-            <h3>Most frequent words in the {{currentParty}} manifesto</h3>
-            <angular-tag-cloud class="text-center" [config]="cloudOptions" [data]="manifestoWordCloudData"></angular-tag-cloud>
-        </div>
-    </div>
-    <div class="row pt-3">
-        <div class="col-sm-12 text-center">
-            <h3>Most frequent words across all articles</h3>
-            <angular-tag-cloud [config]="cloudOptions" [data]="articlesWordCloudData"></angular-tag-cloud>
-        </div>
-    </div>
-    <mat-divider class="my-3"></mat-divider>
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <h4><em>{{metaInformation}}</em></h4>
-        </div>
+        <div class="col-sm-4"></div>
     </div>
 </div>
+<ng-template #analysisContent>
+    <div class="container-fluid" style="overflow-x: hidden;">
+        <div class="row pt-4 justify-content-center">
+            <h4 style="color: black;">The analysis found {{currentNewspaper}} to have <span [ngStyle]="{'color': biasSentenceColour }">{{biasSentence}}</span> towards {{currentParty}}</h4>
+        </div>
+        <div class="row justify-content-center">
+            <rg-gauge-chart
+            [canvasWidth]="canvasWidth"
+            [needleValue]="needleValue"
+            [centralLabel]="centralLabel"
+            [options]="options"
+            [bottomLabel]="bottomLabel"></rg-gauge-chart>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-6 text-center">
+                <canvas style="position: relative" mdbChart
+                    [chartType]="lineChart"
+                    [datasets]="biasChangeChartData"
+                    [labels]="biasChangeChartLabels"
+                    [colors]="biasChangeChartColors"
+                    [options]="biasChangeChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">
+            <div class="col-sm-1">
+
+            </div>
+            <div class="col-sm-10 text-center">
+                <canvas class="mr-5" width="800" height="300" style="display: block; width: 800px; height: 300px;" mdbChart
+                [chartType]="barChart"
+                [datasets]="topicPolarityComparisonChartData"
+                [labels]="topicPolarityComparisonChartLabels"
+                [colors]="topicPolarityComparisonChartColors"
+                [options]="topicPolarityComparisonChartOptions"
+                [legend]="true">
+            </canvas>
+            </div>
+            <div class="col-sm-1">
+
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-8 text-center">
+                <canvas class="mr-5" width="770" height="300" style="display: block; width: 770px; height: 300px;" mdbChart
+                [chartType]="barChart"
+                [datasets]="partyPolarityComparisonChartData"
+                [labels]="partyPolarityComparisonChartLabels"
+                [colors]="partyPolarityComparisonChartColors"
+                [options]="partyPolarityComparisonChartOptions"
+                [legend]="true">
+            </canvas>
+            </div>
+            <div class="col-sm-2">
+
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row">
+            <div class="col-sm-1 text-center">
+            </div>
+            <div class="col-sm-5 text-center">
+                <canvas class="mr-3" height="200" style="display: block; height: 200px;" mdbChart
+                    [chartType]="lineChart"
+                    [datasets]="topicOpinionChangeChartData"
+                    [labels]="topicOpinionChangeChartLabels"
+                    [colors]="topicOpinionChangeChartColors"
+                    [options]="topicOpinionChangeChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+            <div class="col-sm-5 text-center">
+                <canvas class="ml-3" height="200" style="display: block; height: 200px;" mdbChart
+                    [chartType]="lineChart"
+                    [datasets]="partyOpinionChangeChartData"
+                    [labels]="partyOpinionChangeChartLabels"
+                    [colors]="partyOpinionChangeChartColors"
+                    [options]="partyOpinionChangeChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+            <div class="col-sm-1 text-center">
+            </div>
+        </div>
+        <!--AUTHOR BREAKDOWN CHARTS-->
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">
+            <div class="col-sm-6 text-center">
+                <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
+                    [chartType]="doughnutChart"
+                    [datasets]="discussionChartData"
+                    [labels]="discussionChartLabels"
+                    [colors]="discussionChartColors"
+                    [options]="discussionChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>             
+            <div class="col-sm-6 text-center">
+                <canvas class="mr-5" height="200px" style="display: block; height: 200px;" mdbChart
+                    [chartType]="barChart"
+                    [datasets]="topicPolarityFrequencyChartData"
+                    [labels]="topicPolarityFrequencyChartLabels"
+                    [colors]="topicPolarityFrequencyChartColors"
+                    [options]="topicPolarityFrequencyChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">
+            <div class="col-sm-6 text-center">
+                <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
+                    [chartType]="doughnutChart"
+                    [datasets]="partyDiscussionChartData"
+                    [labels]="partyDiscussionChartLabels"
+                    [colors]="partyDiscussionChartColors"
+                    [options]="partyDiscussionChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+            <div class="col-sm-6 text-center">
+                <canvas class="mr-5" height="200" style="display: block; height: 200px;" mdbChart
+                    [chartType]="barChart"
+                    [datasets]="partyPolarityFrequencyChartData"
+                    [labels]="partyPolarityFrequencyChartLabels"
+                    [colors]="partyPolarityFrequencyChartColors"
+                    [options]="partyPolarityFrequencyChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">
+            <div class="col-sm-12 text-center">
+                <h3>Most frequent words in the {{currentParty}} manifesto</h3>
+                <angular-tag-cloud class="text-center" [config]="cloudOptions" [data]="manifestoWordCloudData"></angular-tag-cloud>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-sm-12 text-center">
+                <h3>Most frequent words across all articles</h3>
+                <angular-tag-cloud [config]="cloudOptions" [data]="articlesWordCloudData"></angular-tag-cloud>
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h4><em>{{metaInformation}}</em></h4>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -45,7 +45,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       needleColor: 'gray',
       needleUpdateSpeed: 3000,
       arcColors: ['rgb(255, 17, 0)', 'rgb(169, 176, 167)', 'rgb(43,184,0)'],
-      arcDelimiters: [40, 60],
+      arcDelimiters: [33, 67],
       rangeLabel: ['Negative', 'Positive'],
       needleStartValue: 50,
   }
@@ -235,7 +235,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     },
     maintainAspectRatio: true,
     scales: {
-      yAxes: [ { scaleLabel: {display: true, fontStyle: 'italic', labelString: "Frequency of opinions"}  }, ]
+      yAxes: [ { scaleLabel: {display: true, fontStyle: 'italic', labelString: "Frequency of opinions"}, ticks: { beginAtZero: true }  }, ]
     }
   };
 
@@ -253,7 +253,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     },
     maintainAspectRatio: true,
     scales: {
-      yAxes: [ { scaleLabel: {display: true, fontStyle: 'italic', labelString: "Frequency of opinions"}  }, ]
+      yAxes: [ { scaleLabel: {display: true, fontStyle: 'italic', labelString: "Frequency of opinions"}, ticks: { beginAtZero: true }  }, ]
     }
   };
 
@@ -390,9 +390,15 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   public analysedArticlesCount = 0;
 
+  public biasSentence;
+  public biasSentenceColour;
+
+  public processingDone : boolean = false;
+
   constructor(private _analysisParametersService: AnalysisParametersService) { }
 
   ngOnInit() {
+    this.processingDone = false;
     //this.needleValue = Math.floor(Math.random() * Math.floor(100));
     this.needleValue = 50;
 
@@ -758,7 +764,36 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
 
     this.needleValue = finalBiasValue
-    console.log(this.needleValue)
+    
+    if (this.needleValue <= 33) {
+      if (this.needleValue <= 16) {
+        this.biasSentence = "HIGH NEGATIVE bias"
+        this.biasSentenceColour = "#8f0000"
+      } else {
+        this.biasSentence = "a NEGATIVE bias"
+        this.biasSentenceColour = "#ff0000"
+      }
+    } else if (this.needleValue >= 67){
+      if (this.needleValue >= 83) {
+        this.biasSentence = "HIGH POSITIVE bias"
+        this.biasSentenceColour = "#00630c"
+      } else {
+        this.biasSentence = "a POSITIVE bias"
+        this.biasSentenceColour = "#1eff00"
+      }
+    } else {
+      if (this.needleValue < 44) {
+        this.biasSentence = "a slight NEGATIVE bias"
+        this.biasSentenceColour = "#ff7070"
+      } else if (this.needleValue > 56) {
+        this.biasSentence = "a slight POSITIVE bias"
+        this.biasSentenceColour = "#57c960"
+      } else {
+        this.biasSentence = "NO BIAS"
+        this.biasSentenceColour = "#828282"
+      }
+    }
+
 
     this.plotBiasChangeGraph();
 
@@ -774,8 +809,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.constructDiscussedTopicsDoughnut();
     this.constructDiscussedPartiesDoughnut();
 
+    this.processingDone = true; //finally, show the results
+
     this.constructManifestoWordCloud();
     this.constructArticlesWordCloud();
+
   }
 
   plotBiasChangeGraph() {
@@ -1219,7 +1257,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     const changedData$: Observable<CloudData[]> = of(tempData);
     changedData$.subscribe(res => this.manifestoWordCloudData = res);
 
-    this.wordCloudComponent.reDraw();
+    //this.wordCloudComponent.reDraw();
   }
 
   constructArticlesWordCloud() {
