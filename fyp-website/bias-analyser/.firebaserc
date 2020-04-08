@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "uk-news-bias"
+  },
+  "targets": {
+    "uk-news-bias": {
+      "hosting": {
+        "bias-analyser": [
+          "uk-news-bias"
+        ]
+      }
+    }
+  }
+}

@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { AnalysisParametersService } from '../analysis-parameters.service';
 import { CloudData, CloudOptions, TagCloudComponent } from 'angular-tag-cloud-module';
 import { Observable, of } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-bias-analysis-screen',
@@ -206,7 +208,65 @@ export class BiasAnalysisScreenComponent implements OnInit {
     },
     maintainAspectRatio: true,
     scales: {
+      xAxes: [{ scaleLabel: {display: true, fontStyle: 'italic', labelString: "Party"} }],
+      yAxes: [ { id: 'y-axis-1', type: "linear", position: 'left', ticks: { min: -1, max: 1, callback: function(value) {
+        if (value == 1) { 
+          return value + " (Positive opinion)"; 
+        } else if (value == 0) {
+          return value + " (Neutral opinion)"; 
+        } else if (value == -1) {
+          return value + " (Negative opinion)"; 
+        } else {
+          return value.toFixed(1)
+        }
+      }}, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Party Polarity"}  }, ]
+    }
+  };
+
+  public authorTopicPolarityChartData: Array<any> = [];
+  public authorTopicPolarityChartLabels: Array<any> = [];
+  public authorTopicPolarityChartColors: Array<any> = [];
+
+  public authorTopicPolarityChartOptions: any = {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Author's topic opinions",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    maintainAspectRatio: true,
+    scales: {
       xAxes: [{ scaleLabel: {display: true, fontStyle: 'italic', labelString: "Topic"} }],
+      yAxes: [ { id: 'y-axis-1', type: "linear", position: 'left', ticks: { min: -1, max: 1, callback: function(value) {
+        if (value == 1) { 
+          return value + " (Positive opinion)"; 
+        } else if (value == 0) {
+          return value + " (Neutral opinion)"; 
+        } else if (value == -1) {
+          return value + " (Negative opinion)"; 
+        } else {
+          return value.toFixed(1)
+        }
+      }}, scaleLabel: {display: true, fontStyle: 'italic', labelString: "Topic Polarity"}  }, ]
+    }
+  };
+
+  public authorPartyPolarityChartData: Array<any> = [];
+  public authorPartyPolarityChartLabels: Array<any> = [];
+  public authorPartyPolarityChartColors: Array<any> = [];
+
+  public authorPartyPolarityChartOptions: any = {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Author's party opinions",
+      fontSize: 30,
+      fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    maintainAspectRatio: true,
+    scales: {
+      xAxes: [{ scaleLabel: {display: true, fontStyle: 'italic', labelString: "Party"} }],
       yAxes: [ { id: 'y-axis-1', type: "linear", position: 'left', ticks: { min: -1, max: 1, callback: function(value) {
         if (value == 1) { 
           return value + " (Positive opinion)"; 
@@ -306,7 +366,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public partyToOtherPartiesScores = {};
   public partyTopWords = {};
 
-  public newspaperTopWords = {}
+  public newspaperTopWords = {};
+
+  public authorsOpinions = {};
 
   public mostDiscussedArticleTopics = {
     "Scotland": 0,
@@ -393,13 +455,28 @@ export class BiasAnalysisScreenComponent implements OnInit {
   public biasSentence;
   public biasSentenceColour;
 
+  // Author-related variables
+  authorsForm : FormGroup;
+  public foundAuthors: Array<string> = [];
+  public invalidAuthors: Array<string> = ["BBC", "DAILY MAIL", "GUARDIAN", "INDEPENDENT", "TELEGRAPH", "MIRROR"]
+  public validAuthors: boolean = false;
+  public authorSelected: boolean = false;
+
   public processingDone : boolean = false;
 
-  constructor(private _analysisParametersService: AnalysisParametersService) { }
+  constructor(private fb: FormBuilder, private _analysisParametersService: AnalysisParametersService) { }
 
   ngOnInit() {
     this.processingDone = false;
-    //this.needleValue = Math.floor(Math.random() * Math.floor(100));
+
+    this.authorsForm = this.fb.group({
+      selectedAuthor: ['', [Validators.required]],
+    });
+
+    this.foundAuthors = [];
+    this.validAuthors = false;
+    this.authorSelected = false;
+
     this.needleValue = 50;
 
     this.articles_information = "";
@@ -556,6 +633,28 @@ export class BiasAnalysisScreenComponent implements OnInit {
         this.mostDiscussedArticleParties[element] += 1
       });
 
+      // Get the authors for current article - except for BBC, who don't share author details
+      let authors = (article["articleAuthor"]).split(", ");
+
+      let invalidAuthorIndex = -1;
+      for (let i=0; i<this.invalidAuthors.length; i++) {
+        invalidAuthorIndex = authors.indexOf(this.invalidAuthors[i])
+
+        if (invalidAuthorIndex != -1)
+          break;
+      }
+
+      // Remove unknown authors (i.e. just the org name)
+      if (invalidAuthorIndex != -1){
+        authors.splice(invalidAuthorIndex, 1);
+      }
+
+      authors.forEach(author => {
+        if (!this.authorsOpinions[author]) {
+          this.authorsOpinions[author] = [{},{}]; // dict for topics and dict for parties
+        }
+      });
+
       // Get headline and article topic sentiments
       // If they align (i.e. positive/negative) with party's view, add to overall bias score
       // Round to 2 d.p
@@ -579,8 +678,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
               articlePartyBiasScore += 20;
             }
           }
+          // To get an average of a newspapers opinions about topics
           this.overallTopicOpinions[topic][0] += headline_score;
-          this.overallTopicOpinions[topic][1] += 1;
+          this.overallTopicOpinions[topic][1] += 1; // TODO consider commenting this out!!
         });
       }
 
@@ -605,9 +705,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
           } else if (party == this.currentParty) { // If the headline has an opinion about the party in question
             articlePartyBiasScore += headline_score * 20
           }
+          // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += headline_score;
-          this.overallPartyOpinions[party][1] += 1;
-          //parties_to_sentiment[party] = headline_score; // TODO add this back? figure out how to?
+          this.overallPartyOpinions[party][1] += 1; // TODO consider commenting this out!!
         });
       }
 
@@ -631,8 +731,26 @@ export class BiasAnalysisScreenComponent implements OnInit {
               articlePartyBiasScore += 20;
             }
           }
+          // To get an average of a newspapers opinions about topics
           this.overallTopicOpinions[topic][0] += article_score;
           this.overallTopicOpinions[topic][1] += 1;
+
+          // To get an average of an authors opinions about topics
+          authors.forEach(author => {
+            if (this.foundAuthors.indexOf(author) == -1) {
+              this.foundAuthors.push(author);
+              if (!this.validAuthors) 
+                this.validAuthors = true;
+            }
+
+            if (!this.authorsOpinions[author][0][topic]){
+              this.authorsOpinions[author][0][topic] = [0, 0];
+            }
+            this.authorsOpinions[author][0][topic][0] += article_score;
+            this.authorsOpinions[author][0][topic][1] += 1;
+          });
+
+          // To track topic opinion changes over time 
           topics_to_sentiment[topic] = article_score;
         });
       }
@@ -659,8 +777,26 @@ export class BiasAnalysisScreenComponent implements OnInit {
           } else if (party == this.currentParty){ // If the article has an opinion about the party in question
             articlePartyBiasScore += article_score * 20;
           }
+          // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += article_score;
           this.overallPartyOpinions[party][1] += 1;
+
+          // To get an average of an authors opinions about parties
+          authors.forEach(author => {
+            if (this.foundAuthors.indexOf(author) == -1) {
+              this.foundAuthors.push(author);
+              if (!this.validAuthors) 
+                this.validAuthors = true;
+            }
+            
+            if (!this.authorsOpinions[author][1][party]){
+              this.authorsOpinions[author][1][party] = [0, 0];
+            }
+            this.authorsOpinions[author][1][party][0] += article_score;
+            this.authorsOpinions[author][1][party][1] += 1;
+          });
+
+          // To track party opinion changes over time
           parties_to_sentiment[party] = article_score;
         });
       }
@@ -794,6 +930,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
     }
 
+    this.foundAuthors.sort();
 
     this.plotBiasChangeGraph();
 
@@ -818,7 +955,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   plotBiasChangeGraph() {
     let data = [];
-    let label = this.currentNewspaper + this.GrammarChecker() + " bias score towards " + this.currentParty;
+    let label = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " bias score towards " + this.currentParty;
 
     let tempChartData = []
     let tempChartLabels = []
@@ -855,7 +992,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.biasChangeChartLabels = tempChartLabels;
     this.biasChangeChartColors = this.partyColours[this.currentParty][0];
 
-    this.biasChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " change in bias towards " + this.currentParty;
+    this.biasChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " change in bias towards " + this.currentParty;
 
   }
 
@@ -920,7 +1057,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicOpinionChangeChartData = tempChartData;
     this.topicOpinionChangeChartLabels = tempChartLabels;
     this.topicOpinionChangeChartColors = tempColours;
-    this.topicOpinionChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " change in topic opinions over time";
+    this.topicOpinionChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " change in topic opinions over time";
 
   }
 
@@ -988,7 +1125,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.partyOpinionChangeChartData = tempChartData;
     this.partyOpinionChangeChartLabels = tempChartLabels;
     this.partyOpinionChangeChartColors = tempColours;
-    this.partyOpinionChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " change in party opinions over time";
+    this.partyOpinionChangeChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " change in party opinions over time";
 
   }
 
@@ -998,10 +1135,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
     let colours = ["#8c8c8c", this.partyColours[this.currentParty][0]];
 
     let newspaperData = [];
-    let newspaperLabel = this.currentNewspaper + this.GrammarChecker() + " opinion on topics";
+    let newspaperLabel = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " opinion on topics";
 
     let partyData = [];
-    let partyLabel = this.currentParty + this.GrammarChecker() + " opinion on topics";
+    let partyLabel = this.currentParty + this.GrammarChecker(this.currentNewspaper) + " opinion on topics";
 
     for (let key in this.topicColours) {
       let value;
@@ -1045,20 +1182,20 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicPolarityComparisonChartData = tempData;
     this.topicPolarityComparisonChartLabels = labels;
     this.topicPolarityComparisonChartColors = colours;
-    this.topicPolarityComparisonChartOptions["title"]["text"] = this.currentNewspaper + " and " + this.currentParty + this.GrammarChecker() + " opinions about topics";
+    this.topicPolarityComparisonChartOptions["title"]["text"] = this.currentNewspaper + " and " + this.currentParty + this.GrammarChecker(this.currentParty) + " opinions about topics";
 
   }
 
   plotPartyOpinionComparisonGraph() {
     let tempData = [];
     let labels = [];
-    let colours = ["#8c8c8c", this.partyColours[this.currentParty][0]];
+    let colours = ["#8c8c8c"];
 
     let newspaperData = [];
-    let newspaperLabel = this.currentNewspaper + this.GrammarChecker() + " opinion on other parties";
+    let newspaperLabel = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " opinion on other parties";
 
     let partyData = [];
-    let partyLabel = this.currentParty + this.GrammarChecker() + " opinion on other parties";
+    let partyLabel = this.currentParty + this.GrammarChecker(this.currentParty) + " opinion on other parties";
 
     for (let key in this.partyColours) {
       if (key != this.currentParty) {
@@ -1105,7 +1242,111 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.partyPolarityComparisonChartData = tempData;
     this.partyPolarityComparisonChartLabels = labels;
     this.partyPolarityComparisonChartColors = colours;
-    this.partyPolarityComparisonChartOptions["title"]["text"] = this.currentNewspaper + " and " + this.currentParty + this.GrammarChecker() + " opinions about other parties";
+    this.partyPolarityComparisonChartOptions["title"]["text"] = this.currentNewspaper + " and " + this.currentParty + this.GrammarChecker(this.currentParty) + " opinions about other parties";
+
+  }
+
+  plotAuthorTopicOpinionGraph(author: string) {
+    let tempData = [];
+    let labels = [];
+    let colours = [];
+
+    let authorData = [];
+    let authorLabel = author + this.GrammarChecker(author) + " opinion on topics";
+
+
+    for (let key in this.topicColours) {
+      let value;
+
+      // First, get author's average polarity on topic
+      if (this.authorsOpinions[author][0][key]){
+        if (this.authorsOpinions[author][0][key][1] != 0) {
+          value = this.authorsOpinions[author][0][key][0];
+          value = (value / this.authorsOpinions[author][0][key][1]).toFixed(3); // Get average polarity score for topic
+        } else {
+          value = 0;
+        }
+
+        // Add the topic for our X-axis
+        labels.push(key);
+
+        if (value > 1) {
+          value = 1;
+        } else if (value < -1){
+          value = -1;
+        }
+
+        if (value >= 0.33) {
+          colours.push("#0ba600");
+        } else if (value <= -0.33) {
+          colours.push("#ff0d00");
+        } else {
+          colours.push("#a1a1a1");
+        }
+
+        authorData.push(value);
+      } 
+
+    }
+
+    tempData.push({data: authorData, label: authorLabel, backgroundColor: colours });
+
+    this.authorTopicPolarityChartData = tempData;
+    this.authorTopicPolarityChartLabels = labels;
+    this.authorTopicPolarityChartColors = colours;
+    this.authorTopicPolarityChartOptions["title"]["text"] = author + this.GrammarChecker(author) + " opinions about topics";
+
+  }
+
+  plotAuthorPartyOpinionGraph(author: string) {
+    let tempData = [];
+    let labels = [];
+    let colours = [];
+
+    let authorData = [];
+    let authorLabel = author + this.GrammarChecker(author) + " opinion on parties";
+
+
+    for (let key in this.partyColours) {
+      let value;
+
+      // First, get author's average polarity on party
+      if (this.authorsOpinions[author][1][key]){
+        if (this.authorsOpinions[author][1][key][1] != 0) {
+          value = this.authorsOpinions[author][1][key][0];
+          value = (value / this.authorsOpinions[author][1][key][1]).toFixed(3); // Get average polarity score for topic
+        } else {
+          value = 0;
+        }
+
+        // Add the party for our X-axis
+        labels.push(key);
+
+        if (value > 1) {
+          value = 1;
+        } else if (value < -1){
+          value = -1;
+        }
+
+        if (value >= 0.33) {
+          colours.push("#0ba600");
+        } else if (value <= -0.33) {
+          colours.push("#ff0d00");
+        } else {
+          colours.push("#a1a1a1");
+        }
+
+        authorData.push(value);
+      } 
+
+    }
+
+    tempData.push({data: authorData, label: authorLabel, backgroundColor: colours });
+
+    this.authorPartyPolarityChartData = tempData;
+    this.authorPartyPolarityChartLabels = labels;
+    this.authorPartyPolarityChartColors = colours;
+    this.authorPartyPolarityChartOptions["title"]["text"] = author + this.GrammarChecker(author) + " opinions about parties";
 
   }
 
@@ -1126,7 +1367,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicPolarityFrequencyChartLabels = labels;
     this.topicPolarityFrequencyChartColors = colours;
 
-    this.topicPolarityFrequencyChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " distribution of topic opinions";
+    this.topicPolarityFrequencyChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " distribution of topic opinions";
 
   }
 
@@ -1147,7 +1388,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.partyPolarityFrequencyChartLabels = labels;
     this.partyPolarityFrequencyChartColors = colours;
 
-    this.partyPolarityFrequencyChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " distribution of party opinions";
+    this.partyPolarityFrequencyChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " distribution of party opinions";
 
   }
 
@@ -1193,7 +1434,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.discussionChartData = tempDoughnutData;
     this.discussionChartLabels = doughnutLabels;
     this.discussionChartColors = tempColours;
-    this.discussionChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " distribution of discussed topics";
+    this.discussionChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " distribution of discussed topics";
 
   }
 
@@ -1239,7 +1480,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.partyDiscussionChartData = tempDoughnutData;
     this.partyDiscussionChartLabels = doughnutLabels;
     this.partyDiscussionChartColors = tempColours;
-    this.partyDiscussionChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker() + " distribution of discussed parties";
+    this.partyDiscussionChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " distribution of discussed parties";
 
   }
 
@@ -1313,6 +1554,15 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.metaInformation = String(this.analysedArticlesCount) + " articles analysed, from " + startDate + " to " + endDate
   }
 
+  get selectedAuthor() { return this.authorsForm.get('selectedAuthor'); }
+
+  public newAuthor(event: string) {
+    this.plotAuthorTopicOpinionGraph(event);
+    this.plotAuthorPartyOpinionGraph(event);
+    this.authorSelected = true;
+  }
+
+
   public DateComparator(a, b) {
     let date1 = new Date(a[0]);
     let date2 = new Date(b[0])
@@ -1348,8 +1598,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
     return false;
   }
 
-  public GrammarChecker(){
-    if (this.currentNewspaper[this.currentNewspaper.length-1] == "s") {
+  public GrammarChecker(word: string){
+    if (word[word.length-1] == "s") {
       return "'";
     } else {
       return "'s";

@@ -150,6 +150,74 @@
             </div>
         </div>
         <mat-divider class="my-3"></mat-divider>
+        <div *ngIf="!validAuthors; else authorsBreakdown" class="row pt-3">
+            <div class="col-sm-12 text-center">     
+                <h4 style="font-style: italic;">No valid authors for {{currentNewspaper}}</h4>
+            </div>
+        </div>
+        <ng-template #authorsBreakdown>
+            <div class="row pt-3">
+                <div class="col-sm-12 text-center">
+                    <h4>Breakdown of different author's opinions</h4>
+                </div>
+            </div>
+            <div class="row pt-3" [formGroup]="authorsForm">
+                <div class="col-sm-12 text-center">
+                    <mat-form-field>
+                        <mat-label>Author</mat-label>
+                        <mat-select formControlName="selectedAuthor" name="authorSelect" (selectionChange)="newAuthor($event.value)" required>
+                            <mat-option *ngFor="let author of foundAuthors" [value]="author">
+                            {{author}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="selectedAuthor.errors?.required">Select an author for analysis</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div *ngIf="!authorSelected; else authorGraphs">
+
+            </div>
+            <ng-template #authorGraphs>
+                <div class="row pt-3">
+                    <div class="col-sm-1">
+
+                    </div>
+                    <div class="col-sm-10 text-center">
+                        <canvas class="mr-5" width="800" height="300" style="display: block; width: 800px; height: 300px;" mdbChart
+                        [chartType]="barChart"
+                        [datasets]="authorTopicPolarityChartData"
+                        [labels]="authorTopicPolarityChartLabels"
+                        [colors]="authorTopicPolarityChartColors"
+                        [options]="authorTopicPolarityChartOptions"
+                        [legend]="true">
+                    </canvas>
+                    </div>
+                    <div class="col-sm-1">
+
+                    </div>
+                </div>
+                <div class="row pt-3"></div>
+                <div class="row pt-3">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-8 text-center">
+                        <canvas class="mr-5" width="770" height="300" style="display: block; width: 770px; height: 300px;" mdbChart
+                        [chartType]="barChart"
+                        [datasets]="authorPartyPolarityChartData"
+                        [labels]="authorPartyPolarityChartLabels"
+                        [colors]="authorPartyPolarityChartColors"
+                        [options]="authorPartyPolarityChartOptions"
+                        [legend]="true">
+                    </canvas>
+                    </div>
+                    <div class="col-sm-2">
+
+                    </div>
+                </div>
+            </ng-template>
+        </ng-template>            
+        <mat-divider class="my-3"></mat-divider>
         <div class="row pt-3">
             <div class="col-sm-12 text-center">
                 <h3>Most frequent words in the {{currentParty}} manifesto</h3>
