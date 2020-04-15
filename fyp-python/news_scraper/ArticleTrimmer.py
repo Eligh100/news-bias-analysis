@@ -212,10 +212,3 @@ class ArticleTrimmer():
             
         return self.database_entry
 
-    def tagVisible(self, element):
-        if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
-            return False
-        if isinstance(element, Comment):
-            return False
-        return True
-

@@ -10,7 +10,7 @@ class Logger():
 
     def writeToLog(self, log_line, include_datetime):
         try:
-            with open("log.txt", "a", encoding="utf-8") as log_file:
+            with open(self.log_path, "a", encoding="utf-8") as log_file:
                 if (include_datetime):
                     now = datetime.now() # current date and time
                     current_time = now.strftime("%d/%m/%Y, %H:%M:%S")

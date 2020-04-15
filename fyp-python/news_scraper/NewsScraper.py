@@ -93,9 +93,7 @@ class NewsScraper():
     def checkArticleValidity(self, entry, curr_url, org_name):
         keyword_dict = self.news_search_terms[org_name]
 
-        published_time = datetime.datetime.fromtimestamp(mktime(entry.published_parsed))
         updated_time = datetime.datetime.fromtimestamp(mktime(entry.updated_parsed))
-        week_prior = datetime.datetime.now() - timedelta(days=14)
 
         url_ok = False
 
@@ -107,7 +105,6 @@ class NewsScraper():
         if (url_ok):
 
             # Check if article already in the table
-            # If not, check it's not a week old (via published or updated time)
             # If so, see if the updated time > time in database
 
             if (self.articleAlreadyStored(curr_url)):
@@ -116,7 +113,6 @@ class NewsScraper():
                 else:
                     return False # ignore already stored articles
             else:
-                #if (published_time >= week_prior or updated_time >= week_prior): # only consider articles from one week ago (mostly important for first run of tool)
                 return True
     
     def articleAlreadyStored(self, curr_url):
