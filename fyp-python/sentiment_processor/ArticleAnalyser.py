@@ -1,4 +1,6 @@
 import os
+import csv
+import re
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -30,29 +32,57 @@ class ArticleAnalyser: # TODO add logging
 
         try:
             self.topic_model = cPickle.load(open(topic_model_path, 'rb'))
-        except:
-            print("Model: " + topic_model_path + " not found")
+        except Exception as e:
+            log_line = "Model: " + topic_model_path + " not found"
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exited prematurely - "
+            self.logger.writeToLog(log_line, True)
             exit(0)
 
         try:
             self.topic_vectorizer = cPickle.load(open(topic_vectorizer_path, "rb"))
-        except:
-            print("Vectorizer: " + topic_vectorizer_path + " not found")
+        except Exception as e:
+            log_line = "Vectorizer: " + topic_vectorizer_path + " not found"
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exited prematurely - "
+            self.logger.writeToLog(log_line, True)
             exit(0)
 
         try:
             self.party_model = cPickle.load(open(party_model_path, 'rb'))
-        except:
-            print("Model: " + party_model_path + " not found")
+        except Exception as e:
+            log_line = "Model: " + party_model_path + " not found"
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exited prematurely - "
+            self.logger.writeToLog(log_line, True)
             exit(0)
 
         try:
             self.party_vectorizer = cPickle.load(open(party_vectorizer_path, "rb"))
-        except:
-            print("Vectorizer: " + party_vectorizer_path + " not found")
+        except Exception as e:
+            log_line = "Vectorizer: " + party_vectorizer_path + " not found"
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exiting prematurely - "
+            self.logger.writeToLog(log_line, True)
             exit(0)
-    
 
+        # Open MPs CSV and store results in dict
+        self.mps = {}
+        try:
+            with open("assets/mps-2019.csv") as csvfile:
+                reader = csv.reader(csvfile)
+                for row in reader:
+                    self.mps[row[0]] = row[1]
+        except Exception as e:
+            log_line = "Reading of MPs CSV file at: assets/mps-2019.csv failed"
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            self.logger.writeToLog(log_line, False)
+        
     def analyseArticleSentiment(self, for_topics):
         
         model = ""
@@ -86,6 +116,9 @@ class ArticleAnalyser: # TODO add logging
         # If it doesn't, collate paragraphs into bigger paragraphs
         composite_paragraph = ""
 
+        # Used to track entities throughout the article (i.e. if 'Boris Johnson' appears, then just 'Johnson' should equate to 'Conservative' when seen later)
+        entity_tracker = {}
+
         for paragraph in paragraphs:
 
             original_paragraph = paragraph
@@ -101,9 +134,17 @@ class ArticleAnalyser: # TODO add logging
             else:
                 composite_paragraph = ""
 
-            with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
-                tempFile.write(paragraph)
-                tempFile.close()
+            try:
+                with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
+                    tempFile.write(paragraph)
+                    tempFile.close()
+            except Exception as e:
+                log_line = "Failed to write to file: " + tempFileName 
+                log_line += "\nFailed with the folowing exception:\n"
+                log_line += str(e)
+                log_line += "\nScript exited prematurely - "
+                self.logger.writeToLog(log_line, True)
+                exit(0)
             
             paragraph_vectorized = self.getVectorised(tempFileName, vectorizer) 
             paragraph_binary_predictions = model.predict(paragraph_vectorized)
@@ -118,17 +159,46 @@ class ArticleAnalyser: # TODO add logging
 
             # Next, get sentiment of each sentence
             for sentence in sentences:
-                # If the sentence is likely talking about a topic found in the current paragraph, get sentiment
+                # Get the polarity of the sentence
+                sentence_polarity = TextBlob(sentence).sentiment.polarity
+
+                # If the sentence is likely talking about a topic found in the current paragraph, store weighted sentiment
                 for topic_num in likely_paragraph_topics:
                     # Get the probability of it being that topic
                     paragraph_topic_weighting = paragraph_probabilities[topic_num]
 
-                    # Get the polarity of the sentence
-                    sentence_polarity = TextBlob(sentence).sentiment.polarity
-
                     # Weight the polarity by the likelihood of the topic
-                    sentence_polarity = sentence_polarity * paragraph_topic_weighting
-                    topic_sentiment_scores[topic_num] += sentence_polarity
+                    weighted_polarity = sentence_polarity * paragraph_topic_weighting
+                    topic_sentiment_scores[topic_num] += weighted_polarity
+
+                # Following code deals with party entities (i.e. MPs), so skip if dealing with topic sentiment
+                if (not for_topics):
+
+                    # Check the entity tracker first, if we've already seen an MP previously
+                    for full_name, name_split in entity_tracker.items():
+                        search_forename = re.search(rf".*{name_split[0]}.*", lowered_sentence, re.IGNORECASE)
+                        search_surname = re.search(rf".*{name_split[1]}.*", lowered_sentence, re.IGNORECASE)
+                        search_full = re.search(rf".*{full_name}.*", lowered_sentence, re.IGNORECASE)
+
+                        if ((search_forename or search_surname) and not search_full): # If either parts of the name appear (but not together)
+                            party_num = name_split[2]
+                            if (party_num not in topic_sentiment_scores):
+                                topic_sentiment_scores[party_num] = 0
+                            topic_sentiment_scores[party_num] += sentence_polarity
+
+                    # If the sentence contains an MP from a political party, get sentiment 
+                    lowered_sentence = self.preprocessor.changeToLower(sentence)
+
+                    for mp_name, party_num in self.mps.items():
+                        search = re.search(rf".*{mp_name}.*", lowered_sentence, re.IGNORECASE)
+                        if (search):
+                            if (party_num not in topic_sentiment_scores):
+                                topic_sentiment_scores[party_num] = 0
+                            topic_sentiment_scores[party_num] += sentence_polarity
+
+                            # Separate first and last name for advanced entity searching in future sentences in paragraph
+                            if (mp_name not in entity_tracker):
+                                entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
 
         # Returned object, key: topic index, value: score
         articleTopicSentimentsMatrix = {}
@@ -144,8 +214,11 @@ class ArticleAnalyser: # TODO add logging
 
         try:
             os.remove(tempFileName)
-        except:
-            print("Couldn't delete " + tempFileName)
+        except Exception as e:
+            log_line = "Failed to remove temp file at: " + tempFileName
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            self.logger.writeToLog(log_line, False)
 
         # Return list of pairs of topic/party and overall sentiment score (for article)
         return (likely_topics, articleTopicSentimentsMatrix)
@@ -164,11 +237,20 @@ class ArticleAnalyser: # TODO add logging
         # Gather processed manifesto texts
         similarityTexts = [preprocessed_text]
 
-        for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
-            manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
-            with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
-                manifestoText = manifestoTextFile.read()
-                similarityTexts.append(manifestoText)
+
+        try:
+            for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+                manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
+                with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
+                    manifestoText = manifestoTextFile.read()
+                    similarityTexts.append(manifestoText)
+        except Exception as e:
+            log_line = "Unable to locate manifestos"
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exited prematurely - "
+            self.logger.writeToLog(log_line, True)
+            exit(0)
 
         # Perform TF-IDF on article and manifestos
         tfidf_vectorizer = TfidfVectorizer(min_df=1)
@@ -199,9 +281,17 @@ class ArticleAnalyser: # TODO add logging
 
         tempFileName = "temp_files/tempProcessing.txt"
 
-        with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
-            tempFile.write(headline)
-            tempFile.close()
+        try:
+            with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
+                tempFile.write(headline)
+                tempFile.close()
+        except Exception as e:
+            log_line = "Failed to write to file: " + tempFileName 
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exited prematurely - "
+            self.logger.writeToLog(log_line, True)
+            exit(0)
 
         # Find the most likely topic of the headline
         headline_vectorized = self.getVectorised(tempFileName, vectorizer)
@@ -219,8 +309,11 @@ class ArticleAnalyser: # TODO add logging
 
         try:
             os.remove(tempFileName)
-        except:
-            print("Couldn't delete " + tempFileName)
+        except Exception as e:
+            log_line = "Failed to remove temp file at: " + tempFileName
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            self.logger.writeToLog(log_line, False)
 
         # Return dict (key: topic/party num, value = score)
         return headline_topics_matrix
@@ -246,9 +339,6 @@ class ArticleAnalyser: # TODO add logging
         df = pd.DataFrame(denselist, columns=feature_names)
         top_words = df.iloc[[0]].sum(axis=0).sort_values(ascending=False)
         return top_words[0:20]
-
-    def calculateBiasScore(self): 
-        print("") # TODO implement me
 
     def getVectorised(self, tempFileName, vectorizer):
         text_vectorized = vectorizer.transform([tempFileName]) # The vectorizer needs files

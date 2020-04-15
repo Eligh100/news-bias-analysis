@@ -18,4 +18,4 @@ class Logger():
                 log_line += "\n"
                 log_file.write(log_line)
         except:
-                print("Writing to log file failed")
+                print("Writing to log file failed - THIS IS BAD!")

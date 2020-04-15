@@ -21,26 +21,28 @@ class ArticleUploader():
         self.headline_parties_sentiment_matrix = headline_parties_sentiment_matrix
         self.top_words = top_words
 
+        self.tempUploadPath = "temp_files/tempUpload.txt"
+
 
     def uploadArticles(self, article_url, article_data):
         # Store article text in S3 and get URL
         s3_url = ""
         if (article_data[0] != ""):
             # Open temp text file for uploading article contents to S3
-            with open("temp.txt", "w", encoding="utf-8") as temp_text_file:
+            with open(self.tempUploadPath, "w", encoding="utf-8") as temp_text_file:
                 # Write current article text to temp file
                 try:
                     temp_text_file.truncate(0) # clear contents of file 
                     temp_text_file.write(article_data[0])
                     temp_text_file.close()
                 except Exception as e:
-                    log_line = "Writing to temp file failed\nThe following exception occured:\n" + str(e)
+                    log_line = "Writing to temp file: " + self.tempUploadPath + " failed\nThe following exception occured:\n" + str(e)
                     self.logger.writeToLog(log_line, False)
                 else:
                     # Upload current article text to S3 and get URL
                     try:
                         article_url_sanitised = self.sanitiseURL(article_url)
-                        self.s3.Bucket(self.bucket_name).upload_file("temp.txt", article_url_sanitised)
+                        self.s3.Bucket(self.bucket_name).upload_file(self.tempUploadPath, article_url_sanitised)
                         s3_url = self.getS3Url(article_url_sanitised)
                     except Exception as e:
                         log_line = "Uploading to S3 bucket failed\nThe following exception occured:\n" + str(e)

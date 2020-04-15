@@ -62,9 +62,17 @@ for article_url, article_metadata in database_entry.items():
     article_headline = article_metadata[1]
 
     # Write article text to temporary file for processing
-    with open(local_filename, "w", encoding="unicode_escape") as article_text_file:
-        article_text_file.write(article_text)
-        article_text_file.close()
+    try:
+        with open(local_filename, "w", encoding="unicode_escape") as article_text_file:
+            article_text_file.write(article_text)
+            article_text_file.close()
+    except Exception as e:
+        log_line = "Failed to write to file: " + local_filename 
+        log_line += "\nFailed with the folowing exception:\n"
+        log_line += str(e)
+        log_line += "\nScript exited prematurely - "
+        logger.writeToLog(log_line, True)
+        exit(0)
 
     # Get required information from the article
     articleAnalyser = ArticleAnalyser(logger, article_text, local_filename, article_headline, preprocessor)
@@ -90,8 +98,10 @@ for article_url, article_metadata in database_entry.items():
 
 try:
     os.remove(local_filename)
-except:
-    log_line = "Failed to remove temp article text file"
+except Exception as e:
+    log_line = "Failed to remove temp article text file at: " + local_filename
+    log_line += "\nFailed with the folowing exception:\n"
+    log_line += str(e)
     logger.writeToLog(log_line, False)
 
 # Write to log file, stating program's completion

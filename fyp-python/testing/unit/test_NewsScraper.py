@@ -23,7 +23,7 @@ class TestNewsScraper(unittest.TestCase):
         )
 
         # Initialise log file, and logger
-        self.log_path = "testLog.txt"
+        self.log_path = "temp_files/testLog.txt"
         logger = Logger(self.log_path)
 
         # Initialise test data variables
