@@ -24,9 +24,9 @@ model_data_files = os.listdir("assets/model_data/train")
 model_data_files = ["assets/model_data/train/" + data_file for data_file in model_data_files]
 
 # Comment these lines to remove training the test data (only for final run)
-model_test_data_files = os.listdir("assets/model_data/test")
-model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
-model_data_files = model_data_files + model_test_data_files
+# model_test_data_files = os.listdir("assets/model_data/test")
+# model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
+# model_data_files = model_data_files + model_test_data_files
 
 doc_word = vectorizer.fit_transform(model_data_files)
 doc_word = ss.csr_matrix(doc_word)
@@ -37,9 +37,9 @@ doc_word = doc_word[:,not_digit_inds]
 words  = [word for ind,word in enumerate(words) if not word.isdigit()]
 
 # pickle vectoriser for testing model
-cPickle.dump(vectorizer, open("assets/model-final/party_vectorizer.pkl", "wb"))
+cPickle.dump(vectorizer, open("assets/model/party_vectorizer.pkl", "wb"))
 
-NUM_TOPICS = 9 # Determined as most effective number of models (see topics over TC chart)
+NUM_TOPICS = 8 # Determined as most effective number of models (see topics over TC chart)
 
 # Anchors designed to nudge the model towards measuring specific genres
 anchors = [
@@ -51,7 +51,6 @@ anchors = [
     ["green party", "green", "sian berry", "berry", "jonathan bartley", "bartley", "caroline lucas", "lucas", "brighton pavilion", "greens"], # Green
     ["brexit party","farage","nigel", "nigel farage", "ann widdecombe", "widdecombe", "tice", "richard tice"], # Brexit Party
     ["plaid cymru", "plaid", "cymru", "wales", "welsh", "assembly", "welsh assembly", "cardiff", "adam price"], # Plaid Cymru
-    ["ukip", "ukips", "nigel farage", "farage", "pat mountain", "patricia mountain", "richard braine", "braine"], # UKIP
 ]
 
 best_model = None
@@ -72,4 +71,4 @@ for i in range(0, 5): # run the model generation 5 times, and pick model with hi
         best_model = topic_model
 
 topic_model = best_model
-topic_model.save("assets/model-final/party_model.pkl", ensure_compatibility=False)
+topic_model.save("assets/model/party_model.pkl", ensure_compatibility=False)

@@ -24,11 +24,11 @@ class ArticleAnalyser: # TODO add logging
         self.headline = headline
         self.preprocessor = preprocessor
 
-        topic_model_path = "assets/model-final/topic_model.pkl"
-        topic_vectorizer_path = "assets/model-final/topic_vectorizer.pkl"
+        topic_model_path = "assets/model/topic_model.pkl"
+        topic_vectorizer_path = "assets/model/topic_vectorizer.pkl"
 
-        party_model_path = "assets/model-final/party_model.pkl"
-        party_vectorizer_path = "assets/model-final/party_vectorizer.pkl"
+        party_model_path = "assets/model/party_model.pkl"
+        party_vectorizer_path = "assets/model/party_vectorizer.pkl"
 
         try:
             self.topic_model = cPickle.load(open(topic_model_path, 'rb'))

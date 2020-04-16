@@ -17,8 +17,8 @@ from corextopic import vis_topic as vt
 
 matplotlib.use('TkAgg') # to display topic graphs
 
-topic_model_path = "assets/model-final/topic_model.pkl"
-vectorizer_path = "assets/model-final/topic_vectorizer.pkl"
+topic_model_path = "assets/model/topic_model.pkl"
+vectorizer_path = "assets/model/topic_vectorizer.pkl"
 
 try:
     topic_model = cPickle.load(open(topic_model_path, 'rb'))
@@ -76,7 +76,7 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
             rounded_score = round(probability_prediction[labelled_topic], 1)
             score += rounded_score
         else:
-            print("")
+            pass
             # print("File:")
             # print(test_files[shared_index])
             # print("\nMy guess:")

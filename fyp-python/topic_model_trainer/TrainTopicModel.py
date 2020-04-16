@@ -23,9 +23,9 @@ model_data_files = os.listdir("assets/model_data/train")
 model_data_files = ["assets/model_data/train/" + data_file for data_file in model_data_files]
 
 # Comment these lines to remove training the test data (only for final run)
-model_test_data_files = os.listdir("assets/model_data/test")
-model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
-model_data_files = model_data_files + model_test_data_files
+# model_test_data_files = os.listdir("assets/model_data/test")
+# model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
+# model_data_files = model_data_files + model_test_data_files
 
 doc_word = vectorizer.fit_transform(model_data_files)
 doc_word = ss.csr_matrix(doc_word)
@@ -36,7 +36,7 @@ doc_word = doc_word[:,not_digit_inds]
 words  = [word for ind,word in enumerate(words) if not word.isdigit()]
 
 # pickle vectoriser for testing model
-cPickle.dump(vectorizer, open("assets/model-final/topic_vectorizer.pkl", "wb"))
+cPickle.dump(vectorizer, open("assets/model/topic_vectorizer.pkl", "wb"))
 
 NUM_TOPICS = 13 # Determined as most effective number of models (see topics over TC chart)
 
@@ -46,7 +46,7 @@ anchors = [
     ["sturgeon","nicola sturgeon","nicola","snp","scotland","independence referendum","independence", "holyrood", "edinburgh", "second independence"], # Scotland
     ["ireland","irish","northern ireland", "dup", "sinn", "fein", "sinn fein", "backstop", "dublin", "belfast", "stormont"], # Ireland
     ["wales", "welsh", "assembly", "plaid", "cymru", "plaid cymru", "cardiff", "swansea"], # Wales
-    ["eu","agreement","deal","trade","trade deal","brussels","european", "referendum","brexit", "european union","leave","remain","farage","nigel","second referendum", "future","11pm","leaving","departure", "tariff", "fishing", "barnier", "juncker", "commission", "european commission"], # EU and Brexit
+    ["eu","agreement","deal","trade","trade deal","brussels","european", "referendum","brexit", "european union","leave","remain","second referendum", "future","11pm","leaving","departure", "tariff", "fishing", "barnier", "juncker", "commission", "european commission"], # EU and Brexit
     ["cost","tax","pay","spending","investment","budget","plans","economy","funding", "rise","increase","decade","fiscal","fiscal studies", "poverty", "council", "housebuilding", "housing", "shortage", "austerity", "duty", "privatisation", "privatised", "privatise", "union"], # Economy and Business
     ["nhs", "average","health","hospitals", "hospital", "virus", "social care", "care", "mental illness", "illness", "privatisation", "privatised", "privatise","drugs", "welfare", "benefit", "disability"], # Healthcare/NHS and Welfare
     ["trump","donald","us","president","donald trump", "washington", "us president","us", "china", "chinese", "israel", "india", "canada", "saudi arabia", "australia", "foreign", "foreign policy", "putin", "russia", "merkel", "germany", "macron", "france"], # Foreign Policy/US
@@ -75,6 +75,6 @@ for i in range(0, 5): # run the model generation 5 times, and pick model with hi
         best_model = topic_model
 
 topic_model = best_model
-topic_model.save("assets/model-final/topic_model.pkl", ensure_compatibility=False)
+topic_model.save("assets/model/topic_model.pkl", ensure_compatibility=False)
 
 
