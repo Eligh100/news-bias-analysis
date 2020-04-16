@@ -46,7 +46,7 @@ first_scan = True
 
 last_evaluated_key = ""
 
-local_filename = 'temp_files/tempArticleFile.txt"
+local_filename = "temp_files/tempArticleFile.txt"
 
 while(still_items_left):
     skipped = 0
@@ -163,7 +163,6 @@ while(still_items_left):
             },
             ReturnValues="UPDATED_NEW"
         )
-
 
 os.remove(local_filename)
 
