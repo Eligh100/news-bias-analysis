@@ -41,7 +41,7 @@ dynamodb = boto3.resource(
 parties_table = dynamodb.Table('Parties-Table')
 
 # Other preliminary variables
-logger = Logger()
+logger = Logger(log_path="manifesto_scraper/manifestoInfoUploadLog.txt")
 preprocessor = TextPreprocessor()
 
 topic_model_path = "assets/model/topic_model.pkl"
@@ -75,14 +75,13 @@ except:
     exit(0)
 
 manifesto_party_sentiments = {
-    PoliticalPartyHelper.PoliticalParty.brexitParty: "Conservatives = 0.8, Green = -1, Labour = -1, Liberal Democrats = -1, Plaid Cymru = -1, SNP = -1, UKIP = 0.8",
-    PoliticalPartyHelper.PoliticalParty.conservative: "Brexit Party = 0.25., Green = -1, Labour = -1, Liberal Democrats = -1 Plaid Cymru = -1, SNP = -1, UKIP = -0.8",
-    PoliticalPartyHelper.PoliticalParty.labour: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Liberal Democrats = -0.75, Plaid Cymru = -0.75, SNP = -0.75, UKIP = -1",
-    PoliticalPartyHelper.PoliticalParty.libDem: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Labour = -0.75, Plaid Cymru = -0.75, SNP = -0.75, UKIP = -1",
-    PoliticalPartyHelper.PoliticalParty.green: "Brexit Party = -1, Conservatives = -1, Labour = -0.75, Liberal Democrats = -0.75, Plaid Cymru = -0.75, SNP = -0.75, UKIP = -1",
-    PoliticalPartyHelper.PoliticalParty.plaidCymru: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Labour = -0.75, Liberal Democrats = -0.75, SNP = 0, UKIP = -1",
-    PoliticalPartyHelper.PoliticalParty.SNP: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Labour = -0.75, Liberal Democrats = -0.75, Plaid Cymru = 0, UKIP = -1",
-    PoliticalPartyHelper.PoliticalParty.UKIP: "Brexit Party = 0.8, Conservatives = 0.75, Green = -1, Labour = -1, Liberal Democrats = -1, Plaid Cymru = -1, SNP = -1"
+    PoliticalPartyHelper.PoliticalParty.brexitParty: "Conservatives = 0.8, Green = -1, Labour = -1, Liberal Democrats = -1, Plaid Cymru = -1, SNP = -1",
+    PoliticalPartyHelper.PoliticalParty.conservative: "Brexit Party = 0.25., Green = -1, Labour = -1, Liberal Democrats = -1 Plaid Cymru = -1, SNP = -1",
+    PoliticalPartyHelper.PoliticalParty.labour: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Liberal Democrats = -0.75, Plaid Cymru = -0.75, SNP = -0.75",
+    PoliticalPartyHelper.PoliticalParty.libDem: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Labour = -0.75, Plaid Cymru = -0.75, SNP = -0.75",
+    PoliticalPartyHelper.PoliticalParty.green: "Brexit Party = -1, Conservatives = -1, Labour = -0.75, Liberal Democrats = -0.75, Plaid Cymru = -0.75, SNP = -0.75",
+    PoliticalPartyHelper.PoliticalParty.plaidCymru: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Labour = -0.75, Liberal Democrats = -0.75, SNP = 0",
+    PoliticalPartyHelper.PoliticalParty.SNP: "Brexit Party = -1, Conservatives = -1, Green = -0.75, Labour = -0.75, Liberal Democrats = -0.75, Plaid Cymru = 0",
 }
 
 base_manifesto_path = "manifesto_scraper/manifestos/"
@@ -104,22 +103,18 @@ for top_words_file, manifesto_file, political_party in zip(os.listdir(base_top_w
     top_words = ", ".join(lines)
     top_words = top_words.replace("\n", "")
     
-    # Split manifesto into paragraphs
+    # Get manifestos opinions on topics
     manifesto_file_path = base_manifesto_path + manifesto_file
 
     with open(manifesto_file_path , "r", encoding="unicode_escape") as manifesto_file:
         manifesto_text = manifesto_file.read()
         manifesto_file.close()
 
-    # Create dictionary, key: topic index, value: sentiment scores
-    topic_sentiment_scores = {}
-
     # Then, get sentiment scores for mentioned topics and parties by the manifesto
     articleAnalyser = ArticleAnalyser(logger, manifesto_text, manifesto_file_path, "", preprocessor)
 
     analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
     manifesto_topic_sentiment_matrix = analysed_topics[1]
-
 
     # Store results in string-encoded matrix
     manifesto_topic_sentiment_matrix = dict([(TopicsHelper.topicIndexToTopic[topic_num], topic_sentiment) for topic_num,topic_sentiment in manifesto_topic_sentiment_matrix.items() if topic_num != 0])
