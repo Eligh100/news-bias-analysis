@@ -115,7 +115,7 @@ except Exception as e:
 try:
     os.remove(articleUploader.tempUploadPath)
 except Exception as e:
-    log_line = "Failed to remove temp upload text file at: " + tempUploadPath
+    log_line = "Failed to remove temp upload text file at: " + articleUploader.tempUploadPath
     log_line += "\nFailed with the folowing exception:\n"
     log_line += str(e)
     logger.writeToLog(log_line, False)
