@@ -6,13 +6,11 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 
 class TextPreprocessor: 
 
-    def __init__(self, logger):
+    def __init__(self):
         self.porterStemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
 
         self.stopWords = stopwords.words('english')
-
-        self.logger = logger
 
     def changeToLower(self, text):
         return text.lower()

@@ -37,7 +37,7 @@ log_line = "\n\nScript started at: "
 logger.writeToLog(log_line, True)
 
 # Initialise text pre-processing class
-preprocessor = TextPreprocessor(logger)
+preprocessor = TextPreprocessor()
 
 # Get articles
 newsScraper = NewsScraper(dynamodb, logger)

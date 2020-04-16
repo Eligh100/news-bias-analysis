@@ -1,9 +1,7 @@
 import os
-from helper_classes.Logger import Logger
 from helper_classes.TextPreprocessor import TextPreprocessor
 
-logger = Logger("manifesto_scraper/keywordDetectionLog.txt")
-preprocessor = TextPreprocessor(logger)
+preprocessor = TextPreprocessor()
 
 for manifesto in os.listdir('manifesto_scraper/manifestos'):
     manifestoFilePath = "manifesto_scraper/manifestos/" + manifesto
@@ -12,9 +10,11 @@ for manifesto in os.listdir('manifesto_scraper/manifestos'):
 
         text = preprocessor.changeToLower(text)
         text = preprocessor.replaceNewline(text, ' ')
+        text = preprocessor.removeStopWords(text)
+        text = preprocessor.stripAccents(text)
         text = preprocessor.removeSpecialChars(text)
         words = preprocessor.tokenizeWords(text)
-        words = preprocessor.removeStopWords(words)
+
         preprocessed_text = preprocessor.useOriginalWords(words)
 
         manifestoName = manifesto[:-4]

@@ -34,7 +34,7 @@ table = dynamodb.Table('Articles-Table')
 
 # Initialise other variables
 logger = Logger()  
-preprocessor = TextPreprocessor(logger)
+preprocessor = TextPreprocessor()
 
 news_org_pub_date = {
     "BBC": ["div", "class", "date date--v2"], # Get first one, and get text

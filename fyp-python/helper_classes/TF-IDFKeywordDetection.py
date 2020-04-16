@@ -3,9 +3,6 @@ This code uses TF-IDF to cross-reference all party manifestos, and select unique
 In the greater scope of the project, this can be used to add weighting to the overall bias score
     i.e. a paper whose articles involve keywords found in a certain manifesto could have additional bias towards that paper
     Also, papers that discuss topics mentioned in one manifesto more could be noted
-This script itself is NOT enough - needs to be combined with a topic analyser that extracts sentiment
-For instance, just because a paper mentions brexit a lot, doesn't mean they support the brexit party or the conservatives
-Perhaps this script could be adjusted to extract sentimental keywords (i.e. 'betrayal' could imply bias)
 '''
 
 import os
@@ -36,11 +33,10 @@ fileOutputParameters = ["unibimix", "bigrams", "trigrams"]
 userChoice = -1
 while (userChoice not in [1, 2, 3]):
     try:
-        userChoice = int(input("1 for unigrams, 2 for bigrams, or 3 for trigrams: "))
+        userChoice = int(input("1 for unigrams/bigrams, 2 for bigrams, or 3 for trigrams: "))
     except:
         print("Invalid input")
 
-# TODO remove party name from text? i.e. labour is common word in labour manifesto, but not necessarily helpful?
 
 # Get preprocessed manifesto text
 manifestoTexts = []
@@ -94,9 +90,7 @@ for party,keywordScores in totalScoresDict.items():
             keywordFile.write("\n")
         keywordFile.close()
 
-# Code for wordcloud
-wc = WordCloud(background_color="white",width=1000,height=1000, max_words=50,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(totalScoresDict["Green"])
-plt.imshow(wc)
-plt.show()
-
-# TODO save these word clouds to DynamoDB table
+# Uncomment code for wordcloud (change key for totalScoresDict to different parties)
+# wc = WordCloud(background_color="white",width=1000,height=1000, max_words=50,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(totalScoresDict["Green"])
+# plt.imshow(wc)
+# plt.show()

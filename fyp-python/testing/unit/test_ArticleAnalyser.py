@@ -17,7 +17,7 @@ class TestArticleAnalyser(unittest.TestCase):
         logger = Logger(self.log_path)
         
         # Initialise preprocessor
-        preprocessor = TextPreprocessor(logger)
+        preprocessor = TextPreprocessor()
 
         # Initialise test data variables
         self.article_filename = "testing/unit/test_data/article_analysis_test.txt"

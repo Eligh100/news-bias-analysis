@@ -42,7 +42,7 @@ parties_table = dynamodb.Table('Parties-Table')
 
 # Other preliminary variables
 logger = Logger()
-preprocessor = TextPreprocessor(logger)
+preprocessor = TextPreprocessor()
 
 topic_model_path = "assets/model-final/topic_model.pkl"
 topic_vectorizer_path = "assets/model-final/topic_vectorizer.pkl"
@@ -86,7 +86,7 @@ manifesto_party_sentiments = {
 }
 
 base_manifesto_path = "manifesto_scraper/manifestos/"
-base_top_words_path = "manifesto_scraper/unibimix/"
+base_top_words_path = "manifesto_scraper/bigrams/"
 
 for top_words_file, manifesto_file, political_party in zip(os.listdir(base_top_words_path), os.listdir(base_manifesto_path), PoliticalPartyHelper.PoliticalParty):
     
@@ -120,23 +120,18 @@ for top_words_file, manifesto_file, political_party in zip(os.listdir(base_top_w
     analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
     manifesto_topic_sentiment_matrix = analysed_topics[1]
 
-    # analysed_parties = articleAnalyser.analyseArticleSentiment(False) # Get party sentiment
-    # manifesto_party_sentiment_matrix = analysed_parties[1]
 
     # Store results in string-encoded matrix
     manifesto_topic_sentiment_matrix = dict([(TopicsHelper.topicIndexToTopic[topic_num], topic_sentiment) for topic_num,topic_sentiment in manifesto_topic_sentiment_matrix.items() if topic_num != 0])
     manifesto_topic_sentiment_matrix = ", ".join([topic + " = " + str(score) for topic, score in manifesto_topic_sentiment_matrix.items()])
 
     manifesto_party_sentiment_matrix = manifesto_party_sentiments[political_party]
-    # Remove the current party from party-sentiment matrix (don't care about a party's opinion about itself!)
-    # manifesto_party_sentiment_matrix = dict([(PoliticalPartyHelper.enumToPoliticalPartyString[PoliticalPartyHelper.partyNumToEnum[party_num]], party_sentiment) for party_num,party_sentiment in manifesto_party_sentiment_matrix.items() if party_num != 0 and PoliticalPartyHelper.partyNumToEnum[party_num] != current_political_party])
-    # manifesto_party_sentiment_matrix = ", ".join([party + " = " + str(score) for party, score in manifesto_party_sentiment_matrix.items()])
 
-    response = parties_table.update_item( # update database entry with new text and metadata
+    response = parties_table.update_item( # Update database entry with new text and metadata
         Key={
             'party-name': current_political_party
         },
-        ExpressionAttributeNames = { # necessary as "-" in column names cause issues
+        ExpressionAttributeNames = { # Necessary as "-" in column names cause issues
             "#tw":"top_words",
             "#tsm":"topics_sentiment_matrix",
             "#psm":"parties_sentiment_matrix"
