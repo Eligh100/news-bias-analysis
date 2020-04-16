@@ -18,8 +18,8 @@ from corextopic import vis_topic as vt
 matplotlib.use('TkAgg') # to display topic graphs
 
 
-# vectorise the top 20,000 words
-vectorizer = CountVectorizer(input='filename', encoding="unicode_escape", max_features=1000, binary=True, ngram_range=(1,2), stop_words=stopwords.words('english'))
+# vectorise the top 1,000 words
+vectorizer = CountVectorizer(input='filename', encoding="unicode_escape", max_features=1000, binary=True, ngram_range=(1,2), stop_words=stopwords.words('english'), strip_accents="unicode")
 model_data_files = os.listdir("assets/model_data/train")
 model_data_files = ["assets/model_data/train/" + data_file for data_file in model_data_files]
 

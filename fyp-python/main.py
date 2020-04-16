@@ -77,20 +77,28 @@ for article_url, article_metadata in database_entry.items():
     # Get required information from the article
     articleAnalyser = ArticleAnalyser(logger, article_text, local_filename, article_headline, preprocessor)
 
+    # Extract topic opinions from the article's body
     analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
     likely_topics = analysed_topics[0]
     article_topic_sentiment_matrix = analysed_topics[1]
 
+    # Extract party opinions from the article's body
     analysed_parties = articleAnalyser.analyseArticleSentiment(False) # Get party sentiment
     likely_parties = analysed_parties[0]
     article_party_sentiment_matrix = analysed_parties[1]
 
-    most_similar_party = articleAnalyser.analyseManifestoSimilarity()
-
+    # Extract topic and party opinions from the headline
     headline_topics_sentiment_matrix = articleAnalyser.analyseHeadlineSentiment(True)
     headline_parties_sentiment_matrix = articleAnalyser.analyseHeadlineSentiment(False)
 
+    # See which manifesto the article shares language with
+    most_similar_party = articleAnalyser.analyseManifestoSimilarity()
+
+    # Get the top 20 words from the article
     top_words = articleAnalyser.getTopWords()
+
+    # Reset entity tracker for next article
+    articleAnalyser.entity_tracker = {}
 
     # Write analysis information to DynamoDB and upload article text
     articleUploader = ArticleUploader(s3, bucket_name, table, logger, likely_topics, likely_parties, article_topic_sentiment_matrix, article_party_sentiment_matrix, most_similar_party, headline_topics_sentiment_matrix, headline_parties_sentiment_matrix, top_words)

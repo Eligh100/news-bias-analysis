@@ -73,15 +73,18 @@ class ArticleAnalyser: # TODO add logging
         # Open MPs CSV and store results in dict
         self.mps = {}
         try:
-            with open("assets/mps-2019.csv") as csvfile:
+            with open("assets/political-people.csv") as csvfile:
                 reader = csv.reader(csvfile)
                 for row in reader:
                     self.mps[row[0]] = row[1]
         except Exception as e:
-            log_line = "Reading of MPs CSV file at: assets/mps-2019.csv failed"
+            log_line = "Reading of MPs CSV file at: assets/political-people.csv failed"
             log_line += "\nFailed with the folowing exception:\n"
             log_line += str(e)
             self.logger.writeToLog(log_line, False)
+
+        # Used to track entities throughout the article (i.e. if 'Boris Johnson' appears, then just 'Johnson' should equate to 'Conservative' when seen later)
+        self.entity_tracker = {}
         
     def analyseArticleSentiment(self, for_topics):
         
@@ -115,9 +118,6 @@ class ArticleAnalyser: # TODO add logging
         # Only consider a paragraph if it has five or more sentences
         # If it doesn't, collate paragraphs into bigger paragraphs
         composite_paragraph = ""
-
-        # Used to track entities throughout the article (i.e. if 'Boris Johnson' appears, then just 'Johnson' should equate to 'Conservative' when seen later)
-        entity_tracker = {}
 
         for paragraph in paragraphs:
 
@@ -174,31 +174,35 @@ class ArticleAnalyser: # TODO add logging
                 # Following code deals with party entities (i.e. MPs), so skip if dealing with topic sentiment
                 if (not for_topics):
 
+                    # Change to lower-case and strip accents
+                    preprocessed_sentence = self.preprocessor.changeToLower(sentence)
+                    preprocessed_sentence = self.preprocessor.stripAccents(sentence)
+
                     # Check the entity tracker first, if we've already seen an MP previously
-                    for full_name, name_split in entity_tracker.items():
-                        search_forename = re.search(rf".*{name_split[0]}.*", lowered_sentence, re.IGNORECASE)
-                        search_surname = re.search(rf".*{name_split[1]}.*", lowered_sentence, re.IGNORECASE)
-                        search_full = re.search(rf".*{full_name}.*", lowered_sentence, re.IGNORECASE)
+                    for full_name, name_split in self.entity_tracker.items():
+                        search_forename = re.search(rf".*{name_split[0]}.*", preprocessed_sentence, re.IGNORECASE)
+                        search_surname = re.search(rf".*{name_split[1]}.*", preprocessed_sentence, re.IGNORECASE)
+                        search_full = re.search(rf".*{full_name}.*", preprocessed_sentence, re.IGNORECASE)
 
                         if ((search_forename or search_surname) and not search_full): # If either parts of the name appear (but not together)
                             party_num = name_split[2]
+                            party_num = int(party_num)
                             if (party_num not in topic_sentiment_scores):
                                 topic_sentiment_scores[party_num] = 0
                             topic_sentiment_scores[party_num] += sentence_polarity
 
                     # If the sentence contains an MP from a political party, get sentiment 
-                    lowered_sentence = self.preprocessor.changeToLower(sentence)
-
                     for mp_name, party_num in self.mps.items():
-                        search = re.search(rf".*{mp_name}.*", lowered_sentence, re.IGNORECASE)
+                        party_num = int(party_num)
+                        search = re.search(rf".*{mp_name}.*", preprocessed_sentence, re.IGNORECASE)
                         if (search):
                             if (party_num not in topic_sentiment_scores):
                                 topic_sentiment_scores[party_num] = 0
                             topic_sentiment_scores[party_num] += sentence_polarity
 
                             # Separate first and last name for advanced entity searching in future sentences in paragraph
-                            if (mp_name not in entity_tracker):
-                                entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
+                            if (mp_name not in self.entity_tracker):
+                                self.entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
 
         # Returned object, key: topic index, value: score
         articleTopicSentimentsMatrix = {}
@@ -230,13 +234,13 @@ class ArticleAnalyser: # TODO add logging
         text = self.preprocessor.changeToLower(text)
         text = self.preprocessor.replaceNewline(text, ' ')
         text = self.preprocessor.removeStopWords(text)
+        text = self.preprocessor.stripAccents(text)
         text = self.preprocessor.removeSpecialChars(text)
         words = self.preprocessor.tokenizeWords(text)
         preprocessed_text = self.preprocessor.useOriginalWords(words)
 
         # Gather processed manifesto texts
         similarityTexts = [preprocessed_text]
-
 
         try:
             for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
@@ -266,9 +270,6 @@ class ArticleAnalyser: # TODO add logging
 
     def analyseHeadlineSentiment(self, for_topics):
 
-        model = ""
-        vectorizer = ""
-
         if (for_topics):
             model = self.topic_model
             vectorizer = self.topic_vectorizer
@@ -279,6 +280,7 @@ class ArticleAnalyser: # TODO add logging
         headline = self.headline
         headline_polarity = TextBlob(headline).sentiment.polarity
 
+        # First, get most likely topic/party using model, and extract weighted sentiment (weighting with likelihood)
         tempFileName = "temp_files/tempProcessing.txt"
 
         try:
@@ -307,6 +309,39 @@ class ArticleAnalyser: # TODO add logging
                 weighted_polarity = headline_polarity * topic_probabilities[likely_topic]
                 headline_topics_matrix[likely_topic] = weighted_polarity
 
+        # Then, look for political people (entities)
+        if (not for_topics):
+
+            # Change to lower-case and strip accents
+            preprocessed_headline = self.preprocessor.changeToLower(headline)
+            preprocessed_headline = self.preprocessor.stripAccents(headline)
+
+            # Check the entity tracker first, if we've already seen an MP previously
+            for full_name, name_split in self.entity_tracker.items():
+                search_forename = re.search(rf".*{name_split[0]}.*", preprocessed_headline, re.IGNORECASE)
+                search_surname = re.search(rf".*{name_split[1]}.*", preprocessed_headline, re.IGNORECASE)
+                search_full = re.search(rf".*{full_name}.*", preprocessed_headline, re.IGNORECASE)
+
+                if ((search_forename or search_surname) and not search_full): # If either parts of the name appear (but not together)
+                    party_num = name_split[2]
+                    party_num = int(party_num)
+                    if (party_num not in headline_topics_matrix):
+                        headline_topics_matrix[party_num] = 0
+                    headline_topics_matrix[party_num] += headline_polarity
+
+            # If the sentence contains an MP from a political party, get sentiment 
+            for mp_name, party_num in self.mps.items():
+                party_num = int(party_num)
+                search = re.search(rf".*{mp_name}.*", preprocessed_headline, re.IGNORECASE)
+                if (search):
+                    if (party_num not in headline_topics_matrix):
+                        headline_topics_matrix[party_num] = 0
+                    headline_topics_matrix[party_num] += headline_polarity
+
+                    # Separate first and last name for advanced entity searching in future sentences in paragraph
+                    if (mp_name not in self.entity_tracker):
+                        self.entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
+
         try:
             os.remove(tempFileName)
         except Exception as e:
@@ -326,6 +361,7 @@ class ArticleAnalyser: # TODO add logging
         text = self.preprocessor.changeToLower(text)
         text = self.preprocessor.replaceNewline(text, ' ')
         text = self.preprocessor.removeStopWords(text)
+        text = self.preprocessor.stripAccents(text)
         text = self.preprocessor.removeSpecialChars(text)
         words = self.preprocessor.tokenizeWords(text)
         preprocessed_text = self.preprocessor.useOriginalWords(words)
@@ -341,7 +377,7 @@ class ArticleAnalyser: # TODO add logging
         return top_words[0:20]
 
     def getVectorised(self, tempFileName, vectorizer):
-        text_vectorized = vectorizer.transform([tempFileName]) # The vectorizer needs files
+        text_vectorized = vectorizer.transform([tempFileName]) # The vectorizer needs text files, not strings
         text_vectorized = ss.csr_matrix(text_vectorized)
         words = list(np.asarray(vectorizer.get_feature_names()))
         not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]

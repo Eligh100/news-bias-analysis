@@ -5,7 +5,7 @@ import unittest
 from news_scraper.ArticleTrimmer import ArticleTrimmer
 from helper_classes.Logger import Logger
 
-class TestNewsScraper(unittest.TestCase):
+class TestArticleTrimmer(unittest.TestCase):
 
     def setUp(self):
 
@@ -63,12 +63,14 @@ class TestNewsScraper(unittest.TestCase):
         self.assertEqual(expected_author_2, good_url_2_results[2])
         self.assertEqual(expected_pub_date_2, good_url_2_results[4])
 
+        self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
+
     def isLogEmpty(self):
         is_empty = False
         try:
             is_empty = os.stat(self.log_path).st_size == 0
         except:
-            is_empty = path.exists(self.log_path)
+            is_empty = not(path.exists(self.log_path))
         
         return is_empty
 

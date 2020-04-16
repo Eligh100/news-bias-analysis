@@ -38,7 +38,6 @@ class TestNewsScraper(unittest.TestCase):
         expected_urls = set([
             "https://www.theguardian.com/world/2020/apr/14/uk-care-providers-allege-covid-19-death-toll-underestimated",
             "https://www.theguardian.com/politics/2020/apr/14/antisemitism-inquiry-must-come-before-labour-officials-hired",
-            "https://www.theguardian.com/politics/2020/apr/13/labour-leader-sir-kier-starmer-orders-urgent-review-leaked-antisemitism-report",
             "https://www.theguardian.com/business/2020/apr/14/how-close-is-the-nhs-to-getting-the-18000-ventilators-it-needs-coronavirus"
         ])
 
@@ -47,7 +46,7 @@ class TestNewsScraper(unittest.TestCase):
 
         # Assert
         self.assertEqual(expected_urls, scraped_urls["GUARDIAN"]) 
-        self.assertTrue(self.isLogEmpty) # Empty log = No exceptions
+        self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
     def test_checkArticleValidity(self):
         # Arrange
@@ -64,7 +63,7 @@ class TestNewsScraper(unittest.TestCase):
         # Assert
         self.assertTrue(good_keywords_test)
         self.assertFalse(bad_keywords_test)
-        self.assertTrue(self.isLogEmpty) # Empty log = No exceptions
+        self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
 
     def test_articleAlreadyStored(self):
@@ -79,14 +78,14 @@ class TestNewsScraper(unittest.TestCase):
         # Assert
         self.assertTrue(existing_url_test)
         self.assertFalse(not_existing_url_test)
-        self.assertTrue(self.isLogEmpty) # Empty log = No exceptions
+        self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
     def isLogEmpty(self):
         is_empty = False
         try:
             is_empty = os.stat(self.log_path).st_size == 0
         except:
-            is_empty = path.exists(self.log_path)
+            is_empty = not(path.exists(self.log_path))
         
         return is_empty
 
