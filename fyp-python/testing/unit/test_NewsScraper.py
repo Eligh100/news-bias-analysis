@@ -45,7 +45,7 @@ class TestNewsScraper(unittest.TestCase):
         scraped_urls = self.newsScraper.scrapeArticles()
 
         # Assert
-        self.assertEqual(expected_urls, scraped_urls["GUARDIAN"]) 
+        self.assertEqual(expected_urls, scraped_urls["GUARDIAN"])  
         self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
     def test_checkArticleValidity(self):

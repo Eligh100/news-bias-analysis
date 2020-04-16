@@ -112,6 +112,14 @@ except Exception as e:
     log_line += str(e)
     logger.writeToLog(log_line, False)
 
+try:
+    os.remove(articleUploader.tempUploadPath)
+except Exception as e:
+    log_line = "Failed to remove temp upload text file at: " + tempUploadPath
+    log_line += "\nFailed with the folowing exception:\n"
+    log_line += str(e)
+    logger.writeToLog(log_line, False)
+
 # Write to log file, stating program's completion
 log_line = "Script ran to completion - "
 logger.writeToLog(log_line, True)

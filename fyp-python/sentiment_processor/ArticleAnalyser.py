@@ -227,7 +227,7 @@ class ArticleAnalyser: # TODO add logging
         # Return list of pairs of topic/party and overall sentiment score (for article)
         return (likely_topics, articleTopicSentimentsMatrix)
 
-    def analyseManifestoSimilarity(self): # TODO test this
+    def analyseManifestoSimilarity(self):
         
         # First, preprocess the article text
         text = self.article_text

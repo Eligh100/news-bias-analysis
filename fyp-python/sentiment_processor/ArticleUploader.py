@@ -60,7 +60,16 @@ class ArticleUploader():
         return article_url
 
     def getS3Url(self, sanitised_url):
-        bucket_location = boto3.client('s3').get_bucket_location(Bucket=self.bucket_name)
+        try:
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=self.bucket_name)
+        except Exception as e:
+            log_line = "Failed to locate bucket: " + self.bucket_name
+            log_line += "\nFailed with the folowing exception:\n"
+            log_line += str(e)
+            log_line += "\nScript exited prematurely - "
+            self.logger.writeToLog(log_line, True)
+            exit(0)
+            
         s3_url = "https://{0}.s3.{1}.amazonaws.com/{2}".format(
                 self.bucket_name,
                 bucket_location['LocationConstraint'],

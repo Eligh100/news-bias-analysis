@@ -6,6 +6,7 @@ import numpy as np
 from sentiment_processor.ArticleAnalyser import ArticleAnalyser
 from helper_classes.Logger import Logger
 from helper_classes.TextPreprocessor import TextPreprocessor
+from helper_classes.Enums import PoliticalPartyHelper
 
 class TestArticleAnalyser(unittest.TestCase):
 
@@ -68,7 +69,17 @@ class TestArticleAnalyser(unittest.TestCase):
         
 
     def test_analyseManifestoSimilarity(self): 
-        pass
+        # Arrange
+        expected_most_similar_party = PoliticalPartyHelper.PoliticalParty.SNP
+
+        # Act
+        most_similar_party = self.articleAnalyser.analyseManifestoSimilarity()
+
+        # Assert
+        self.assertIsNotNone(most_similar_party)
+        self.assertEqual(expected_most_similar_party, most_similar_party)
+
+        self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
     def test_analyseHeadlineSentiment(self):
         # Arrange
@@ -115,7 +126,7 @@ class TestArticleAnalyser(unittest.TestCase):
    
         # Assert
         self.assertIsNotNone(text_vectorized_topic)
-        self.assertIsNotNone(text_vectorized_topic)
+        self.assertIsNotNone(text_vectorized_party)
         self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
     def isLogEmpty(self):
