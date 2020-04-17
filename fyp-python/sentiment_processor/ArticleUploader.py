@@ -5,6 +5,22 @@ from datetime import datetime
 from helper_classes.Enums import PoliticalPartyHelper, TopicsHelper
 
 class ArticleUploader():
+    """Uploads article text to S3, and stores information/S3 URL in DynamoDB
+        
+    Arguments:
+        s3 {Object} -- S3 instance
+        bucket_name {string} -- Name of S3 bucket (file storage) where article text is stored
+        table {Object} -- DynamoDB table where article information will be stored
+        logger {Logger} -- Logger instance, for logging exceptions
+        likely_topics {[int]} -- List of topic indexes
+        likely_parties {[int]} -- List of party indexes
+        article_topic_sentiment_matrix {dict{int:float}} -- Matrix of topic index -> sentiment scores from article
+        article_party_sentiment_matrix {dict{int:float}} -- Matrix of party index -> sentiment scores from article
+        most_similar_party {PoliticalParty} -- Enum of political party that text is most similar to
+        headline_topics_sentiment_matrix {dict{int:float}} -- Matrix of topic index -> sentiment scores from headline
+        headline_parties_sentiment_matrix {dict{int:float}} -- Matrix of party index -> sentiment scores from headline
+        top_words {dict{word:float}} -- Matrix of word -> frequency score
+    """
 
     def __init__(self, s3, bucket_name, table, logger, likely_topics, likely_parties, article_topic_sentiment_matrix, article_party_sentiment_matrix, most_similar_party, headline_topics_sentiment_matrix, headline_parties_sentiment_matrix, top_words):
         self.s3 = s3
@@ -25,6 +41,13 @@ class ArticleUploader():
 
 
     def uploadArticles(self, article_url, article_data):
+        """Upload article text and information to S3/DynamoDB, for use by the website
+        
+        Arguments:
+            article_url {string} -- URL of current article (used to uniquely index in S3/DynamoDB)
+            article_data {[]} -- List of content/metadata about the article (text, headline, author, etc.)
+        """
+
         # Store article text in S3 and get URL
         s3_url = ""
         if (article_data[0] != ""):
@@ -53,6 +76,15 @@ class ArticleUploader():
                     self.updateDatabase(article_url, article_data, s3_url)
 
     def sanitiseURL(self, article_url):
+        """Removes illegal characters from URL for storage in S3
+        
+        Arguments:
+            article_url {string} -- URL to be sanitised
+        
+        Returns:
+            {string} -- Sanitised URL
+        """
+
         article_url = article_url.replace("http://","")
         article_url = article_url.replace("https://","")
         article_url = article_url.replace('/','FYPSLASHFYP')
@@ -60,6 +92,15 @@ class ArticleUploader():
         return article_url
 
     def getS3Url(self, sanitised_url):
+        """Construct S3 object URL for storage in DynamoDB (to connect the two storage solutions)
+        
+        Arguments:
+            sanitised_url {string} -- URL of current article
+        
+        Returns:
+            {string} -- S3 object URL, that points to object in S3 bucket
+        """
+
         try:
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=self.bucket_name)
         except Exception as e:
@@ -78,6 +119,8 @@ class ArticleUploader():
         return s3_url
 
     def encodeDataToString(self):
+        """Encodes analysis data to strings for storage in DynamoDB (i.e. party_index of 1 becomes 'Labour')"""
+
         self.likely_topics = ", ".join([TopicsHelper.topicIndexToTopic[likely_topic] for likely_topic in self.likely_topics if likely_topic != 0])
 
         self.likely_parties = ", ".join([PoliticalPartyHelper.enumToPoliticalPartyString[PoliticalPartyHelper.partyNumToEnum[likely_party]] for likely_party in self.likely_parties if likely_party != 0])
@@ -98,6 +141,7 @@ class ArticleUploader():
 
         self.top_words = ", ".join([word + " = " + str(score) for word,score in self.top_words.items()])
 
+        # If any data is empty, set to 'NO INFO' string - issues caused with empty fields in DynamoDB
         if (self.likely_topics == ""):
             self.likely_topics = "NO INFO"
         if (self.likely_parties == ""):
@@ -115,7 +159,15 @@ class ArticleUploader():
         if (self.top_words == ""):
             self.top_words = "NO INFO"
 
-    def updateDatabase(self, article_url, article_data, s3_url):        
+    def updateDatabase(self, article_url, article_data, s3_url):       
+        """Uploads/updates DynamoDB table with current article
+        
+        Arguments:
+            article_url {string} -- URL of current article (used to uniquely index in S3/DynamoDB)
+            article_data {[]} -- List of content/metadata about the article (text, headline, author, etc.)
+            s3_url {string} -- S3 object URL, to locate text in bucket (stored with rest of attributes in DynamoDB)
+        """
+
         now = datetime.now() # current date and time
         date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
 

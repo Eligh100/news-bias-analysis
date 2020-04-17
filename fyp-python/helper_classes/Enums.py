@@ -1,6 +1,8 @@
 from enum import Enum
 
 class PoliticalPartyHelper():
+    """Allows encoding and decoding between numerical, string, and enum representations of political parties"""
+
     class PoliticalParty(Enum):
         brexitParty = 1
         conservative = 2
@@ -37,7 +39,8 @@ class PoliticalPartyHelper():
     }
 
 class TopicsHelper():
-    
+    """Allows encoding and decoding between numerical, string, and enum representations of topics"""
+
     topicIndexToTopic = {
         1: "Scotland",
         2: "Ireland",

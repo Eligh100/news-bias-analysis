@@ -21,6 +21,12 @@ import time
 import boto3
 
 class NewsScraper():
+    """Scrapes articles from RSS feeds, and checks them for validity
+        
+    Arguments:
+        dynamodb {Object} -- DynamoDB instance, to access DynamoDB tables
+        logger {Logger} -- Logger instance, for logging exceptions
+    """
 
     # Base RSS urls to fetch articles from
     news_base_urls = {
@@ -55,17 +61,20 @@ class NewsScraper():
         "MIRROR": set([]),
     }
 
+    # Stores when most recent update of article in database was
     curr_url_stored_time = datetime.datetime.now()
 
-    dynamodb = ""
-    logger = ""
-
     def __init__(self, dynamodb, logger):
-
         self.dynamodb = dynamodb
         self.logger = logger
 
     def scrapeArticles(self):
+        """Scrapes articles from RSS feeds, checks for validity, and returns valid article URLs
+        
+        Returns:
+            {dict(string: [string])} -- Dictionary of key: news organisation and value: list of article URLs
+        """
+
         for org_name, urls in self.news_base_urls.items():
             for url in urls:
                 try:
@@ -91,12 +100,25 @@ class NewsScraper():
         return self.news_filtered_urls
 
     def checkArticleValidity(self, entry, curr_url, org_name):
+        """Checks article is valid, through a number of methods
+        
+        Arguments:
+            entry {Object} -- RSS object of current entry in RSS file
+            curr_url {string} -- URL being checked
+            org_name {string} -- Name of current news organisation being processed
+        
+        Returns:
+            {bool} -- Whether or not the article is valid 
+        """
+
         keyword_dict = self.news_search_terms[org_name]
 
         updated_time = datetime.datetime.fromtimestamp(mktime(entry.updated_parsed))
 
         url_ok = False
 
+        # Check the URL doesn't contain specific keywords
+        # i.e. Guardian articles with /commentisfree/ are unwanted - just want articles
         if (keyword_dict[0] == [] and not any(keyword in curr_url for keyword in keyword_dict[1])):
             url_ok = True
         elif (any(keyword in curr_url for keyword in keyword_dict[0]) and not any(keyword in curr_url for keyword in keyword_dict[1])):
@@ -116,6 +138,15 @@ class NewsScraper():
                 return True
     
     def articleAlreadyStored(self, curr_url):
+        """Checks whether an article is stored in the DynamoDB database
+        
+        Arguments:
+            curr_url {string} -- URL being checked
+        
+        Returns:
+            {bool} -- Whether or not article is already stored in the DynamoDB database
+        """
+
         table = self.dynamodb.Table('Articles-Table') 
 
         try:

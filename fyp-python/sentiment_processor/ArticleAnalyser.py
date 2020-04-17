@@ -15,7 +15,16 @@ from corextopic import vis_topic as vt
 
 from helper_classes.Enums import PoliticalPartyHelper
 
-class ArticleAnalyser: # TODO add logging
+class ArticleAnalyser: 
+    """Analyses the article's text and headline, and extract sentiment and other information
+    
+    Arguments:
+        logger {Logger} -- Logger object, for logging exceptions
+        article_text {string} -- Current article's text
+        article_filename {string} -- Filepath where current article text is stored
+        headline {string} -- Current article's headline
+        preprocessor {TextPreprocessor} -- TextPreprocessor object, for preprocessing text
+    """
 
     def __init__(self, logger, article_text, article_filename, headline, preprocessor):
         self.logger = logger
@@ -30,6 +39,7 @@ class ArticleAnalyser: # TODO add logging
         party_model_path = "assets/model/party_model.pkl"
         party_vectorizer_path = "assets/model/party_vectorizer.pkl"
 
+        # Load the topic model
         try:
             self.topic_model = cPickle.load(open(topic_model_path, 'rb'))
         except Exception as e:
@@ -40,6 +50,7 @@ class ArticleAnalyser: # TODO add logging
             self.logger.writeToLog(log_line, True)
             exit(0)
 
+        # Load the topic vectorizer
         try:
             self.topic_vectorizer = cPickle.load(open(topic_vectorizer_path, "rb"))
         except Exception as e:
@@ -50,6 +61,7 @@ class ArticleAnalyser: # TODO add logging
             self.logger.writeToLog(log_line, True)
             exit(0)
 
+        # Load the party model
         try:
             self.party_model = cPickle.load(open(party_model_path, 'rb'))
         except Exception as e:
@@ -60,6 +72,7 @@ class ArticleAnalyser: # TODO add logging
             self.logger.writeToLog(log_line, True)
             exit(0)
 
+        # Load the party vectorizer
         try:
             self.party_vectorizer = cPickle.load(open(party_vectorizer_path, "rb"))
         except Exception as e:
@@ -87,7 +100,17 @@ class ArticleAnalyser: # TODO add logging
         self.entity_tracker = {}
         
     def analyseArticleSentiment(self, for_topics):
+        """Analyses article's sentiment for topics/parties
         
+        Arguments:
+            for_topics {bool} -- Flag for whether topic sentiment or party sentiment is being analysed
+        
+        Returns:
+            {tuple([int],dict{int:float})} -- Tuple:
+                                            Item 1: List of likely topics/parties
+                                            Item 2: Dictionary of key: topic/party index, and value: sentiment score
+        """
+
         model = ""
         vectorizer = ""
 
@@ -134,6 +157,7 @@ class ArticleAnalyser: # TODO add logging
             else:
                 composite_paragraph = ""
 
+            # Write paragraph to file (as file needed for vectorization)
             try:
                 with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
                     tempFile.write(paragraph)
@@ -146,6 +170,7 @@ class ArticleAnalyser: # TODO add logging
                 self.logger.writeToLog(log_line, True)
                 exit(0)
             
+            # Vectorize the paragraph, and make topic/party predictions
             paragraph_vectorized = self.getVectorised(tempFileName, vectorizer) 
             paragraph_binary_predictions = model.predict(paragraph_vectorized)
             paragraph_probabilities = model.predict_proba(paragraph_vectorized)[0][0]
@@ -228,7 +253,13 @@ class ArticleAnalyser: # TODO add logging
         return (likely_topics, articleTopicSentimentsMatrix)
 
     def analyseManifestoSimilarity(self):
+        """Compares article against all manifestos, and returns party it's most similar to,
+            using TF-IDF and cosine similarity
         
+        Returns:
+            {PoliticalParty} -- Enum of which political party the article is most similar to
+        """
+
         # First, preprocess the article text
         text = self.article_text
         text = self.preprocessor.changeToLower(text)
@@ -269,6 +300,14 @@ class ArticleAnalyser: # TODO add logging
         return PoliticalPartyHelper.PoliticalParty(most_similar_manifesto)
 
     def analyseHeadlineSentiment(self, for_topics):
+        """Analyses headline's sentiment for topics/parties
+        
+        Arguments:
+            for_topics {bool} -- Flag for whether topic sentiment or party sentiment is being analysed
+        
+        Returns:
+            {dict{int:float}} -- Dictionary of key: topic/party index, and value: sentiment score
+        """
 
         if (for_topics):
             model = self.topic_model
@@ -353,8 +392,12 @@ class ArticleAnalyser: # TODO add logging
         # Return dict (key: topic/party num, value = score)
         return headline_topics_matrix
 
-    # Gets top 20 uni/bigrams from article, for word maps
     def getTopWords(self):
+        """ Gets top 20 uni/bigrams from article, for word maps
+
+        Returns:
+            [dict{string:float}] -- Dictionary of key: word and value: frequency score
+        """
 
          # First, preprocess the article text
         text = self.article_text
@@ -377,6 +420,16 @@ class ArticleAnalyser: # TODO add logging
         return top_words[0:20]
 
     def getVectorised(self, tempFileName, vectorizer):
+        """Vectorizes text for use by the topic/party models (to make predictions based on the trained models)
+        
+        Arguments:
+            tempFileName {string} -- Filepath of text to be vectorized (vectorizer takes files)
+            vectorizer {Object} -- Pickled vectorizer to vectorize text with
+        
+        Returns:
+            {Object} -- Vectorized text
+        """
+
         text_vectorized = vectorizer.transform([tempFileName]) # The vectorizer needs text files, not strings
         text_vectorized = ss.csr_matrix(text_vectorized)
         words = list(np.asarray(vectorizer.get_feature_names()))

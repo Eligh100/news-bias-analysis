@@ -6,6 +6,11 @@ from bs4.element import Comment
 from datetime import datetime
 
 class ArticleTrimmer():
+    """Extracts relevant information from the article, such as the main text, headline, authors, etc.
+    
+    Arguments:
+        logger {Logger} -- Logger object, for logging exceptions
+    """
 
     database_entry = {}
 
@@ -56,6 +61,17 @@ class ArticleTrimmer():
         self.logger = logger
 
     def trimArticle(self, articles):
+        """Extracts relevant information from the article
+        
+        Arguments:
+            articles {dict} -- Dictionary received from NewsScraper.py
+                Containing key: news organisation and value: list of URLs
+        
+        Returns:
+            {dict(string, [])} -- Dictionary of key: article URL and value: list of article's information
+                    Info is article text, headline, author, news organisation, and publish date
+        """
+
         for org_name, article_links_list in articles.items():
                 for article_url in article_links_list:
                     try:
