@@ -47,8 +47,6 @@ first_scan = True
 
 last_evaluated_key = ""
 
-local_filename = "temp_files/tempArticleFile1.txt"
-
 # Open MPs CSV and store results in dict
 mps = {}
 try:
@@ -82,16 +80,26 @@ except Exception as e:
 
 # Keys
 key = {}
-key = {'article-url': 'https://www.mirror.co.uk/news/politics/voice-mirror-welcome-boris-johnsons-21459185'}
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-8143251/Fit-healthy-mother-39-face-coronavirus-epidemic-released-hospital.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
-key = {'article-url': 'https://www.independent.co.uk/news/uk/politics/keir-starmer-labour-leadership-race-unison-trade-union-corbyn-long-bailey-a9275366.html'}
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-8020153/MEPs-warn-Britain-EU-fishermen-rights-fish-British-waters.html?ns_mchannel=rss&ns_campaign=1490&ito=1490'}
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-8142633/Thieves-raid-kitchens-fridges-food-destined-locals-left-isolated-coronavirus.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}      
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-8154805/Fury-Sadiq-Khan-grows-workers-forced-packed-Tubes-3rd-day-coronavirus-lockdown.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}    
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-8186835/Wealthy-NYC-businesses-board-stores-defend-against-civil-unrest-virus-decimates-NYPD.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-8154891/Coronavirus-tracker-claims-6-6MILLION-people-UK-it.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
-key = {'article-url': 'https://www.dailymail.co.uk/news/article-7747291/Jeremy-Corbyn-criticised-video-supporting-minority-groups-excludes-Jewish-community.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
+# key = {'article-url': 'https://www.mirror.co.uk/news/politics/voice-mirror-welcome-boris-johnsons-21459185'}
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-8143251/Fit-healthy-mother-39-face-coronavirus-epidemic-released-hospital.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
+# key = {'article-url': 'https://www.independent.co.uk/news/uk/politics/keir-starmer-labour-leadership-race-unison-trade-union-corbyn-long-bailey-a9275366.html'}
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-8020153/MEPs-warn-Britain-EU-fishermen-rights-fish-British-waters.html?ns_mchannel=rss&ns_campaign=1490&ito=1490'}
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-8142633/Thieves-raid-kitchens-fridges-food-destined-locals-left-isolated-coronavirus.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}      
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-8154805/Fury-Sadiq-Khan-grows-workers-forced-packed-Tubes-3rd-day-coronavirus-lockdown.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}    
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-8186835/Wealthy-NYC-businesses-board-stores-defend-against-civil-unrest-virus-decimates-NYPD.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-8154891/Coronavirus-tracker-claims-6-6MILLION-people-UK-it.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
+# key = {'article-url': 'https://www.dailymail.co.uk/news/article-7747291/Jeremy-Corbyn-criticised-video-supporting-minority-groups-excludes-Jewish-community.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
 
+local_filename = "temp_files/tempArticleFile1.txt"
+# local_filename = "temp_files/tempArticleFile2.txt"
+# local_filename = "temp_files/tempArticleFile3.txt"
+# local_filename = "temp_files/tempArticleFile4.txt"
+# local_filename = "temp_files/tempArticleFile5.txt"
+# local_filename = "temp_files/tempArticleFile6.txt"
+# local_filename = "temp_files/tempArticleFile7.txt"
+# local_filename = "temp_files/tempArticleFile8.txt"
+# local_filename = "temp_files/tempArticleFile9.txt"
+# local_filename = "temp_files/tempArticleFile10.txt"
 
 if (key != {}):
     results = table.scan()
