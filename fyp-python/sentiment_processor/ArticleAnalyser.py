@@ -1,5 +1,4 @@
 import os
-import csv
 import re
 import numpy as np
 import pandas as pd
@@ -21,18 +20,20 @@ class ArticleAnalyser:
     Arguments:
         logger {Logger} -- Logger object, for logging exceptions
         article_text {string} -- Current article's text
-        article_filename {string} -- Filepath where current article text is stored
         headline {string} -- Current article's headline
         preprocessor {TextPreprocessor} -- TextPreprocessor object, for preprocessing text
+        mps {dict{string:int}} -- Dictionary of key: political person's name and value: party index
+        manifesto_texts {[string]} - List of every manifesto's text
     """
 
-    def __init__(self, logger, article_text, article_filename, headline, preprocessor):
+    def __init__(self, logger, article_text, headline, preprocessor, mps, manifesto_texts):
         self.logger = logger
         self.article_text = article_text
-        self.article_filename = article_filename
         self.headline = headline
         self.preprocessor = preprocessor
-
+        self.mps = mps
+        self.manifesto_texts = manifesto_texts
+        
         topic_model_path = "assets/model/topic_model.pkl"
         topic_vectorizer_path = "assets/model/topic_vectorizer.pkl"
 
@@ -83,19 +84,6 @@ class ArticleAnalyser:
             self.logger.writeToLog(log_line, True)
             exit(0)
 
-        # Open MPs CSV and store results in dict
-        self.mps = {}
-        try:
-            with open("assets/political-people.csv") as csvfile:
-                reader = csv.reader(csvfile)
-                for row in reader:
-                    self.mps[row[0]] = row[1]
-        except Exception as e:
-            log_line = "Reading of MPs CSV file at: assets/political-people.csv failed"
-            log_line += "\nFailed with the folowing exception:\n"
-            log_line += str(e)
-            self.logger.writeToLog(log_line, False)
-
         # Used to track entities throughout the article (i.e. if 'Boris Johnson' appears, then just 'Johnson' should equate to 'Conservative' when seen later)
         self.entity_tracker = {}
         
@@ -124,10 +112,8 @@ class ArticleAnalyser:
         # Store the original text, for use later
         original_text = self.article_text 
 
-        tempFileName = "temp_files/tempProcessing2.txt"
-
         # Next, find overall most likely topics
-        text_vectorized = self.getVectorised(self.article_filename, vectorizer)
+        text_vectorized = self.getVectorised(self.article_text, vectorizer)
         topic_binary_predictions = model.predict(text_vectorized)
 
         likely_topics = np.nonzero(topic_binary_predictions == True)[1]
@@ -156,22 +142,9 @@ class ArticleAnalyser:
                 continue
             else:
                 composite_paragraph = ""
-
-            # Write paragraph to file (as file needed for vectorization)
-            try:
-                with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
-                    tempFile.write(paragraph)
-                    tempFile.close()
-            except Exception as e:
-                log_line = "Failed to write to file: " + tempFileName 
-                log_line += "\nFailed with the folowing exception:\n"
-                log_line += str(e)
-                log_line += "\nScript exited prematurely - "
-                self.logger.writeToLog(log_line, True)
-                exit(0)
             
             # Vectorize the paragraph, and make topic/party predictions
-            paragraph_vectorized = self.getVectorised(tempFileName, vectorizer) 
+            paragraph_vectorized = self.getVectorised(paragraph, vectorizer) 
             paragraph_binary_predictions = model.predict(paragraph_vectorized)
             paragraph_probabilities = model.predict_proba(paragraph_vectorized)[0][0]
 
@@ -241,14 +214,6 @@ class ArticleAnalyser:
                     sentiment_score = -1
                 articleTopicSentimentsMatrix[topic_index] = sentiment_score
 
-        try:
-            os.remove(tempFileName)
-        except Exception as e:
-            log_line = "Failed to remove temp file at: " + tempFileName
-            log_line += "\nFailed with the folowing exception:\n"
-            log_line += str(e)
-            self.logger.writeToLog(log_line, False)
-
         # Return list of pairs of topic/party and overall sentiment score (for article)
         return (likely_topics, articleTopicSentimentsMatrix)
 
@@ -271,21 +236,7 @@ class ArticleAnalyser:
         preprocessed_text = self.preprocessor.useOriginalWords(words)
 
         # Gather processed manifesto texts
-        similarityTexts = [preprocessed_text]
-
-        try:
-            for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
-                manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
-                with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
-                    manifestoText = manifestoTextFile.read()
-                    similarityTexts.append(manifestoText)
-        except Exception as e:
-            log_line = "Unable to locate manifestos"
-            log_line += "\nFailed with the folowing exception:\n"
-            log_line += str(e)
-            log_line += "\nScript exited prematurely - "
-            self.logger.writeToLog(log_line, True)
-            exit(0)
+        similarityTexts = [preprocessed_text] + self.manifesto_texts
 
         # Perform TF-IDF on article and manifestos
         tfidf_vectorizer = TfidfVectorizer(min_df=1)
@@ -319,23 +270,8 @@ class ArticleAnalyser:
         headline = self.headline
         headline_polarity = TextBlob(headline).sentiment.polarity
 
-        # First, get most likely topic/party using model, and extract weighted sentiment (weighting with likelihood)
-        tempFileName = "temp_files/tempProcessing.txt"
-
-        try:
-            with open(tempFileName, "w", encoding="unicode_escape") as tempFile:
-                tempFile.write(headline)
-                tempFile.close()
-        except Exception as e:
-            log_line = "Failed to write to file: " + tempFileName 
-            log_line += "\nFailed with the folowing exception:\n"
-            log_line += str(e)
-            log_line += "\nScript exited prematurely - "
-            self.logger.writeToLog(log_line, True)
-            exit(0)
-
         # Find the most likely topic of the headline
-        headline_vectorized = self.getVectorised(tempFileName, vectorizer)
+        headline_vectorized = self.getVectorised(headline, vectorizer)
         topic_binary_predictions = model.predict(headline_vectorized)
         topic_probabilities = model.predict_proba(headline_vectorized)[0][0]
 
@@ -381,14 +317,6 @@ class ArticleAnalyser:
                     if (mp_name not in self.entity_tracker):
                         self.entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
 
-        try:
-            os.remove(tempFileName)
-        except Exception as e:
-            log_line = "Failed to remove temp file at: " + tempFileName
-            log_line += "\nFailed with the folowing exception:\n"
-            log_line += str(e)
-            self.logger.writeToLog(log_line, False)
-
         # Return dict (key: topic/party num, value = score)
         return headline_topics_matrix
 
@@ -419,18 +347,18 @@ class ArticleAnalyser:
         top_words = df.iloc[[0]].sum(axis=0).sort_values(ascending=False)
         return top_words[0:20]
 
-    def getVectorised(self, tempFileName, vectorizer):
+    def getVectorised(self, text, vectorizer):
         """Vectorizes text for use by the topic/party models (to make predictions based on the trained models)
         
         Arguments:
-            tempFileName {string} -- Filepath of text to be vectorized (vectorizer takes files)
+            text {string} -- Text to be vectorized
             vectorizer {Object} -- Pickled vectorizer to vectorize text with
         
         Returns:
             {Object} -- Vectorized text
         """
 
-        text_vectorized = vectorizer.transform([tempFileName]) # The vectorizer needs text files, not strings
+        text_vectorized = vectorizer.transform([text]) # Needs a list (even if only one item)
         text_vectorized = ss.csr_matrix(text_vectorized)
         words = list(np.asarray(vectorizer.get_feature_names()))
         not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]

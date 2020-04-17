@@ -2,6 +2,7 @@ import os
 from os import path
 import unittest
 import numpy as np
+import csv
 
 from sentiment_processor.ArticleAnalyser import ArticleAnalyser
 from helper_classes.Logger import Logger
@@ -20,15 +21,30 @@ class TestArticleAnalyser(unittest.TestCase):
         preprocessor = TextPreprocessor()
 
         # Initialise test data variables
-        self.article_filename = "testing/unit/test_data/article_analysis_test.txt"
+        article_filename = "testing/unit/test_data/article_analysis_test.txt"
 
-        with open(self.article_filename, "r", encoding="unicode_escape") as article_file:
+        with open(article_filename, "r", encoding="unicode_escape") as article_file:
             article_text = article_file.read()
             article_file.close()
 
         headline = "SNP manifesto 2019: 12 key policies explained"
 
-        self.articleAnalyser = ArticleAnalyser(logger, article_text, self.article_filename, headline, preprocessor)
+        mps = {}
+        with open("assets/political-people.csv") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                mps[row[0]] = row[1]
+            csvfile.close()
+
+        manifesto_texts = []
+        for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+            manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
+            with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
+                manifestoText = manifestoTextFile.read()
+                manifesto_texts.append(manifestoText)
+                manifestoTextFile.close()
+
+        self.articleAnalyser = ArticleAnalyser(logger, article_text, headline, preprocessor, mps, manifesto_texts)
 
     def test_analyseArticleSentiment(self):
         # Arrange
@@ -121,8 +137,8 @@ class TestArticleAnalyser(unittest.TestCase):
         party_vectorizer = self.articleAnalyser.party_vectorizer
 
         # Act
-        text_vectorized_topic = self.articleAnalyser.getVectorised(self.article_filename, topic_vectorizer)
-        text_vectorized_party = self.articleAnalyser.getVectorised(self.article_filename, party_vectorizer)
+        text_vectorized_topic = self.articleAnalyser.getVectorised(self.articleAnalyser.article_text, topic_vectorizer)
+        text_vectorized_party = self.articleAnalyser.getVectorised(self.articleAnalyser.article_text, party_vectorizer)
    
         # Assert
         self.assertIsNotNone(text_vectorized_topic)

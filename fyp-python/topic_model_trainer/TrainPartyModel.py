@@ -19,7 +19,7 @@ matplotlib.use('TkAgg') # to display topic graphs
 
 
 # vectorise the top 1,000 words
-vectorizer = CountVectorizer(input='filename', encoding="unicode_escape", max_features=1000, binary=True, ngram_range=(1,2), stop_words=stopwords.words('english'), strip_accents="unicode")
+vectorizer = CountVectorizer(max_features=1000, binary=True, ngram_range=(1,2), stop_words=stopwords.words('english'), strip_accents="unicode")
 model_data_files = os.listdir("assets/model_data/train")
 model_data_files = ["assets/model_data/train/" + data_file for data_file in model_data_files]
 
@@ -28,7 +28,14 @@ model_data_files = ["assets/model_data/train/" + data_file for data_file in mode
 # model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
 # model_data_files = model_data_files + model_test_data_files
 
-doc_word = vectorizer.fit_transform(model_data_files)
+# Store contents of file in list
+data = []
+for filepath in model_data_files:
+    with open(filepath, "r", encoding="unicode_escape") as f:
+        data.append(f.read())
+        f.close()
+
+doc_word = vectorizer.fit_transform(data)
 doc_word = ss.csr_matrix(doc_word)
 
 words = list(np.asarray(vectorizer.get_feature_names()))

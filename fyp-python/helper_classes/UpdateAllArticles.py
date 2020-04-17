@@ -48,6 +48,37 @@ last_evaluated_key = ""
 
 local_filename = "temp_files/tempArticleFile.txt"
 
+# Open MPs CSV and store results in dict
+mps = {}
+try:
+    with open("assets/political-people.csv") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            mps[row[0]] = row[1]
+        csvfile.close()
+except Exception as e:
+    log_line = "Reading of MPs CSV file at: assets/political-people.csv failed"
+    log_line += "\nFailed with the folowing exception:\n"
+    log_line += str(e)
+    logger.writeToLog(log_line, False)
+
+# Get manifesto texts
+manifesto_texts = []
+try:
+    for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+        manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
+        with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
+            manifestoText = manifestoTextFile.read()
+            manifesto_texts.append(manifestoText)
+            manifestoTextFile.close()
+except Exception as e:
+    log_line = "Unable to locate manifestos"
+    log_line += "\nFailed with the folowing exception:\n"
+    log_line += str(e)
+    log_line += "\nScript exited prematurely - "
+    logger.writeToLog(log_line, True)
+    exit(0)
+
 while(still_items_left):
     skipped = 0
 
@@ -61,8 +92,15 @@ while(still_items_left):
     except:
         still_items_left = False
 
-    print(len(results["Items"]))
+    total = len(results["Items"])
+    counter = 0
+    print("\n")
     for item in results["Items"]:
+
+        counter +=1
+        remaining = str(counter) + "/" + str(total)
+        print(remaining, end="\r")
+
         article_url = item['article-url']
         article_org = item['article-org']
         article_headline = item['article-headline']
@@ -81,7 +119,7 @@ while(still_items_left):
             article_text_file.close()
 
         # Get required information from the article
-        articleAnalyser = ArticleAnalyser(logger, article_text, local_filename, article_headline, preprocessor)
+        articleAnalyser = ArticleAnalyser(logger, article_text, article_headline, preprocessor, mps, manifesto_texts)
 
         analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
         likely_topics = analysed_topics[0]

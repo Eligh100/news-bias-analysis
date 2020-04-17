@@ -48,7 +48,14 @@ test_files_labels = [int(test_file[30:32]) for test_file in test_files]
 
 total = len(test_files_labels)
 
-doc_word = vectorizer.transform(test_files)
+# Store contents of file in list
+data = []
+for filepath in test_files:
+    with open(filepath, "r", encoding="unicode_escape") as f:
+        data.append(f.read())
+        f.close()
+
+doc_word = vectorizer.transform(data)
 doc_word = ss.csr_matrix(doc_word)
 words = list(np.asarray(vectorizer.get_feature_names()))
 not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]

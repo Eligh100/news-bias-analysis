@@ -46,9 +46,16 @@ test_files = os.listdir("assets/model_data/small_party_test")
 test_files = ["assets/model_data/small_party_test/" + test_file for test_file in test_files]
 test_files_labels = [int(test_file[36:38]) for test_file in test_files]
 
+# Store contents of file in list
+data = []
+for filepath in test_files:
+    with open(filepath, "r", encoding="unicode_escape") as f:
+        data.append(f.read())
+        f.close()
+
 total = len(test_files_labels)
 
-doc_word = vectorizer.transform(test_files)
+doc_word = vectorizer.transform(data)
 doc_word = ss.csr_matrix(doc_word)
 words = list(np.asarray(vectorizer.get_feature_names()))
 not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]
@@ -72,16 +79,16 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
         rounded_score = round(probability_prediction[labelled_topic], 1)
         score += rounded_score
     else:
-        # pass
-        print("\n")
-        print("File:")
-        print(test_files[shared_index])
-        print("\nMy guess:")
-        print(labelled_topic)
-        print("Predictions:")
-        print(binary_prediction)
-        print("Probabilities: ")
-        print(probability_prediction)
+        pass
+        # print("\n")
+        # print("File:")
+        # print(test_files[shared_index])
+        # print("\nMy guess:")
+        # print(labelled_topic)
+        # print("Predictions:")
+        # print(binary_prediction)
+        # print("Probabilities: ")
+        # print(probability_prediction)
 
 print(str(score) + "/" + str(total))
 print("Accuracy of: " + str((score/total)*100) + "%")   

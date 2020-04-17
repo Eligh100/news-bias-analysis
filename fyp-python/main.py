@@ -1,5 +1,6 @@
 import os
 import boto3
+import csv
 
 # News scraping classes
 from news_scraper.NewsScraper import NewsScraper
@@ -51,8 +52,38 @@ database_entry = articleTrimmer.trimArticle(articles)
 log_line = "Article scraping ran to completion - "
 logger.writeToLog(log_line, True)
 
-local_filename = 'temp_files/tempArticleFile.txt'
 table = dynamodb.Table('Articles-Table')
+
+# Open MPs CSV and store results in dict
+mps = {}
+try:
+    with open("assets/political-people.csv") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            mps[row[0]] = row[1]
+        csvfile.close()
+except Exception as e:
+    log_line = "Reading of MPs CSV file at: assets/political-people.csv failed"
+    log_line += "\nFailed with the folowing exception:\n"
+    log_line += str(e)
+    logger.writeToLog(log_line, False)
+
+# Get manifesto texts
+manifesto_texts = []
+try:
+    for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+        manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
+        with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
+            manifestoText = manifestoTextFile.read()
+            manifesto_texts.append(manifestoText)
+            manifestoTextFile.close()
+except Exception as e:
+    log_line = "Unable to locate manifestos"
+    log_line += "\nFailed with the folowing exception:\n"
+    log_line += str(e)
+    log_line += "\nScript exited prematurely - "
+    logger.writeToLog(log_line, True)
+    exit(0)
 
 # Begin processing of all articles text
 for article_url, article_metadata in database_entry.items():
@@ -61,21 +92,8 @@ for article_url, article_metadata in database_entry.items():
     article_text = article_metadata[0]
     article_headline = article_metadata[1]
 
-    # Write article text to temporary file for processing
-    try:
-        with open(local_filename, "w", encoding="unicode_escape") as article_text_file:
-            article_text_file.write(article_text)
-            article_text_file.close()
-    except Exception as e:
-        log_line = "Failed to write to file: " + local_filename 
-        log_line += "\nFailed with the folowing exception:\n"
-        log_line += str(e)
-        log_line += "\nScript exited prematurely - "
-        logger.writeToLog(log_line, True)
-        exit(0)
-
     # Get required information from the article
-    articleAnalyser = ArticleAnalyser(logger, article_text, local_filename, article_headline, preprocessor)
+    articleAnalyser = ArticleAnalyser(logger, article_text, article_headline, preprocessor, mps, manifesto_texts)
 
     # Extract topic opinions from the article's body
     analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
@@ -104,14 +122,7 @@ for article_url, article_metadata in database_entry.items():
     articleUploader = ArticleUploader(s3, bucket_name, table, logger, likely_topics, likely_parties, article_topic_sentiment_matrix, article_party_sentiment_matrix, most_similar_party, headline_topics_sentiment_matrix, headline_parties_sentiment_matrix, top_words)
     articleUploader.uploadArticles(article_url, database_entry[article_url])
 
-try:
-    os.remove(local_filename)
-except Exception as e:
-    log_line = "Failed to remove temp article text file at: " + local_filename
-    log_line += "\nFailed with the folowing exception:\n"
-    log_line += str(e)
-    logger.writeToLog(log_line, False)
-
+# Remove temp file for uploading files
 try:
     os.remove(articleUploader.tempUploadPath)
 except Exception as e:
