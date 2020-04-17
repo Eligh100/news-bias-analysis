@@ -567,10 +567,16 @@ export class BiasAnalysisScreenComponent implements OnInit {
   // Dictates when to show screen to user (once all data has been formatted)
   public processingDone: boolean = false;
 
-  // Form taken for choosing authors (need 'select' button), and service allows access to DynamoDB
+  /**
+   * 
+   * @param fb For choosing authors (need 'select' button)
+   * @param _analysisParametersService Allows access to DynamoDB (via Amazon API gateway link)
+   */
   constructor(private fb: FormBuilder, private _analysisParametersService: AnalysisParametersService) { }
 
-  //*
+  /**
+   * Initialises variables, and starts process of retrieving article/party information from DynamoDB
+   */
   ngOnInit() {
     this.processingDone = false;
 
@@ -586,12 +592,16 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     this.articles_information = "";
 
-    this.getMetadata();
+    this.getDateLimits();
     this.getPartiesInformation();
     this.getArticlesInformation();
   }
 
-  getMetadata() {
+  /**
+   * Sees if the user has enabled any date ranges
+   * This limits the results returned
+   */
+  getDateLimits() {
     try {
       this.startDate = this._analysisParametersService.startDate._d;
     } catch {
@@ -605,6 +615,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
   }
 
+  /**
+   * Extract relevant party's JSON object from DynamoDB
+   * Containing information relating to the party
+   */
   getPartiesInformation() {
     this._analysisParametersService.getPartyInformation().subscribe(
       // the first argument is a function which runs on success
@@ -620,7 +634,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
   }
   
   /**
-   * 
+   * Extract relevant newspapers JSON object from DynamoDB
+   * Containing all relevant articles, and their information
    */
   getArticlesInformation() {
     this._analysisParametersService.getArticlesInformation().subscribe(
@@ -636,9 +651,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
       err => console.error(err),
       // the third argument is a function which runs on completion
       () => {
-        console.log('done loading articles');
-
         let lastEvaluatedKey = ""
+
+        // Handles issues with JSON object construction
+        // And if returned articles is greater than 1000
+        // DynamoDB uses pagination, which limits results to 1000
 
         if (this.articles_information['articleInfo']) {
           try {
@@ -666,17 +683,23 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
         }
 
-        if (lastEvaluatedKey != "") {
+        if (lastEvaluatedKey != "") { // If still more results (pagination limits to 1000 per request)
           this._analysisParametersService.lastEvaluatedKey = lastEvaluatedKey;
           this.getArticlesInformation();
-        } else {
+        } else { // If all results collected
           this.articles_information = this.articles_information["articleInfo"];
+          console.log('done loading articles');
           this.analyseArticleInformation()
         }
       }
     );
   }
 
+  /**
+   * Extracts relevant information for chosen political party
+   * i.e. topic/other party opinions, and top words from the manifesto
+   * Encode into strings for use by charts/data analysis
+   */
   encodePartyInfo() {
     let topic_sentiment_matrix_string = this.parties_information["topicsSentimentMatrix"];
 
@@ -706,13 +729,20 @@ export class BiasAnalysisScreenComponent implements OnInit {
     });
   }
 
+  /**
+   * Goes through each article retrieved from DynamoDB
+   * Calculates bias score for each one, and stores relevant information for plotting
+   * Crucial function!
+   */
   analyseArticleInformation() {
     this.currentNewspaper = this._analysisParametersService.currentNewspaper;
 
+    // Loops through each found article, from DynamoDB
     this.articles_information.forEach((article) => {
 
       let articlePubDate = article["articlePubDate"];
 
+      // Decides whether to analyse article - i.e. if article not in chosen date range, ignore it
       if (articlePubDate != "NO INFO" && articlePubDate != "") {
         if (!this.DateRangeCheck(articlePubDate)) {
           return;
@@ -723,9 +753,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
         }
       }
 
-      this.analysedArticlesCount++;
+      this.analysedArticlesCount++; // Used to keep track of how many articles have been analysed this run
 
-      let articlePartyBiasScore = 0 // current article's party bias score
+      let articlePartyBiasScore = 50; // Current article's party bias score - starts at neutral (50)
 
       // Get the most likely topics, to display what topics the newspaper discusses the most
       let article_topics = (article["articleTopics"]).split(", ")
@@ -738,7 +768,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       let article_parties = (article["articleParties"]).split(", ")
 
       article_parties.forEach(element => {
-        this.mostDiscussedArticleParties[element] += 1
+        this.mostDiscussedArticleParties[element] += 1 
       });
 
       // Get the authors for current article - except for BBC, who don't share author details
@@ -774,6 +804,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
       // Round to 2 d.p
       // If they don't align, subtract from overall bias score
       // Add/subtract score - take 1, and subtract difference (i.e. if party=0.8, and article=0.4, 1 - 0.4 = 0.6 to score)
+
+      let topic_seen = {}; // To fix averages, when same topic seen in both article and headline
+
+      // Gets headline's sentiment about topics (if any)
       let headline_topic_sentiments = article["headlineTopicSentiments"]
       if (headline_topic_sentiments != "NO INFO") {
         headline_topic_sentiments.split(", ").forEach(element => {
@@ -794,11 +828,14 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           // To get an average of a newspapers opinions about topics
           this.overallTopicOpinions[topic][0] += headline_score;
-          this.overallTopicOpinions[topic][1] += 1; // TODO consider commenting this out!!
+          this.overallTopicOpinions[topic][1] += 1;
+          topic_seen[topic] = true; // If we see it again in the article, don't add 1 to count (to fix averages)
         });
       }
 
-      // TODO if article negative about topic, but headline positive - switch polarity (and vice versa)
+      let party_seen = {}; // To fix averages, when same party seen in both article and headline
+
+      // Gets headline's sentiment about parties (if any)
       let headline_party_sentiments = article["headlinePartySentiments"];
       if (headline_party_sentiments != "NO INFO") {
         headline_party_sentiments.split(", ").forEach(element => {
@@ -821,12 +858,14 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += headline_score;
-          this.overallPartyOpinions[party][1] += 1; // TODO consider commenting this out!!
+          this.overallPartyOpinions[party][1] += 1;
+          party_seen[party] = true; // If we see it again in the article, don't add 1 to count (to fix averages)
         });
       }
 
       let topics_to_sentiment = {};
 
+      // Get articles sentiment regarding topics 
       let article_topic_sentiments = article["articleTopicSentiments"]
       if (article_topic_sentiments != "NO INFO") {
         article_topic_sentiments.split(", ").forEach(element => { // TODO consider reworking
@@ -847,7 +886,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           // To get an average of a newspapers opinions about topics
           this.overallTopicOpinions[topic][0] += article_score;
-          this.overallTopicOpinions[topic][1] += 1;
+          if (!topic_seen[topic])
+            this.overallTopicOpinions[topic][1] += 1;
 
           // To get an average of an authors opinions about topics
           authors.forEach(author => {
@@ -871,6 +911,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
       let parties_to_sentiment = {};
 
+      // Get articles sentiment regarding political parties
       let article_party_sentiments = article["articlePartySentiments"]
       if (article_party_sentiments != "NO INFO") {
         article_party_sentiments.split(", ").forEach(element => {
@@ -893,7 +934,8 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
           // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += article_score;
-          this.overallPartyOpinions[party][1] += 1;
+          if (!party_seen[party])
+            this.overallPartyOpinions[party][1] += 1;
 
           // To get an average of an authors opinions about parties
           authors.forEach(author => {
@@ -949,16 +991,19 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
 
       articlePartyBiasScore = +articlePartyBiasScore.toFixed(1);
-      articlePartyBiasScore = 50 + articlePartyBiasScore
 
+      // Bound bias score
       if (articlePartyBiasScore < 0) {
         articlePartyBiasScore = 0;
       } else if (articlePartyBiasScore > 100) {
         articlePartyBiasScore = 100;
       }
 
+      // Add to cumulative bias score, to be averaged (for final score)
       this.newspaperToPartyBiasScore += articlePartyBiasScore;
 
+      // Handles storing of topic/party opinions for current date
+      // Allows plotting changes over time
       if (articlePubDate != "NO INFO" && articlePubDate != "") {
         if (!this.dateToPartyBiasScore[articlePubDate]) {
           this.dateToPartyBiasScore[articlePubDate] = []
@@ -1005,16 +1050,20 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
     })
 
+    // Once all articles analysed, get average overall score
     let finalBiasValue = this.newspaperToPartyBiasScore / this.analysedArticlesCount
 
+    // Bound final score
     if (finalBiasValue < 0) {
       finalBiasValue = 0;
     } else if (finalBiasValue > 100) {
       finalBiasValue = 100;
     }
 
+    // Set needle value of gauge chart
     this.needleValue = finalBiasValue
 
+    // Label gauge chart accordingly
     if (this.needleValue <= 33) {
       if (this.needleValue <= 16) {
         this.biasSentence = "HIGH NEGATIVE bias"
@@ -1044,8 +1093,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
     }
 
+    // Sort the authors for easy searching/selection in select box
     this.foundAuthors.sort();
 
+    // Plot the various graphs, charts, and plots
     this.plotBiasChangeGraph();
 
     this.plotTopicOpinionComparisonGraph();
@@ -1062,13 +1113,19 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     this.plotSharedLanguageGraph();
 
-    this.processingDone = true; //finally, show the results
+     // Finally, show the results
+    this.processingDone = true;
 
+    // Construct word clouds after showing, due to screen-drawing issues
     this.constructManifestoWordCloud();
     this.constructArticlesWordCloud();
 
   }
 
+  /**
+   * Plots newspaper's change in bias (against chosen political party) over time
+   * Each article has a bias score, this is plotted
+   */
   plotBiasChangeGraph() {
     let data = [];
     let label = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " bias score towards " + this.currentParty;
@@ -1112,6 +1169,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Gets average topic opinion from across all articles
+   * Compares to topic opinions from party (extracted from manifesto, stored in DynamoDB)
+   */
   plotTopicOpinionComparisonGraph() {
     let tempData = [];
     let labels = [];
@@ -1169,6 +1230,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Gets average party opinion from across all articles
+   * Compares to party opinions from party (extracted from manifesto, stored in DynamoDB) - and not including itself
+   */
   plotPartyOpinionComparisonGraph() {
     let tempData = [];
     let labels = [];
@@ -1229,6 +1294,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article has opinions about topics
+   * Plots change in opinions about each topic over time
+   * Some topics are discussed more, so more data for the chart
+   */
   plotTopicChangeGraph() {
 
     let tempChartData = this.topicOpinionChangeChartData;
@@ -1294,6 +1364,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article has opinions about parties
+   * Plots change in opinions about each party over time
+   * Some parties are discussed more, so more data for the chart
+   */
   plotPartyChangeGraph() {
     let data = [];
     let label = "[Newspaper] party opinions change over time";
@@ -1362,6 +1437,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article has opinions about topics
+   * Charts frequency of mentioned topics
+   * Allows user to see how much a topic is mentioned over other topics
+   */
   constructDiscussedTopicsDoughnut() {
     let tempDoughnutData = [];
     let doughnutData = [];
@@ -1408,6 +1488,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article has opinions about topics
+   * Charts frequency of different polarities of opinions
+   * Can see how many positive views on topics a newspaper has, compared to neutral and negative
+   */
   plotTopicOpinionFrequencyGraph() {
     let tempData = [];
     let labels = ["Positive", "Neutral", "Negative"];
@@ -1430,7 +1515,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
-  
+  /**
+   * Each article has opinions about parties
+   * Charts frequency of mentioned parties
+   * Allows user to see how much a party is mentioned over other parties
+   */
   constructDiscussedPartiesDoughnut() {
     let tempDoughnutData = [];
     let doughnutData = [];
@@ -1477,6 +1566,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article has opinions about parties
+   * Charts frequency of different polarities of opinions
+   * Can see how many positive views on parties a newspaper has, compared to neutral and negative
+   */
   plotPartyOpinionFrequencyGraph() {
     let tempData = [];
     let labels = ["Positive", "Neutral", "Negative"];
@@ -1498,7 +1592,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
-  
+  /**
+   * Each article has opinions about topics
+   * And each article has an author
+   * Charts average topic opinions for an author
+   */  
   plotAuthorTopicOpinionGraph(author: string) {
     let tempData = [];
     let labels = [];
@@ -1551,6 +1649,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article has opinions about parties
+   * And each article has an author
+   * Charts average party opinions for an author
+   */  
   plotAuthorPartyOpinionGraph(author: string) {
     let tempData = [];
     let labels = [];
@@ -1603,6 +1706,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
   }
 
+  /**
+   * Each article is compared (via TF-IDF/cosine similarity) to the manifestos
+   * This chart plots the frequency of articles deemed 'most-similar' to each manifesto
+   * Allows user to get idea of how language carries over between news and manifestos
+   */  
   plotSharedLanguageGraph() {
     let tempData = [];
     let labels = [];
@@ -1627,6 +1735,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.sharedLanguageChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " distribution of articles sharing language with party manifestos";
   }
 
+   /**
+   * Each manifesto has a set of top words, using a count vectoriser
+   * And displayed in word cloud
+   */  
   constructManifestoWordCloud() {
     let tempData: CloudData[] = [];
 
@@ -1644,6 +1756,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
     //this.wordCloudComponent.reDraw();
   }
 
+  /**
+   * Each article has a set of top words, using a count vectoriser
+   * Cumulated top words are retrieved
+   * And displayed in word cloud
+   */  
   constructArticlesWordCloud() {
     let tempData: CloudData[] = [];
 
@@ -1681,6 +1798,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.wordCloudComponent.reDraw();
   }
 
+  /**
+   * Sets meta-info string at bottom of screen, saying range of articles analysed, and how many analysed
+   * @param startDate Earliest article analysed
+   * @param endDate Latest article analysed
+   */
   setMetaInfo(startDate, endDate) {
     if (this.startDate != "") {
       startDate = new Date(this.startDate).toLocaleString("en-GB").split(",")[0];
@@ -1697,15 +1819,26 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.metaInformation = String(this.analysedArticlesCount) + " articles analysed, from " + startDate + " to " + endDate
   }
 
+  /**
+   * Returns selected author - used for form control, and drawing of new charts for each author's data
+   */
   get selectedAuthor() { return this.authorsForm.get('selectedAuthor'); }
 
+  /**
+   * Event called whenever author is changed in select box (in order to plot correct data for that author)
+   * @param event Name of the author - used to access dictionary of authors -> author's opinions about topics/parties
+   */
   public newAuthor(event: string) {
     this.plotAuthorTopicOpinionGraph(event);
     this.plotAuthorPartyOpinionGraph(event);
     this.authorSelected = true;
   }
 
-
+  /**
+   * Compares dates - used to sort a list of dates, for plotting
+   * @param a First date
+   * @param b Second date
+   */
   public DateComparator(a, b) {
     let date1 = new Date(a[0]);
     let date2 = new Date(b[0])
@@ -1714,6 +1847,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
     return 0;
   }
 
+  /**
+   * Checks if an article should be analysed
+   * Using the user's set date ranges (if set - if not set, ignored)
+   * @param current_date Date of current article being analysed
+   */
   public DateRangeCheck(current_date) {
     let date = new Date(current_date);
 
@@ -1741,6 +1879,10 @@ export class BiasAnalysisScreenComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Adds correct grammatical ending to a word - for aesthetics
+   * @param word Word to have checked - i.e. "BBC News" needs an ', whereas 'Daily Mail' needs 's
+   */
   public GrammarChecker(word: string) {
     if (word[word.length - 1] == "s") {
       return "'";
@@ -1749,6 +1891,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
   }
 
+  /**
+   * If a title is too long, can be split over multiple lines
+   * This function handles this
+   * @param str Title to be formatted
+   */
   public formatTitle(str) : string[] {
     var sections = [];
     var words = str.split(" ");

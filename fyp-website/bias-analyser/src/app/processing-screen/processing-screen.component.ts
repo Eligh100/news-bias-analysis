@@ -12,6 +12,10 @@ export class ProcessingScreenComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private analysisParameters: AnalysisParametersService) { }
 
+  /**
+   * Intermediate class
+   * Used for routing purposes
+   */
   ngOnInit() {
     this.router.navigate([`../bias-analysis`], { relativeTo: this.route });
   }

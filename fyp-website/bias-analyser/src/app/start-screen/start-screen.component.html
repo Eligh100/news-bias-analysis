@@ -23,12 +23,14 @@
                 </mat-expansion-panel-header>
                 <p class="mat-h3 text-center"><em>British news organisations often have opinions and biases regarding different political parties and topics<br>
                     The purpose of this tool is to, via large-scale text analysis, quantify these biases and present them in a fair and data-driven manner<br>
+                    Moreover, the tool will allow you to visualise the data in various manners, to allow you to find your own trends and come to your own judgements<br>
                     Simply select a news organisation and political party to begin:</em></p>
                 <div class="container" [formGroup]="startScreenForm">
                     <div class="row">
                         <div class="col sm text-center">
                             <mat-form-field>
                                 <mat-label>News Organisation</mat-label>
+                                <!-- For selecting the newspaper -->
                                 <mat-select formControlName="selectedNewspaper" name="newspaperSelect" required>
                                     <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper.value">
                                     {{newspaper.viewValue}}
@@ -40,6 +42,7 @@
                         <div class="col sm text-center">
                             <mat-form-field>
                                 <mat-label>Political Party</mat-label>
+                                <!-- For selecting the political party -->
                                 <mat-select formControlName="selectedPoliticalParty" name="politicalPartySelect" required>
                                     <mat-option *ngFor="let polParty of politicalParties" [value]="polParty.value">
                                     {{polParty.viewValue}}
@@ -52,6 +55,7 @@
                     <div class="row pt-4">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4 text-center">
+                            <!-- For selecting a start date (OPTIONAL) -->
                             <mat-form-field>
                                 <mat-label>Select start date <em>(Optional)</em></mat-label>
                                 <input matInput #fromInput [min]="startDateMin" [max]="startDateMax" startAt="startDateMax" [matDatepicker]="startDatePicker" (dateInput)="setStartDate($event)" (dateChange)="setStartDate($event)">
@@ -60,6 +64,7 @@
                             </mat-form-field>
                         </div>
                         <div class="col-sm-4 text-center">
+                            <!-- For selecting an end date (OPTIONAL) -->
                             <mat-form-field>
                                 <mat-label>Select end date <em>(Optional)</em></mat-label>
                                 <input matInput #toInput [min]="endDateMin" [max]="endDateMax" startAt="endDateMax" [matDatepicker]="endDatePicker" (dateInput)="setEndDate($event)" (dateChange)="setEndDate($event)">
@@ -69,9 +74,11 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
+                    <!-- To clear the form and start over -->
                     <div class="row py-4 justify-content-center">
                         <button mat-raised-button (click)="clearForm();">Clear</button>
                     </div>
+                    <!-- To submit the form (i.e. begin analysis with the chosen parameters) -->
                     <mat-action-row class="justify-content-center pt-4 mr-3">
                         <button mat-raised-button routerLink="/processing" (click)="isExpanded=false;changePanelState();beginAnalysis()" [disabled]="!startScreenForm.valid">Analyse Bias</button>
                     </mat-action-row>
