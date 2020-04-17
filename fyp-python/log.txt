@@ -394,3 +394,6 @@ time data '' does not match format '%Y-%m-%d'
 No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
 Article scraping ran to completion - 16/04/2020, 21:49:51
 Script ran to completion - 16/04/2020, 22:23:24
+
+
+Script started at: 16/04/2020, 23:03:38

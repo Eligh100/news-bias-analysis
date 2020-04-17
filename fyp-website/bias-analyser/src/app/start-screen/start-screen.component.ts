@@ -33,7 +33,6 @@ export class StartScreenComponent implements OnInit {
     {value: 'green', viewValue: "Green"},
     {value: 'plaid_cymru', viewValue: "Plaid Cymru"},
     {value: 'brexit_party', viewValue: "Brexit Party"},
-    {value: 'ukip', viewValue: "UKIP"}
   ];
 
   topics: FormSelectOption[] = [

@@ -216,7 +216,26 @@
                     </div>
                 </div>
             </ng-template>
-        </ng-template>            
+        </ng-template>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-8 text-center">
+                <canvas class="mr-5" width="770" height="300" style="display: block; width: 770px; height: 300px;" mdbChart
+                [chartType]="barChart"
+                [datasets]="sharedLanguageChartData"
+                [labels]="sharedLanguageChartLabels"
+                [colors]="sharedLanguageChartColors"
+                [options]="sharedLanguageChartOptions"
+                [legend]="true">
+            </canvas>
+            </div>
+            <div class="col-sm-2">
+
+            </div>
+        </div>      
         <mat-divider class="my-3"></mat-divider>
         <div class="row pt-3">
             <div class="col-sm-12 text-center">
