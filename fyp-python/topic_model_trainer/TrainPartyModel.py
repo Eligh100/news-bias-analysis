@@ -17,16 +17,15 @@ from corextopic import vis_topic as vt
 
 matplotlib.use('TkAgg') # to display topic graphs
 
-
 # vectorise the top 1,000 words
 vectorizer = CountVectorizer(max_features=1000, binary=True, ngram_range=(1,2), stop_words=stopwords.words('english'), strip_accents="unicode")
 model_data_files = os.listdir("assets/model_data/train")
 model_data_files = ["assets/model_data/train/" + data_file for data_file in model_data_files]
 
 # Comment these lines to remove training the test data (only for final run)
-# model_test_data_files = os.listdir("assets/model_data/test")
-# model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
-# model_data_files = model_data_files + model_test_data_files
+model_test_data_files = os.listdir("assets/model_data/test")
+model_test_data_files = ["assets/model_data/test/" + data_file for data_file in model_test_data_files]
+model_data_files = model_data_files + model_test_data_files
 
 # Store contents of file in list
 data = []
