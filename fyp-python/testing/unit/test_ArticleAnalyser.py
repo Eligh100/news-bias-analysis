@@ -133,16 +133,12 @@ class TestArticleAnalyser(unittest.TestCase):
     def test_getVectorised(self):
 
         # Arrange
-        topic_vectorizer = self.articleAnalyser.topic_vectorizer
-        party_vectorizer = self.articleAnalyser.party_vectorizer
 
         # Act
-        text_vectorized_topic = self.articleAnalyser.getVectorised(self.articleAnalyser.article_text, topic_vectorizer)
-        text_vectorized_party = self.articleAnalyser.getVectorised(self.articleAnalyser.article_text, party_vectorizer)
+        text_vectorized = self.articleAnalyser.getVectorised(self.articleAnalyser.article_text)
    
         # Assert
-        self.assertIsNotNone(text_vectorized_topic)
-        self.assertIsNotNone(text_vectorized_party)
+        self.assertIsNotNone(text_vectorized)
         self.assertTrue(self.isLogEmpty()) # Empty log = No exceptions
 
     def isLogEmpty(self):

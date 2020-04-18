@@ -49,7 +49,7 @@ class TopicsHelper():
         5: "Economy/Business",
         6: "Healthcare/NHS",
         7: "Foreign Affairs",
-        8: "Racism",
+        8: "Hate Crimes/Discrimination",
         9: "Environment/Climate Change",
         10: "Law/Police",
         11: "Education/Schools",

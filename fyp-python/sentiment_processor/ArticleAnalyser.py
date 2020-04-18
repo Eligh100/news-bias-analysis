@@ -33,29 +33,28 @@ class ArticleAnalyser:
         self.preprocessor = preprocessor
         self.mps = mps
         self.manifesto_texts = manifesto_texts
+
+        vectorizer_path = "assets/vectorizer.pkl"
         
         topic_model_path = "assets/model/topic_model.pkl"
-        topic_vectorizer_path = "assets/model/topic_vectorizer.pkl"
-
         party_model_path = "assets/model/party_model.pkl"
-        party_vectorizer_path = "assets/model/party_vectorizer.pkl"
 
-        # Load the topic model
+        # Load the vectorizer
         try:
-            self.topic_model = cPickle.load(open(topic_model_path, 'rb'))
+            self.vectorizer = cPickle.load(open(vectorizer_path, "rb"))
         except Exception as e:
-            log_line = "Model: " + topic_model_path + " not found"
+            log_line = "Vectorizer: " + vectorizer_path + " not found"
             log_line += "\nFailed with the folowing exception:\n"
             log_line += str(e)
             log_line += "\nScript exited prematurely - "
             self.logger.writeToLog(log_line, True)
             exit(0)
 
-        # Load the topic vectorizer
+        # Load the topic model
         try:
-            self.topic_vectorizer = cPickle.load(open(topic_vectorizer_path, "rb"))
+            self.topic_model = cPickle.load(open(topic_model_path, 'rb'))
         except Exception as e:
-            log_line = "Vectorizer: " + topic_vectorizer_path + " not found"
+            log_line = "Model: " + topic_model_path + " not found"
             log_line += "\nFailed with the folowing exception:\n"
             log_line += str(e)
             log_line += "\nScript exited prematurely - "
@@ -70,17 +69,6 @@ class ArticleAnalyser:
             log_line += "\nFailed with the folowing exception:\n"
             log_line += str(e)
             log_line += "\nScript exited prematurely - "
-            self.logger.writeToLog(log_line, True)
-            exit(0)
-
-        # Load the party vectorizer
-        try:
-            self.party_vectorizer = cPickle.load(open(party_vectorizer_path, "rb"))
-        except Exception as e:
-            log_line = "Vectorizer: " + party_vectorizer_path + " not found"
-            log_line += "\nFailed with the folowing exception:\n"
-            log_line += str(e)
-            log_line += "\nScript exiting prematurely - "
             self.logger.writeToLog(log_line, True)
             exit(0)
 
@@ -99,21 +87,16 @@ class ArticleAnalyser:
                                             Item 2: Dictionary of key: topic/party index, and value: sentiment score
         """
 
-        model = ""
-        vectorizer = ""
-
         if (for_topics):
             model = self.topic_model
-            vectorizer = self.topic_vectorizer
         else:
             model = self.party_model
-            vectorizer = self.party_vectorizer
 
         # Store the original text, for use later
         original_text = self.article_text 
 
         # Next, find overall most likely topics
-        text_vectorized = self.getVectorised(self.article_text, vectorizer)
+        text_vectorized = self.getVectorised(self.article_text)
         topic_binary_predictions = model.predict(text_vectorized)
 
         likely_topics = np.nonzero(topic_binary_predictions == True)[1]
@@ -144,7 +127,7 @@ class ArticleAnalyser:
                 composite_paragraph = ""
             
             # Vectorize the paragraph, and make topic/party predictions
-            paragraph_vectorized = self.getVectorised(paragraph, vectorizer) 
+            paragraph_vectorized = self.getVectorised(paragraph) 
             paragraph_binary_predictions = model.predict(paragraph_vectorized)
             paragraph_probabilities = model.predict_proba(paragraph_vectorized)[0][0]
 
@@ -262,16 +245,14 @@ class ArticleAnalyser:
 
         if (for_topics):
             model = self.topic_model
-            vectorizer = self.topic_vectorizer
         else:
             model = self.party_model
-            vectorizer = self.party_vectorizer
 
         headline = self.headline
         headline_polarity = TextBlob(headline).sentiment.polarity
 
         # Find the most likely topic of the headline
-        headline_vectorized = self.getVectorised(headline, vectorizer)
+        headline_vectorized = self.getVectorised(headline)
         topic_binary_predictions = model.predict(headline_vectorized)
         topic_probabilities = model.predict_proba(headline_vectorized)[0][0]
 
@@ -347,7 +328,7 @@ class ArticleAnalyser:
         top_words = df.iloc[[0]].sum(axis=0).sort_values(ascending=False)
         return top_words[0:20]
 
-    def getVectorised(self, text, vectorizer):
+    def getVectorised(self, text):
         """Vectorizes text for use by the topic/party models (to make predictions based on the trained models)
         
         Arguments:
@@ -358,9 +339,9 @@ class ArticleAnalyser:
             {Object} -- Vectorized text
         """
 
-        text_vectorized = vectorizer.transform([text]) # Needs a list (even if only one item)
+        text_vectorized = self.vectorizer.transform([text]) # Needs a list (even if only one item)
         text_vectorized = ss.csr_matrix(text_vectorized)
-        words = list(np.asarray(vectorizer.get_feature_names()))
+        words = list(np.asarray(self.vectorizer.get_feature_names()))
         not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]
         text_vectorized = text_vectorized[:,not_digit_inds]
 

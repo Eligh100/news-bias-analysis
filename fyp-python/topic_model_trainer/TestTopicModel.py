@@ -18,7 +18,7 @@ from corextopic import vis_topic as vt
 matplotlib.use('TkAgg') # to display topic graphs
 
 topic_model_path = "assets/model/topic_model.pkl"
-vectorizer_path = "assets/model/topic_vectorizer.pkl"
+vectorizer_path = "assets/vectorizer.pkl"
 
 try:
     topic_model = cPickle.load(open(topic_model_path, 'rb'))
@@ -58,9 +58,9 @@ for filepath in test_files:
 doc_word = vectorizer.transform(data)
 doc_word = ss.csr_matrix(doc_word)
 words = list(np.asarray(vectorizer.get_feature_names()))
-not_digit_inds = [ind for ind,word in enumerate(words) if not word.isdigit()]
+not_digit_inds = [ind for ind,word in enumerate(words) if not any(char.isdigit() for char in word)]
 doc_word = doc_word[:,not_digit_inds]
-words  = [word for ind,word in enumerate(words) if not word.isdigit()]
+words  = [word for ind,word in enumerate(words) if  not any(char.isdigit() for char in word)]
 
 binary_predictions = topic_model.predict(doc_word)
 probability_predictions = topic_model.predict_proba(doc_word)[0]

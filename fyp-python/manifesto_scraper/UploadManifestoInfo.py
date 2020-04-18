@@ -8,6 +8,7 @@ DynamoDB table:
 import os
 import boto3
 import re
+import csv
 import numpy as np
 import pandas as pd
 import tkinter
@@ -44,36 +45,6 @@ parties_table = dynamodb.Table('Parties-Table')
 logger = Logger(log_path="manifesto_scraper/manifestoInfoUploadLog.txt")
 preprocessor = TextPreprocessor()
 
-topic_model_path = "assets/model/topic_model.pkl"
-topic_vectorizer_path = "assets/model/topic_vectorizer.pkl"
-
-party_model_path = "assets/model/party_model.pkl"
-party_vectorizer_path = "assets/model/party_vectorizer.pkl"
-
-try:
-    topic_model = cPickle.load(open(topic_model_path, 'rb'))
-except:
-    print("Model: " + topic_model_path + " not found")
-    exit(0)
-
-try:
-    topic_vectorizer = cPickle.load(open(topic_vectorizer_path, "rb"))
-except:
-    print("Vectorizer: " + topic_vectorizer_path + " not found")
-    exit(0)
-
-try:
-    party_model = cPickle.load(open(party_model_path, 'rb'))
-except:
-    print("Model: " + party_model_path + " not found")
-    exit(0)
-
-try:
-    party_vectorizer = cPickle.load(open(party_vectorizer_path, "rb"))
-except:
-    print("Vectorizer: " + party_vectorizer_path + " not found")
-    exit(0)
-
 manifesto_party_sentiments = {
     PoliticalPartyHelper.PoliticalParty.brexitParty: "Conservatives = 0.8, Green = -1, Labour = -1, Liberal Democrats = -1, Plaid Cymru = -1, SNP = -1",
     PoliticalPartyHelper.PoliticalParty.conservative: "Brexit Party = 0.25., Green = -1, Labour = -1, Liberal Democrats = -1 Plaid Cymru = -1, SNP = -1",
@@ -86,6 +57,31 @@ manifesto_party_sentiments = {
 
 base_manifesto_path = "manifesto_scraper/manifestos/"
 base_top_words_path = "manifesto_scraper/bigrams/"
+
+# Open MPs CSV and store results in dict
+mps = {}
+try:
+    with open("assets/political-people.csv") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            mps[row[0]] = row[1]
+        csvfile.close()
+except Exception as e:
+    print("Failed to open MPs CSV")
+    exit(0)
+
+# Get manifesto texts
+manifesto_texts = []
+try:
+    for manifestoProcessed in os.listdir('manifesto_scraper/manifestosProcessed'):
+        manifestoFilePath = "manifesto_scraper/manifestosProcessed/" + manifestoProcessed
+        with open(manifestoFilePath , "r", encoding="utf-8") as manifestoTextFile:
+            manifestoText = manifestoTextFile.read()
+            manifesto_texts.append(manifestoText)
+            manifestoTextFile.close()
+except Exception as e:
+    print("Failed to store manifesto texts")
+    exit(0)
 
 for top_words_file, manifesto_file, political_party in zip(os.listdir(base_top_words_path), os.listdir(base_manifesto_path), PoliticalPartyHelper.PoliticalParty):
     
@@ -111,7 +107,7 @@ for top_words_file, manifesto_file, political_party in zip(os.listdir(base_top_w
         manifesto_file.close()
 
     # Then, get sentiment scores for mentioned topics and parties by the manifesto
-    articleAnalyser = ArticleAnalyser(logger, manifesto_text, manifesto_file_path, "", preprocessor)
+    articleAnalyser = ArticleAnalyser(logger, manifesto_text, manifesto_file_path, "", preprocessor, mps, manifesto_texts)
 
     analysed_topics = articleAnalyser.analyseArticleSentiment(True) # Get topic sentiment
     manifesto_topic_sentiment_matrix = analysed_topics[1]
