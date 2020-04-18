@@ -425,3 +425,45 @@ time data '' does not match format '%Y-%m-%d'
 No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
 Article scraping ran to completion - 17/04/2020, 18:48:25
 Script ran to completion - 17/04/2020, 19:21:42
+
+
+Script started at: 17/04/2020, 22:55:40
+
+
+Script started at: 17/04/2020, 22:56:31
+
+
+Script started at: 17/04/2020, 22:57:09
+
+
+Script started at: 17/04/2020, 22:58:36
+
+
+Script started at: 17/04/2020, 23:04:59
+
+
+Script started at: 17/04/2020, 23:09:07
+
+
+Script started at: 17/04/2020, 23:12:16
+
+
+Script started at: 17/04/2020, 23:13:44
+
+
+Script started at: 17/04/2020, 23:21:40
+
+
+Script started at: 17/04/2020, 23:24:05
+
+
+Script started at: 17/04/2020, 23:25:02
+
+
+Script started at: 17/04/2020, 23:27:14
+
+
+Script started at: 17/04/2020, 23:29:48
+
+
+Script started at: 18/04/2020, 10:42:44
