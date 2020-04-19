@@ -123,10 +123,12 @@ for article_url, article_metadata in database_entry.items():
     articleUploader.uploadArticles(article_url, database_entry[article_url])
 
 # Remove temp file for uploading files
+tempUploadPath = "temp_files/tempUpload.txt"
+
 try:
-    os.remove(articleUploader.tempUploadPath)
+    os.remove(tempUploadPath)
 except Exception as e:
-    log_line = "Failed to remove temp upload text file at: " + articleUploader.tempUploadPath
+    log_line = "Failed to remove temp upload text file at: " + tempUploadPath
     log_line += "\nFailed with the folowing exception:\n"
     log_line += str(e)
     logger.writeToLog(log_line, False)

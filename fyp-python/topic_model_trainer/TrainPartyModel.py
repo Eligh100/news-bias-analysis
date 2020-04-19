@@ -63,18 +63,25 @@ best_model = None
 
 for i in range(0, 5): # run the model generation 5 times, and pick model with highest TC (total correlation)
         
-    topic_model = ct.Corex(n_hidden=NUM_TOPICS, words=words, max_iter=200, verbose=False, seed=1)
-    topic_model.fit(doc_word, words=words, anchors=anchors, anchor_strength=5)
+    model = ct.Corex(n_hidden=NUM_TOPICS, words=words, max_iter=200, verbose=False, seed=1)
+    model.fit(doc_word, words=words, anchors=anchors, anchor_strength=5)
 
     # UNCOMMENT TO PLOT TC (TOPIC CORRELATION)
     # plt.figure(figsize=(10,5))
-    # plt.bar(range(topic_model.tcs.shape[0]), topic_model.tcs, color='#4e79a7', width=0.5)
+    # plt.bar(range(model.tcs.shape[0]), model.tcs, color='#4e79a7', width=0.5)
     # plt.xlabel('Topic', fontsize=16)
     # plt.ylabel('Total Correlation (TC)', fontsize=16)
     # plt.show()
 
-    if (best_model == None or topic_model.tc > best_model.tc):
-        best_model = topic_model
+    if (best_model == None or model.tc > best_model.tc):
+        best_model = model
 
-topic_model = best_model
-topic_model.save("assets/model/party_model.pkl", ensure_compatibility=False)
+model = best_model
+
+# Print all parties from the CorEx topic model
+# topics = model.get_topics()
+# for n,topic in enumerate(topics):
+#     topic_words,_ = zip(*topic)
+#     print('{}: '.format(n) + ','.join(topic_words))
+
+model.save("assets/model/party_model.pkl", ensure_compatibility=False)

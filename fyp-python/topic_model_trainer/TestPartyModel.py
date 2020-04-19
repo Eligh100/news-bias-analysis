@@ -80,18 +80,18 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
         score += rounded_score
     else:
         pass
-        # print("\n")
-        # print("File:")
-        # print(test_files[shared_index])
-        # print("\nMy guess:")
-        # print(labelled_topic)
-        # print("Predictions:")
-        # print(binary_prediction)
-        # print("Probabilities: ")
-        # print(probability_prediction)
+        print("\n")
+        print("File:")
+        print(test_files[shared_index])
+        print("\nMy guess:")
+        print(labelled_topic)
+        print("Predictions:")
+        print(binary_prediction)
+        print("Probabilities: ")
+        print(probability_prediction)
 
 print(str(score) + "/" + str(total))
-print("Accuracy of: " + str((score/total)*100) + "%")   
+print("Accuracy of: " + str((score/total)*100) + "%") 
 
 # # print (topic_model.predict(doc_word))
 # # topic_probs = topic_model.predict_proba(doc_word)[0]

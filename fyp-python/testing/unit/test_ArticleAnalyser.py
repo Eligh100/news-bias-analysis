@@ -123,7 +123,6 @@ class TestArticleAnalyser(unittest.TestCase):
 
         # Act
         top_words = self.articleAnalyser.getTopWords()
-        top_words_2 = self.articleAnalyser.getTopWords()
 
         # Assert
         self.assertTrue(top_words.tolist())
