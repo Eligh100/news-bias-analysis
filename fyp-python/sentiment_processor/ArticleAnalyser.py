@@ -226,7 +226,7 @@ class ArticleAnalyser:
         tfidf = tfidf_vectorizer.fit_transform(similarityTexts)
         pairwise_similarity = tfidf * tfidf.T
 
-        # Find cosine similarity, and say two most similar (?)
+        # Find cosine similarity, and say two most similar 
         n, _ = pairwise_similarity.shape                                                                                                                                                                                                                         
         pairwise_similarity[np.arange(n), np.arange(n)] = -1.0
         most_similar_manifesto = pairwise_similarity[0].argmax() # 0 is the index of the article - so compares to all manifestos
