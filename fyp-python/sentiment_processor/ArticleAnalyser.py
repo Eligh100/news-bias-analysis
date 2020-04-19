@@ -103,7 +103,7 @@ class ArticleAnalyser:
 
         # Create dictionary, key: topic index, value: [sentiment scores, counter (for averaging)]
         topic_sentiment_scores = {}
-
+        
         # Then, split the original text into paragraphs and find the most likely topics
         paragraphs = original_text.split("\n")
 
@@ -134,9 +134,11 @@ class ArticleAnalyser:
             likely_paragraph_topics = np.nonzero(paragraph_binary_predictions == True)[1]
             paragraph_probabilities = dict([(paragraph_index, round(paragraph_probabilities[paragraph_index], 1)) for paragraph_index in range(0, len(paragraph_probabilities)) if paragraph_index in likely_paragraph_topics])
 
+            paragraph_sentiment_scores = {}
+
             for topic in likely_paragraph_topics:
-                if (topic not in topic_sentiment_scores):
-                    topic_sentiment_scores[topic] = [0, 0]
+                if (topic not in paragraph_sentiment_scores):
+                    paragraph_sentiment_scores[topic] = 0
 
             # Next, get sentiment of each sentence
             for sentence in sentences:
@@ -150,8 +152,7 @@ class ArticleAnalyser:
 
                     # Weight the polarity by the likelihood of the topic
                     weighted_polarity = sentence_polarity * paragraph_topic_weighting
-                    topic_sentiment_scores[topic_num][0] += weighted_polarity
-                    topic_sentiment_scores[topic_num][1] += 1
+                    paragraph_sentiment_scores[topic_num] += weighted_polarity
 
                 # Following code deals with party entities (i.e. MPs), so skip if dealing with topic sentiment
                 if (not for_topics):
@@ -169,24 +170,29 @@ class ArticleAnalyser:
                         if ((search_forename or search_surname) and not search_full): # If either parts of the name appear (but not together)
                             party_num = name_split[2]
                             party_num = int(party_num)
-                            if (party_num not in topic_sentiment_scores):
-                                topic_sentiment_scores[party_num] = [0, 0]
-                            topic_sentiment_scores[party_num][0] += sentence_polarity
-                            topic_sentiment_scores[party_num][1] += 1
+                            if (party_num not in paragraph_sentiment_scores):
+                                paragraph_sentiment_scores[party_num] = 0
+                            paragraph_sentiment_scores[party_num]+= sentence_polarity
 
                     # If the sentence contains an MP from a political party, get sentiment 
                     for mp_name, party_num in self.mps.items():
                         party_num = int(party_num)
                         search = re.search(rf".*{mp_name}.*", preprocessed_sentence, re.IGNORECASE)
                         if (search):
-                            if (party_num not in topic_sentiment_scores):
-                                topic_sentiment_scores[party_num] = [0, 0]
-                            topic_sentiment_scores[party_num][0] += sentence_polarity
-                            topic_sentiment_scores[party_num][1] += 1
+                            if (party_num not in paragraph_sentiment_scores):
+                                paragraph_sentiment_scores[party_num] = 0
+                            paragraph_sentiment_scores[party_num] += sentence_polarity
 
                             # Separate first and last name for advanced entity searching in future sentences in paragraph
                             if (mp_name not in self.entity_tracker):
                                 self.entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
+
+            for topic, score in paragraph_sentiment_scores.items():
+                if (topic not in topic_sentiment_scores):
+                    topic_sentiment_scores[topic] = [0,0]
+                
+                topic_sentiment_scores[topic][0] += score
+                topic_sentiment_scores[topic][1] += 1
 
         # Returned object, key: topic index, value: score
         articleTopicSentimentsMatrix = {}
@@ -195,6 +201,10 @@ class ArticleAnalyser:
         for topic_index, score_and_counter in topic_sentiment_scores.items():
             sentiment_score = score_and_counter[0] / score_and_counter[1]
             if (topic_index != 0):
+                if (sentiment_score < -1):
+                    sentiment_score = -1
+                elif (sentiment_score > 1):
+                    sentiment_score = 1
                 articleTopicSentimentsMatrix[topic_index] = sentiment_score
 
         # Return list of pairs of topic/party and overall sentiment score (for article)
@@ -265,11 +275,10 @@ class ArticleAnalyser:
         for likely_topic in likely_topics:
             if (likely_topic != 0): # Ignore the junk topic
                 if (likely_topic not in headline_topics_matrix):
-                    headline_topics_matrix[likely_topic] = [0, 0]
+                    headline_topics_matrix[likely_topic] = 0
 
                 weighted_polarity = headline_polarity * topic_probabilities[likely_topic]
-                headline_topics_matrix[likely_topic][0] += weighted_polarity
-                headline_topics_matrix[likely_topic][1] += 1
+                headline_topics_matrix[likely_topic] += weighted_polarity
 
         # Then, look for political people (entities)
         if (not for_topics):
@@ -288,9 +297,10 @@ class ArticleAnalyser:
                     party_num = name_split[2]
                     party_num = int(party_num)
                     if (party_num not in headline_topics_matrix):
-                        headline_topics_matrix[party_num] = [0, 0]
-                    headline_topics_matrix[party_num][0] += headline_polarity
-                    headline_topics_matrix[party_num][1] += 1
+                        headline_topics_matrix[party_num] = 0
+
+                    headline_topics_matrix[party_num] += headline_polarity
+
 
             # If the sentence contains an MP from a political party, get sentiment 
             for mp_name, party_num in self.mps.items():
@@ -298,24 +308,22 @@ class ArticleAnalyser:
                 search = re.search(rf".*{mp_name}.*", preprocessed_headline, re.IGNORECASE)
                 if (search):
                     if (party_num not in headline_topics_matrix):
-                        headline_topics_matrix[party_num] = [0, 0]
-                    headline_topics_matrix[party_num][0] += headline_polarity
-                    headline_topics_matrix[party_num][1] += 1
+                        headline_topics_matrix[party_num] = 0
+
+                    headline_topics_matrix[party_num] += headline_polarity
+     
                     # Separate first and last name for advanced entity searching in future sentences in paragraph
                     if (mp_name not in self.entity_tracker):
                         self.entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
 
-        # Return dict (key: topic/party num, value = score)
-        # Returned object, key: topic index, value: score
-        headline_topics_matrix_returned = {}
+        # Bound
+        for topic, score in headline_topics_matrix.item():
+            if (score > 1):
+                headline_topics_matrix[topic] = 1
+            elif (score < -1):
+                headline_topics_matrix[topic] = -1
 
-        # Once the text has been fully analysed, average the scores
-        for topic_index, score_and_counter in headline_topics_matrix.items():
-            sentiment_score = score_and_counter[0] / score_and_counter[1]
-            if (topic_index != 0):
-                headline_topics_matrix_returned[topic_index] = sentiment_score
-
-        return headline_topics_matrix_returned
+        return headline_topics_matrix
 
     def getTopWords(self):
         """ Gets top 20 uni/bigrams from article, for word maps

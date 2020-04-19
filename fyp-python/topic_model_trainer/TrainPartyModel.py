@@ -50,13 +50,13 @@ NUM_TOPICS = 8 # Determined as most effective number of models (see topics over 
 # Anchors designed to nudge the model towards measuring specific genres
 anchors = [
     ["facebook", "messenger", "linkedin", "whatsapp", "pinterest", "facebook messenger","messenger messenger","messenger twitter","linkedin copy","new window","email facebook","pinterest","pinterest whatsapp","link","share", "register","log", "social account","inbox register","social","inbox","account", "readers click","letters click","letters theguardian","guardian letters","print edition", "twitter com","pic twitter","pic","journalists"], # Junk
-    ["labour","corbyn","jeremy","jeremy corbyn", "long bailey","rebecca long","bailey","rebecca","keir","starmer","keir starmer","nandy","lisa nandy","lisa","labour leader","labour party", "shadow","secretary","mcdonnell","john mcdonnell","shadow chancellor","shadow cabinet","chancellor john", "labour mp", "labour mps", "welsh labour", "scottish labour", "tony blair", "blair", "momentum"], # Labour party
-    ["conservative", "conservatives","tories", "prime","boris","johnson","prime minister","boris johnson","prime","minister","mr johnson", "theresa", "theresa may", "cummings","dominic cummings","downing street","downing","dominic","reshuffle", "matt hancock", "hancock", "ministry","government","ministers","department","ensure","work","department","scheme", "patel","priti","priti patel", "scottish conservatives", "welsh", "scottish conservative", "david cameron", "cameron"], # Conservative party and the Government
+    ["labour","corbyn","jeremy","jeremy corbyn", "long bailey","rebecca long","bailey","rebecca","keir","starmer","keir starmer","nandy","lisa nandy","lisa","labour leader","labour party", "shadow","mcdonnell","john mcdonnell","shadow chancellor","shadow cabinet","chancellor john", "labour mp", "labour mps", "tony blair", "blair", "momentum"], # Labour party
+    ["conservative", "conservatives","tories", "tory","boris","johnson","prime minister","boris johnson","prime","minister","mr johnson", "theresa", "theresa may", "cummings","dominic cummings","downing street","downing","dominic", "matt hancock", "hancock", "ministry","government","ministers", "patel","priti","priti patel", "david cameron", "cameron"], # Conservative party and the Government
     ["liberal democrats", "liberal","lib","lib","dems","lib dems","lib dem", "jo", "swinson", "jo swinson"], # Liberal Democrats
-    ["snp","sturgeon","nicola sturgeon","nicola","independence referendum","independence", "holyrood", "ian blackford", "blackford"], # SNP
-    ["green party", "green", "sian", "berry", "jonathan bartley", "bartley", "caroline lucas", "lucas", "brighton", "greens", "renewable", "climate change", "climate emergency"], # Green
+    ["snp","sturgeon","scottish national","nicola sturgeon","nicola","independence referendum", "holyrood", "ian blackford", "blackford"], # SNP
+    ["green party", "green", "sian", "berry", "jonathan bartley", "bartley", "caroline lucas", "lucas", "brighton", "greens"], # Green
     ["brexit party","farage","nigel", "nigel farage", "ann widdecombe", "widdecombe", "tice", "richard tice"], # Brexit Party
-    ["plaid cymru", "plaid", "cymru", "wales", "welsh", "assembly", "welsh assembly", "cardiff", "adam price"], # Plaid Cymru
+    ["plaid cymru", "plaid", "cymru", "adam price"], # Plaid Cymru
 ]
 
 best_model = None

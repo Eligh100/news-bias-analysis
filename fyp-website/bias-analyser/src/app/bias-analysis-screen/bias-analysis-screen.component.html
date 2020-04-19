@@ -125,8 +125,8 @@
             </div>      
             <!-- Topic polarity frequency bar chart -->
             <div class="col-sm-6 text-center">
-                <canvas class="mr-5" height="200px" style="display: block; height: 200px;" mdbChart
-                    [chartType]="barChart"
+                <canvas class="mr-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
+                    [chartType]="doughnutChart"
                     [datasets]="topicPolarityFrequencyChartData"
                     [labels]="topicPolarityFrequencyChartLabels"
                     [colors]="topicPolarityFrequencyChartColors"
@@ -150,8 +150,8 @@
             </div>
             <!-- Party polarity frequency bar chart -->
             <div class="col-sm-6 text-center">
-                <canvas class="mr-5" height="200" style="display: block; height: 200px;" mdbChart
-                    [chartType]="barChart"
+                <canvas class="mr-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
+                    [chartType]="doughnutChart"
                     [datasets]="partyPolarityFrequencyChartData"
                     [labels]="partyPolarityFrequencyChartLabels"
                     [colors]="partyPolarityFrequencyChartColors"

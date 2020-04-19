@@ -156,7 +156,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     { data: [], label: 'Economy/Business' },
     { data: [], label: 'Healthcare/NHS' },
     { data: [], label: 'Foreign Affairs' },
-    { data: [], label: 'Racism' },
+    { data: [], label: 'Hate Crimes/Discrimination' },
     { data: [], label: 'Environment/Climate Change' },
     { data: [], label: 'Law/Police' },
     { data: [], label: 'Education/Schools' },
@@ -204,8 +204,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     { data: [], label: 'Brexit Party' },
     { data: [], label: 'Green' },
     { data: [], label: 'SNP' },
-    { data: [], label: 'Plaid Cymru' },
-    { data: [], label: 'UKIP' }
+    { data: [], label: 'Plaid Cymru' }
   ];
 
   public partyOpinionChangeChartLabels: Array<any> = [];
@@ -253,10 +252,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
     },
-    maintainAspectRatio: true,
-    scales: {
-      yAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Frequency of opinions" }, ticks: { beginAtZero: true } },]
-    }
+    maintainAspectRatio: true
   };
   
   // 'Frequency in topics in articles' doughnut
@@ -302,10 +298,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
     },
-    maintainAspectRatio: true,
-    scales: {
-      yAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Frequency of opinions" }, ticks: { beginAtZero: true } },]
-    }
+    maintainAspectRatio: true
   };
 
   
@@ -433,7 +426,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Economy/Business": [0, 0],
     "Healthcare/NHS": [0, 0],
     "Foreign Affairs": [0, 0],
-    "Racism": [0, 0],
+    "Hate Crimes/Discrimination": [0, 0],
     "Environment/Climate Change": [0, 0],
     "Law/Police": [0, 0],
     "Education/Schools": [0, 0],
@@ -448,8 +441,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Brexit Party": [0, 0],
     "Green": [0, 0],
     "SNP": [0, 0],
-    "Plaid Cymru": [0, 0],
-    "UKIP": [0, 0]
+    "Plaid Cymru": [0, 0]
   }
 
   // For determining bias score and other charting (shared language chart)
@@ -460,8 +452,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Brexit Party": 0,
     "Green": 0,
     "SNP": 0,
-    "Plaid Cymru": 0,
-    "UKIP": 0
+    "Plaid Cymru": 0
   }
 
   // Opinion polarity frequency variables
@@ -484,7 +475,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Economy/Business": 0,
     "Healthcare/NHS": 0,
     "Foreign Affairs": 0,
-    "Racism": 0,
+    "Hate Crimes/Discrimination": 0,
     "Environment/Climate Change": 0,
     "Law/Police": 0,
     "Education/Schools": 0,
@@ -499,8 +490,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Brexit Party": 0,
     "Green": 0,
     "SNP": 0,
-    "Plaid Cymru": 0,
-    "UKIP": 0
+    "Plaid Cymru": 0
   }
 
   // Author variables
@@ -542,8 +532,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Brexit Party": ["#0004ff", "#6669fa"],
     "Green": ["#04ff00", "#77ff75"],
     "SNP": ["#ffe600", "#fced60"],
-    "Plaid Cymru": ["#00630c", "#2c6333"],
-    "UKIP": ["#7300ff", "#ac6bfa"]
+    "Plaid Cymru": ["#00630c", "#2c6333"]
   };
 
   // Sentence describing bias score
@@ -563,6 +552,12 @@ export class BiasAnalysisScreenComponent implements OnInit {
   // Stores bias score - starting from 50 (i.e. neutral)
   // Analysis either adds or subtracts from this, to get final bias score
   public newspaperToPartyBiasScore = 50;
+
+  // The base amount to update the bias score with
+  public BASE_BIAS_NUM = 20
+
+  // For aveeraging
+  public scoresToAverageCount = 0;
 
   // Dictates when to show screen to user (once all data has been formatted)
   public processingDone: boolean = false;
@@ -754,6 +749,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
 
       this.analysedArticlesCount++; // Used to keep track of how many articles have been analysed this run
+      this.scoresToAverageCount++; // Used to average total bias score
 
       let articlePartyBiasScore = 50; // Current article's party bias score - starts at neutral (50)
 
@@ -814,16 +810,20 @@ export class BiasAnalysisScreenComponent implements OnInit {
           let split = element.split(" = ");
           let topic = split[0]
           let headline_score = +(split[1])
-          headline_score = +headline_score.toFixed(2)
+          headline_score = +headline_score.toFixed(2) * 3
+          if (headline_score > 1)
+            headline_score = 1
+          if (headline_score < -1) 
+            headline_score = -1
           if (this.partyTopicScores[topic]) { // If the party has an opinion about the topic (from our database)
             if (this.partyTopicScores[topic] < 0 && headline_score < 0 || this.partyTopicScores[topic] > 0 && headline_score > 0) { // if same polarity
               let difference = Math.abs(this.partyTopicScores[topic] - headline_score)
-              articlePartyBiasScore += 20 - (difference * 20)
+              articlePartyBiasScore += this.BASE_BIAS_NUM - (difference * this.BASE_BIAS_NUM)
             } else if (this.partyTopicScores[topic] > 0 && headline_score < 0 || this.partyTopicScores[topic] < 0 && headline_score > 0) { // if different 
               let difference = Math.abs(this.partyTopicScores[topic] - headline_score)
-              articlePartyBiasScore -= (difference / 2) * 20
+              articlePartyBiasScore -= (difference / 2) * this.BASE_BIAS_NUM
             } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 20;
+              articlePartyBiasScore += this.BASE_BIAS_NUM;
             }
           }
           // To get an average of a newspapers opinions about topics
@@ -841,20 +841,24 @@ export class BiasAnalysisScreenComponent implements OnInit {
         headline_party_sentiments.split(", ").forEach(element => {
           let split = element.split(" = ");
           let party = split[0]
-          let headline_score = +(split[1])
+          let headline_score = +(split[1]) * 3
+          if (headline_score > 1)
+            headline_score = 1
+          if (headline_score < -1) 
+            headline_score = -1
           headline_score = +headline_score.toFixed(2)
           if (this.partyToOtherPartiesScores[party]) { // If the party has an opinion about another party (from our database)
             if (this.partyToOtherPartiesScores[party] < 0 && headline_score < 0 || this.partyToOtherPartiesScores[party] > 0 && headline_score > 0) { // if same polarity
               let difference = Math.abs(this.partyToOtherPartiesScores[party] - headline_score)
-              articlePartyBiasScore += 20 - (difference * 20)
+              articlePartyBiasScore += this.BASE_BIAS_NUM - (difference * this.BASE_BIAS_NUM)
             } else if (this.partyToOtherPartiesScores[party] > 0 && headline_score < 0 || this.partyToOtherPartiesScores[party] < 0 && headline_score > 0) { // if different 
               let difference = Math.abs(this.partyToOtherPartiesScores[party] - headline_score)
-              articlePartyBiasScore -= (difference / 2) * 20
+              articlePartyBiasScore -= (difference / 2) * this.BASE_BIAS_NUM
             } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 20;
+              articlePartyBiasScore += this.BASE_BIAS_NUM;
             }
           } else if (party == this.currentParty) { // If the headline has an opinion about the party in question
-            articlePartyBiasScore += headline_score * 20
+            articlePartyBiasScore += headline_score * this.BASE_BIAS_NUM
           }
           // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += headline_score;
@@ -872,17 +876,21 @@ export class BiasAnalysisScreenComponent implements OnInit {
           let split = element.split(" = ");
           let topic = split[0]
           let article_score = +(split[1])
-          article_score = +article_score.toFixed(2)
+          article_score = +article_score.toFixed(2) * 3
+          if (article_score > 1)
+            article_score = 1
+          if (article_score < -1) 
+            article_score = -1
           if (this.partyTopicScores[topic]) { // If the party has an opinion about the topic (from our database)
             if (this.partyTopicScores[topic] < 0 && article_score < 0 || this.partyTopicScores[topic] > 0 && article_score > 0) { // if same polarity
               let difference = Math.abs(this.partyTopicScores[topic] - article_score)
-              articlePartyBiasScore += 20 - (difference * 20)
+              articlePartyBiasScore += this.BASE_BIAS_NUM - (difference * this.BASE_BIAS_NUM)
             } else if (this.partyTopicScores[topic] > 0 && article_score <= 0 || this.partyTopicScores[topic] <= 0 && article_score > 0) { // if different 
               let difference = Math.abs(this.partyTopicScores[topic] - article_score)
-              articlePartyBiasScore -= (difference / 2) * 20
-            } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 20;
-            }
+              articlePartyBiasScore -= (difference / 2) * this.BASE_BIAS_NUM
+            } // else { // if both zero (i.e. neutral)
+            //   articlePartyBiasScore += this.BASE_BIAS_NUM; // TODO check
+            // }
           }
           // To get an average of a newspapers opinions about topics
           this.overallTopicOpinions[topic][0] += article_score;
@@ -918,19 +926,24 @@ export class BiasAnalysisScreenComponent implements OnInit {
           let split = element.split(" = ");
           let party = split[0]
           let article_score = +(split[1])
-          article_score = +article_score.toFixed(2)
+          article_score = +article_score.toFixed(2) * 3
+          if (article_score > 1)
+            article_score = 1
+          if (article_score < -1) 
+            article_score = -1
           if (this.partyToOtherPartiesScores[party]) { // If the party has an opinion about another party (from our database)
             if (this.partyToOtherPartiesScores[party] < 0 && article_score < 0 || this.partyToOtherPartiesScores[party] > 0 && article_score > 0) { // if same polarity
               let difference = Math.abs(this.partyToOtherPartiesScores[party] - article_score)
-              articlePartyBiasScore += 10 - (difference * 20)
+              articlePartyBiasScore += this.BASE_BIAS_NUM - (difference * this.BASE_BIAS_NUM)
             } else if (this.partyToOtherPartiesScores[party] > 0 && article_score <= 0 || this.partyToOtherPartiesScores[party] <= 0 && article_score > 0) { // if different 
               let difference = Math.abs(this.partyToOtherPartiesScores[party] - article_score)
-              articlePartyBiasScore -= (difference / 2) * 20
-            } else { // if both zero (i.e. neutral)
-              articlePartyBiasScore += 20;
+              articlePartyBiasScore -= (difference / 2) * this.BASE_BIAS_NUM
             }
+            // } else { // if both zero (i.e. neutral)
+            //   articlePartyBiasScore += this.BASE_BIAS_NUM;
+            // }
           } else if (party == this.currentParty) { // If the article has an opinion about the party in question
-            articlePartyBiasScore += article_score * 20;
+            articlePartyBiasScore += article_score * this.BASE_BIAS_NUM * 2;
           }
           // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += article_score;
@@ -961,17 +974,29 @@ export class BiasAnalysisScreenComponent implements OnInit {
       let mostLikelyParty = article["mostLikelyParty"]
       this.similarToPartyText[mostLikelyParty] += 1;
 
-      // If the article is most similar to the current parties manifesto, add 10 to bias score
+      // If the article is most similar to the current parties manifesto, add to bias score
       if (mostLikelyParty == this.currentParty) {
-        articlePartyBiasScore += 10;
+        if (mostLikelyParty == "Conservatives") {
+          articlePartyBiasScore += (this.BASE_BIAS_NUM / 20);
+        } else if (mostLikelyParty == "Labour") {
+          articlePartyBiasScore += (this.BASE_BIAS_NUM / 18);
+        } else {
+          articlePartyBiasScore += this.BASE_BIAS_NUM;
+        }
       } else {
         // If article is using language similar to the Labour manifesto
         // And we are evaluating the Conservative Party
         // Since the Conservative Party has a negative opinion on the Labour party, we can say
         // That the article is biased AGAINST the Conservative party
-        // Add or subtract 10, weighted by the current party's opinion about the article's most similar party
+        // Add or subtract, weighted by the current party's opinion about the article's most similar party
         if (this.partyToOtherPartiesScores[mostLikelyParty]) {
-          articlePartyBiasScore += this.partyToOtherPartiesScores[mostLikelyParty] * 10
+          if (mostLikelyParty == "Conservatives") {
+            articlePartyBiasScore += (this.partyToOtherPartiesScores[mostLikelyParty] * this.BASE_BIAS_NUM) / 20
+          } else if (mostLikelyParty == "Labour") {
+            articlePartyBiasScore += (this.partyToOtherPartiesScores[mostLikelyParty] * this.BASE_BIAS_NUM) / 18
+          } else {
+            articlePartyBiasScore += this.partyToOtherPartiesScores[mostLikelyParty] * this.BASE_BIAS_NUM
+          }
         }
       }
 
@@ -1000,7 +1025,19 @@ export class BiasAnalysisScreenComponent implements OnInit {
       }
 
       // Add to cumulative bias score, to be averaged (for final score)
-      this.newspaperToPartyBiasScore += articlePartyBiasScore;
+      if (articlePartyBiasScore < 44 || articlePartyBiasScore > 56) {
+        if (articlePartyBiasScore >= 57 && articlePartyBiasScore <= 70) {
+          articlePartyBiasScore += 20
+          this.newspaperToPartyBiasScore += articlePartyBiasScore
+        } else if (articlePartyBiasScore >= 30 && articlePartyBiasScore <= 43) {
+          articlePartyBiasScore -= 20
+          this.newspaperToPartyBiasScore += articlePartyBiasScore 
+        } else {
+          this.newspaperToPartyBiasScore += articlePartyBiasScore;
+        }
+      } else {
+        this.scoresToAverageCount--;
+      }
 
       // Handles storing of topic/party opinions for current date
       // Allows plotting changes over time
@@ -1051,7 +1088,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
     })
 
     // Once all articles analysed, get average overall score
-    let finalBiasValue = this.newspaperToPartyBiasScore / this.analysedArticlesCount
+    let finalBiasValue = this.newspaperToPartyBiasScore / this.scoresToAverageCount
+
+    console.log(finalBiasValue)
 
     // Bound final score
     if (finalBiasValue < 0) {
