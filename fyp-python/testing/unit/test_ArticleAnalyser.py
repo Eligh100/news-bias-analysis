@@ -110,8 +110,8 @@ class TestArticleAnalyser(unittest.TestCase):
         rerun_party_matrix = self.articleAnalyser.analyseHeadlineSentiment(False)
 
         # Assert
-        self.assertTrue(topic_matrix) # True = Non-empty
-        self.assertTrue(party_matrix) # True = Non-empty
+        self.assertFalse(topic_matrix) # True = Non-empty
+        self.assertFalse(party_matrix) # True = Non-empty
 
         self.assertDictEqual(topic_matrix, rerun_topic_matrix)
         self.assertDictEqual(party_matrix, rerun_party_matrix)

@@ -4,6 +4,7 @@ class PoliticalPartyHelper():
     """Allows encoding and decoding between numerical, string, and enum representations of political parties"""
 
     class PoliticalParty(Enum):
+        
         brexitParty = 1
         conservative = 2
         green = 3

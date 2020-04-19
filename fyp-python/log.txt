@@ -555,3 +555,69 @@ Failed with the folowing exception:
 time data '' does not match format '%Y-%m-%d'
 No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
 Article scraping ran to completion - 19/04/2020, 00:55:17
+
+
+Script started at: 19/04/2020, 04:59:51
+
+
+Script started at: 19/04/2020, 05:06:54
+
+
+Script started at: 19/04/2020, 05:07:16
+
+
+Script started at: 19/04/2020, 05:07:30
+
+
+Script started at: 19/04/2020, 05:07:42
+
+
+Script started at: 19/04/2020, 05:08:14
+
+
+Script started at: 19/04/2020, 05:08:49
+
+
+Script started at: 19/04/2020, 05:09:24
+
+
+Script started at: 19/04/2020, 05:10:02
+
+
+Script started at: 19/04/2020, 05:10:14
+
+
+Script started at: 19/04/2020, 05:11:10
+
+
+Script started at: 19/04/2020, 05:17:58
+
+
+Script started at: 19/04/2020, 05:18:03
+
+
+Script started at: 19/04/2020, 05:18:10
+
+
+Script started at: 19/04/2020, 05:18:17
+
+
+Script started at: 19/04/2020, 05:18:22
+
+
+Script started at: 19/04/2020, 05:18:33
+
+
+Script started at: 19/04/2020, 05:18:48
+
+
+Script started at: 19/04/2020, 05:18:49
+
+
+Script started at: 19/04/2020, 05:18:56
+
+
+Script started at: 19/04/2020, 05:19:00
+
+
+Script started at: 19/04/2020, 13:04:24

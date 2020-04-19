@@ -80,7 +80,7 @@ except Exception as e:
 
 # UNCOMMENT FOR FULL RUN - RUN different instances for faster upload
 # Keys
-#key = {}
+key = {}
 #key = {'article-url': 'https://www.mirror.co.uk/news/politics/voice-mirror-welcome-boris-johnsons-21459185'}
 #key = {'article-url': 'https://www.dailymail.co.uk/news/article-8143251/Fit-healthy-mother-39-face-coronavirus-epidemic-released-hospital.html?ns_mchannel=rss&ito=1490&ns_campaign=1490'}
 #key = {'article-url': 'https://www.independent.co.uk/news/uk/politics/keir-starmer-labour-leadership-race-unison-trade-union-corbyn-long-bailey-a9275366.html'}
@@ -127,9 +127,7 @@ while(still_items_left):
     counter = 0
 
     for item in results["Items"]:
-        try:
-            x = item["updated"]
-        except:
+        if (item["updated"] != "NEW"):
             counter +=1
             remaining = str(counter) + "/" + str(total)
             print(remaining, end="\r")
@@ -233,7 +231,7 @@ while(still_items_left):
                         ':h': headline_topics_sentiment_matrix,
                         ':z': headline_parties_sentiment_matrix,
                         ':w': top_words,  
-                        ':d': "UPDATED"     
+                        ':d': "NEW"     
                     },
                     ReturnValues="UPDATED_NEW"
                 )
@@ -272,9 +270,9 @@ while(still_items_left):
                 except:
                     logger.writeToLog("Failed again - skipping...", False)
                     logger.writeToLog("Failed URL - " + article_url, False)
-        else:
-            continue
-        
+        # else:
+        #     continue
+            
 
 os.remove(local_filename)
 

@@ -170,7 +170,7 @@ class ArticleAnalyser:
                             party_num = name_split[2]
                             party_num = int(party_num)
                             if (party_num not in topic_sentiment_scores):
-                                topic_sentiment_scores[topic] = [0, 0]
+                                topic_sentiment_scores[party_num] = [0, 0]
                             topic_sentiment_scores[party_num][0] += sentence_polarity
                             topic_sentiment_scores[party_num][1] += 1
 
@@ -180,7 +180,7 @@ class ArticleAnalyser:
                         search = re.search(rf".*{mp_name}.*", preprocessed_sentence, re.IGNORECASE)
                         if (search):
                             if (party_num not in topic_sentiment_scores):
-                                topic_sentiment_scores[topic] = [0, 0]
+                                topic_sentiment_scores[party_num] = [0, 0]
                             topic_sentiment_scores[party_num][0] += sentence_polarity
                             topic_sentiment_scores[party_num][1] += 1
 
