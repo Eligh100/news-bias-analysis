@@ -239,7 +239,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     }
   };
 
-  // 'Frequency in topics opinions in articles' bar chart
+  // 'Frequency in topics opinions in articles' doughnut
   public topicPolarityFrequencyChartData: Array<any> = [];
   public topicPolarityFrequencyChartLabels: Array<any> = [];
   public topicPolarityFrequencyChartColors: Array<any> = [];
@@ -255,7 +255,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     maintainAspectRatio: true
   };
   
-  // 'Frequency in topics in articles' doughnut
+  // 'Frequency in topics in articles' bar
   public discussionChartData: Array<any> = [{}];
   public discussionChartLabels: Array<any> = [];
   public discussionChartColors: Array<any> = [];
@@ -267,10 +267,14 @@ export class BiasAnalysisScreenComponent implements OnInit {
       text: "Topic discussion frequency in [NEWSPAPER_NAME]",
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    maintainAspectRatio: true,
+    scales: {
+      yAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Number of articles" }, ticks: { beginAtZero: true } },]
     }
   };
   
-  // 'Frequency in parties in articles' doughnut
+  // 'Frequency in parties in articles' bar
   public partyDiscussionChartData: Array<any> = [{}];
   public partyDiscussionChartLabels: Array<any> = [];
   public partyDiscussionChartColors: Array<any> = [];
@@ -282,10 +286,14 @@ export class BiasAnalysisScreenComponent implements OnInit {
       text: "Party discussion frequency in [NEWSPAPER_NAME]",
       fontSize: 30,
       fontFamily: "Roboto, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+    },
+    maintainAspectRatio: true,
+    scales: {
+      yAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Number of articles" }, ticks: { beginAtZero: true } },]
     }
   };
 
-  // 'Frequency in parties opinions in articles' bar chart
+  // 'Frequency in parties opinions in articles' doughnut
   public partyPolarityFrequencyChartData: Array<any> = [];
   public partyPolarityFrequencyChartLabels: Array<any> = [];
   public partyPolarityFrequencyChartColors: Array<any> = [];
@@ -386,7 +394,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     maintainAspectRatio: true,
     scales: {
       xAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Party" } }],
-      yAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Frequency of articles" }, ticks: { beginAtZero: true } },]
+      yAxes: [{ scaleLabel: { display: true, fontStyle: 'italic', labelString: "Number of articles" }, ticks: { beginAtZero: true } },]
 
     }
   };
@@ -556,7 +564,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
   // The base amount to update the bias score with
   public BASE_BIAS_NUM = 20
 
-  // For aveeraging
+  // For averaging
   public scoresToAverageCount = 0;
 
   // Dictates when to show screen to user (once all data has been formatted)
@@ -748,24 +756,19 @@ export class BiasAnalysisScreenComponent implements OnInit {
         }
       }
 
+      // Bug involving Green and Daily Mail - this resolves it
+      if (this.currentNewspaper == "The Daily Mail"){
+        if (article["articleParties"] == "Green") {
+          if (!article["articlePartySentiments"].includes("Green")) {
+            return;
+          }
+        }
+      }
+
       this.analysedArticlesCount++; // Used to keep track of how many articles have been analysed this run
       this.scoresToAverageCount++; // Used to average total bias score
 
       let articlePartyBiasScore = 50; // Current article's party bias score - starts at neutral (50)
-
-      // Get the most likely topics, to display what topics the newspaper discusses the most
-      let article_topics = (article["articleTopics"]).split(", ")
-
-      article_topics.forEach(element => {
-        this.mostDiscussedArticleTopics[element] += 1
-      });
-
-      // Get the most likely parties, to display what parties the newspaper discusses the most
-      let article_parties = (article["articleParties"]).split(", ")
-
-      article_parties.forEach(element => {
-        this.mostDiscussedArticleParties[element] += 1 
-      });
 
       // Get the authors for current article - except for BBC, who don't share author details
       let authors = [];
@@ -888,9 +891,9 @@ export class BiasAnalysisScreenComponent implements OnInit {
             } else if (this.partyTopicScores[topic] > 0 && article_score <= 0 || this.partyTopicScores[topic] <= 0 && article_score > 0) { // if different 
               let difference = Math.abs(this.partyTopicScores[topic] - article_score)
               articlePartyBiasScore -= (difference / 2) * this.BASE_BIAS_NUM
-            } // else { // if both zero (i.e. neutral)
-            //   articlePartyBiasScore += this.BASE_BIAS_NUM; // TODO check
-            // }
+            } else { // if both zero (i.e. neutral)
+              articlePartyBiasScore += this.BASE_BIAS_NUM; // TODO check
+            }
           }
           // To get an average of a newspapers opinions about topics
           this.overallTopicOpinions[topic][0] += article_score;
@@ -938,12 +941,11 @@ export class BiasAnalysisScreenComponent implements OnInit {
             } else if (this.partyToOtherPartiesScores[party] > 0 && article_score <= 0 || this.partyToOtherPartiesScores[party] <= 0 && article_score > 0) { // if different 
               let difference = Math.abs(this.partyToOtherPartiesScores[party] - article_score)
               articlePartyBiasScore -= (difference / 2) * this.BASE_BIAS_NUM
+            } else { // if both zero (i.e. neutral)
+              articlePartyBiasScore += this.BASE_BIAS_NUM;
             }
-            // } else { // if both zero (i.e. neutral)
-            //   articlePartyBiasScore += this.BASE_BIAS_NUM;
-            // }
           } else if (party == this.currentParty) { // If the article has an opinion about the party in question
-            articlePartyBiasScore += article_score * this.BASE_BIAS_NUM * 2;
+            articlePartyBiasScore += article_score * this.BASE_BIAS_NUM;
           }
           // To get an average of a newspapers opinions about parties
           this.overallPartyOpinions[party][0] += article_score;
@@ -999,6 +1001,21 @@ export class BiasAnalysisScreenComponent implements OnInit {
           }
         }
       }
+      // Get the most likely topics, to display what topics the newspaper discusses the most
+      let article_topics = (article["articleTopics"]).split(", ");
+    
+      article_topics.forEach(element => {
+        if (topics_to_sentiment[element])
+          this.mostDiscussedArticleTopics[element] += 1
+      });
+
+      // Get the most likely parties, to display what parties the newspaper discusses the most
+      let article_parties = (article["articleParties"]).split(", ")
+
+      article_parties.forEach(element => {
+        if (parties_to_sentiment[element])
+          this.mostDiscussedArticleParties[element] += 1 
+      });
 
       // Get the top words, and store in dict - if exists, update with frequency
       if (article["topWords"] != "NO INFO") {
@@ -1026,15 +1043,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
       // Add to cumulative bias score, to be averaged (for final score)
       if (articlePartyBiasScore < 44 || articlePartyBiasScore > 56) {
-        if (articlePartyBiasScore >= 57 && articlePartyBiasScore <= 70) {
-          articlePartyBiasScore += 20
-          this.newspaperToPartyBiasScore += articlePartyBiasScore
-        } else if (articlePartyBiasScore >= 30 && articlePartyBiasScore <= 43) {
-          articlePartyBiasScore -= 20
-          this.newspaperToPartyBiasScore += articlePartyBiasScore 
-        } else {
-          this.newspaperToPartyBiasScore += articlePartyBiasScore;
-        }
+        this.newspaperToPartyBiasScore += articlePartyBiasScore;
       } else {
         this.scoresToAverageCount--;
       }
@@ -1089,8 +1098,6 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     // Once all articles analysed, get average overall score
     let finalBiasValue = this.newspaperToPartyBiasScore / this.scoresToAverageCount
-
-    console.log(finalBiasValue)
 
     // Bound final score
     if (finalBiasValue < 0) {
@@ -1550,8 +1557,6 @@ export class BiasAnalysisScreenComponent implements OnInit {
     this.topicPolarityFrequencyChartColors = colours;
 
     this.topicPolarityFrequencyChartOptions["title"]["text"] = this.currentNewspaper + this.GrammarChecker(this.currentNewspaper) + " distribution of topic opinions";
-    console.log(this.topicOpinionChangeChartOptions)
-
   }
 
   /**
@@ -1976,7 +1981,6 @@ export class BiasAnalysisScreenComponent implements OnInit {
 
     });
 
-    console.log(sections)
     return sections;
   }
 

@@ -111,18 +111,47 @@
             </div>
         </div>
         <mat-divider class="my-3"></mat-divider>
+        <!-- Topic frequency bar chart -->
         <div class="row pt-3">
-            <!-- Topic frequency doughnut chart -->
-            <div class="col-sm-6 text-center">
-                <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
-                    [chartType]="doughnutChart"
+            <div class="col-sm-1">
+
+            </div>
+            <div class="col-sm-10 text-center">
+                <canvas class="mr-5" width="800" height="300" style="display: block; width: 800px; height: 300px;" mdbChart
+                    [chartType]="barChart"
                     [datasets]="discussionChartData"
                     [labels]="discussionChartLabels"
                     [colors]="discussionChartColors"
                     [options]="discussionChartOptions"
                     [legend]="true">
                 </canvas>
-            </div>      
+            </div>
+            <div class="col-sm-1">
+
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <!-- Party frequency bar chart -->
+        <div class="row pt-3">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-8 text-center">
+                <canvas class="mr-5" width="770" height="300" style="display: block; width: 770px; height: 300px;" mdbChart
+                    [chartType]="barChart"
+                    [datasets]="partyDiscussionChartData"
+                    [labels]="partyDiscussionChartLabels"
+                    [colors]="partyDiscussionChartColors"
+                    [options]="partyDiscussionChartOptions"
+                    [legend]="true">
+                </canvas>
+            </div>
+            <div class="col-sm-2">
+
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="row pt-3">   
             <!-- Topic polarity frequency bar chart -->
             <div class="col-sm-6 text-center">
                 <canvas class="mr-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
@@ -131,20 +160,6 @@
                     [labels]="topicPolarityFrequencyChartLabels"
                     [colors]="topicPolarityFrequencyChartColors"
                     [options]="topicPolarityFrequencyChartOptions"
-                    [legend]="true">
-                </canvas>
-            </div>
-        </div>
-        <mat-divider class="my-3"></mat-divider>
-        <div class="row pt-3">
-            <!-- Party frequency doughnut chart -->
-            <div class="col-sm-6 text-center">
-                <canvas class="mx-5" width="750" height="385" style="display: block; width: 750px; height: 385px;" mdbChart
-                    [chartType]="doughnutChart"
-                    [datasets]="partyDiscussionChartData"
-                    [labels]="partyDiscussionChartLabels"
-                    [colors]="partyDiscussionChartColors"
-                    [options]="partyDiscussionChartOptions"
                     [legend]="true">
                 </canvas>
             </div>
