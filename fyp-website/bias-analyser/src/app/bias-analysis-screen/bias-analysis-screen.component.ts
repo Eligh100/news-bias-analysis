@@ -526,7 +526,7 @@ export class BiasAnalysisScreenComponent implements OnInit {
     "Economy/Business": ["#d19134", "#d4ab70"],
     "Healthcare/NHS": ["#0D73B7", "#4588b5"],
     "Foreign Affairs": ["#FF00D4", "#FA42DB"],
-    "Racism": ["#a37968", "#ebb098"],
+    "Hate Crimes/Discrimination": ["#a37968", "#ebb098"],
     "Environment/Climate Change": ["#2CFF01", "#63FF43"],
     "Law/Police": ["#000A37", "#0F1739"],
     "Education/Schools": ["#70fff1", "#befaf4"],
