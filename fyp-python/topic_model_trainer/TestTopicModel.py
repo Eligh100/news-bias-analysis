@@ -66,7 +66,6 @@ words  = [word for ind,word in enumerate(words) if  not any(char.isdigit() for c
 binary_predictions = topic_model.predict(doc_word)
 probability_predictions = topic_model.predict_proba(doc_word)[0]
 
-# TODO make score more sophisticated (precision, accuracy, recall, and F1)
 score = 0 
 
 true_positives = 0
@@ -95,7 +94,7 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
         else:
             false_positives += 1
             false_negatives += 1
-            pass
+            #pass
             # print("File:")
             # print(test_files[shared_index])
             # print("\nMy guess:")

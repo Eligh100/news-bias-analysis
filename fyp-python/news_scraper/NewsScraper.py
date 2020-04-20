@@ -1,15 +1,3 @@
-"""
-News scraper - to scrape relevant articles for storage and further analysis
-
-STEPS (per news org):
-
-1. Go to base URL
-2. Follow links to articles relating to UK politics (ignoring opinion pieces)
-3. Get text content
-4. Send to other script for trimming
-""" # TODO update this
-
-# IMPORTS
 import urllib3
 import certifi
 from bs4 import BeautifulSoup
@@ -35,7 +23,7 @@ class NewsScraper():
         "DAILY MAIL ALL": ["https://www.dailymail.co.uk/articles.rss"],
         "GUARDIAN": ["https://www.theguardian.com/politics/rss"],
         "INDEPENDENT":["http://www.independent.co.uk/news/uk/politics/rss"],
-        "TELEGRAPH": ["https://www.telegraph.co.uk/politics/rss.xml"], # TODO telegraph has paywall - note this as reason for less articles
+        "TELEGRAPH": ["https://www.telegraph.co.uk/politics/rss.xml"], 
         "MIRROR": ["https://www.mirror.co.uk/news/politics/?service=rss"],
     }
 

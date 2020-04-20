@@ -209,7 +209,7 @@ class ArticleTrimmer():
 
                         for story in story_div:
 
-                            paragraphs_list = story.find_all("p") # TODO get list items too?
+                            paragraphs_list = story.find_all("p")
 
                             for paragraph in paragraphs_list:
                                 article_text += paragraph.getText() + "\n"
