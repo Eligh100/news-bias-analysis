@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import scipy.sparse as ss
 import _pickle as cPickle
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.metrics import f1_score
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -33,7 +34,7 @@ except:
     exit(0)
 
 # Model predicts numerous probabilities
-# User has labelled with most likely topic, which is converted to number (1-14 - topic index)
+# User has labelled with most likely topic, which is converted to number (1-12 - topic index)
 # If model.predict yields true for this topic, get predict_proba for this
 # If false, score of 0 is given
 # Score is given based on predict_proba score - best is 1
@@ -66,7 +67,11 @@ binary_predictions = topic_model.predict(doc_word)
 probability_predictions = topic_model.predict_proba(doc_word)[0]
 
 # TODO make score more sophisticated (precision, accuracy, recall, and F1)
-score = 0 # A max score is 30 (i.e. 30 test files accurately predicted)
+score = 0 
+
+true_positives = 0
+false_positives = 0
+false_negatives = 0
 
 shared_index = -1
 for binary_prediction, probability_prediction in zip(binary_predictions, probability_predictions):
@@ -77,12 +82,19 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
 
     if (labelled_topic == 0):
         if (not np.any(binary_prediction)):
+            true_positives += 1
             score += 1
+        else:
+            false_positives += 1
+            false_negatives += 1
     else:
         if (binary_prediction[labelled_topic] == True):
             rounded_score = round(probability_prediction[labelled_topic], 1)
             score += rounded_score
+            true_positives += 1
         else:
+            false_positives += 1
+            false_negatives += 1
             pass
             # print("File:")
             # print(test_files[shared_index])
@@ -94,7 +106,21 @@ for binary_prediction, probability_prediction in zip(binary_predictions, probabi
             # print(probability_prediction)
 
 print(str(score) + "/" + str(total))
-print("Accuracy of: " + str((score/total)*100) + "%")  
+print("Accuracy of: " + str((score/total)*100) + "%\n")  
+
+print("TP = " + str(true_positives))
+print("FP = " + str(false_positives))
+print("FN = " + str(false_negatives))
+print("\n")
+
+precision = true_positives / (true_positives + false_positives)
+recall = true_positives / (true_positives + false_negatives)
+f1 = 2 * (precision * recall) / (precision + recall)
+
+print ("Precision = " + str(precision))
+print ("Recall = " + str(recall))
+print ("F1 = " + str(f1))
+
 
 # # print (topic_model.predict(doc_word))
 # # topic_probs = topic_model.predict_proba(doc_word)[0]

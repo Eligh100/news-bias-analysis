@@ -317,7 +317,7 @@ class ArticleAnalyser:
                         self.entity_tracker[mp_name] = [mp_name.split(" ")[0], mp_name.split(" ")[1], party_num]
 
         # Bound
-        for topic, score in headline_topics_matrix.item():
+        for topic, score in headline_topics_matrix.items():
             if (score > 1):
                 headline_topics_matrix[topic] = 1
             elif (score < -1):

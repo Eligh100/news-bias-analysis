@@ -55,7 +55,7 @@ anchors = [
     ["facebook", "messenger", "linkedin", "whatsapp", "pinterest", "facebook messenger","messenger messenger","messenger twitter","linkedin copy","new window","email facebook","pinterest","pinterest whatsapp","link","share", "register","log", "social account","inbox register","social","inbox","account", "readers click","letters click","letters theguardian","guardian letters","print edition", "twitter com","pic twitter","pic","journalists"], # Junk
     ["sturgeon","nicola sturgeon","nicola","snp","scotland","independence referendum","independence", "holyrood", "edinburgh", "second independence"], # Scotland
     ["ireland","irish","northern ireland", "dup", "sinn", "fein", "sinn fein", "backstop", "dublin", "belfast", "stormont"], # Ireland
-    ["wales", "welsh", "assembly", "plaid", "cymru", "plaid cymru", "cardiff", "swansea", "adam price", "lamb", "mining"], # Wales
+    ["wales", "welsh", "welsh assembly", "plaid", "cymru", "plaid cymru", "cardiff", "swansea", "adam price"], # Wales
     ["eu","agreement","deal","trade","trade deal","brussels","european", "referendum","brexit", "european union","leave","remain","second referendum", "future","leaving","departure", "tariff", "fishing", "barnier", "juncker", "commission", "european commission"], # EU and Brexit
     ["cost","tax","pay","spending","investment","budget","plans","economy","funding", "rise","increase","decade","fiscal","fiscal studies", "poverty", "council", "housebuilding", "housing", "shortage", "austerity", "duty", "privatisation", "privatised", "union"], # Economy and Business
     ["nhs", "average","health","hospitals", "hospital", "virus", "social care", "care", "mental", "mental health", "illness", "privatisation", "privatised","drugs", "welfare", "benefit", "disability", "nurses", "doctors", "coronavirus"], # Healthcare/NHS and Welfare
@@ -63,7 +63,7 @@ anchors = [
     ["allegations","accused","antisemitism","jewish","racism","apologise","women", "anti","anti semitism","semitism","racist","muslim","islamophobia","community","ranks", "minority", "terrorism", "terrorist", "trans", "black", "terror", "misogyny", "sexist", "sexism", "women", "racial", "windrush", "deportation", "black people"], # Racism/ Hate crime
     ["climate","climate change","climate crisis","emissions","carbon","climate emergency","net zero","zero","crisis", "nature", "fuel", "fossil", "diesel", "petrol", "pollution", "atmosphere", "wildlife", "environment", "environmental", "biodiversity", "natural", "renewable"], # Environment/Climate change
     ["court","law","rights","legal","legislation","laws","justice", "investigation","alleged", "incident","police","officers","charges","crown", "jail", "jailed", "prosecutor", "drugs", "knife crime", "terrorism", "terrorist"], # Police/Legal
-    ["education", "schools", "school", "teaching", "teachers", "academic", "students", "university", "universities", "tuition fees", "tuition", "student", "ofsted", "college", "wages", "children", "kids", "learning"], # Education
+    ["education", "schools", "school", "teaching", "teachers", "academic", "students", "university", "universities", "tuition fees", "tuition", "student", "ofsted", "college", "learning"], # Education
     ["immigration", "border", "australia", "points", "borders", "open", "free movement", "movement", "visas", "visa", "migration", "skill", "skills", "skilled", "migrants", "australian", "deportation", "calais"] # Immigration
 ]
 
