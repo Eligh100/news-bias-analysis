@@ -12,7 +12,7 @@
 <ng-template #analysisContent>
     <div class="container-fluid" style="overflow-x: hidden;">
         <!-- Bias score gauge chart -->
-        <div class="row pt-4 justify-content-center">
+        <div class="row pt-4 justify-content-center" matTooltip="hey">
             <h4 style="color: black;">The analysis found {{currentNewspaper}} to have <span [ngStyle]="{'color': biasSentenceColour }">{{biasSentence}}</span> towards {{currentParty}}</h4>
         </div>
         <div class="row justify-content-center">

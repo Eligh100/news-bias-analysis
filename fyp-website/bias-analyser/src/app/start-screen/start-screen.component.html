@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="jumbotron text-center mb-0">
-                <h1 class="mat-display-3">Detecting bias in newspapers</h1>
+                <h1 style="color: black;"class="mat-display-3">Bias Analyser</h1>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                             <mat-form-field>
                                 <mat-label>News Organisation</mat-label>
                                 <!-- For selecting the newspaper -->
-                                <mat-select formControlName="selectedNewspaper" name="newspaperSelect" required>
+                                <mat-select formControlName="selectedNewspaper" name="newspaperSelect" (selectionChange)="newNewspaper($event.value)" required>
                                     <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper.value">
                                     {{newspaper.viewValue}}
                                     </mat-option>

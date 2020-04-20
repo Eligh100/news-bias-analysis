@@ -3,6 +3,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AnalysisParametersService } from '../analysis-parameters.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatInput } from '@angular/material/input';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 /**
  * Used for form options
@@ -101,8 +102,9 @@ export class StartScreenComponent implements OnInit {
    * @param fb For the configuration form - to store, validate, and submit the user's choices
    * @param analysisParameters To pass the chosen newspaper and political party to the next section - and allow Amazon API gateway to know
    *                            which items from DynamoDB to collect
+   * @param dialog Pop-up dialog to warn user when selecting the Telegraph
    */
-  constructor(private fb: FormBuilder, private analysisParameters:AnalysisParametersService) { }
+  constructor(private fb: FormBuilder, private analysisParameters:AnalysisParametersService, public dialog: MatDialog) { }
 
   /**
    * Initialises the form, and flags/counters
@@ -177,6 +179,27 @@ export class StartScreenComponent implements OnInit {
   get selectedEndDate() { return this.startScreenForm.get('selectedEndDate'); }
 
   /**
+   * Event called whenever newspaper is changed - warns user if they select Telegraph about the paywall
+   * @param event Name of the newspaper
+   */
+  public newNewspaper(event: string) {
+    console.log(event)
+    if (event == "telegraph") {
+      this.openDialog()
+    }
+  }
+
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(TelegraphPopup, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  /**
    * Set start date to user's chosen value (or null if cleared), and updates bounds accordingly
    * @param event User's chosen start date
    */
@@ -244,6 +267,24 @@ export class StartScreenComponent implements OnInit {
     this.fromInput.value = '';
     this.toInput.value = '';
   }
+
+}
+
+/**
+ * For showing popup dialog
+ */
+@Component({
+  selector: 'telegraph-popup',
+  templateUrl: 'telegraph-popup.html',
+})
+export class TelegraphPopup {
+
+  constructor(
+    public dialogRef: MatDialogRef<TelegraphPopup>) {}
+
+    onOKClick(): void {
+      this.dialogRef.close();
+    }
 
 }
  
