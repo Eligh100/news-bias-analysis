@@ -789,3 +789,1424 @@ Script started at: 19/04/2020, 19:43:30
 
 
 Script started at: 19/04/2020, 19:45:44
+
+
+Script started at: 12/05/2020, 21:01:42
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52635573
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52623214
+No  content found in: https://www.bbc.co.uk/news/uk-politics-52635571
+No  content found in: https://www.theguardian.com/education/2020/may/12/plans-to-reopen-schools-on-1-june-in-jeopardy-as-education-unions-tell-staff-not-to-engage-with-prepartions-1
+No  content found in: https://www.theguardian.com/society/2020/may/12/universal-credit-claimants-unlawfully-short-changed-court-rules
+Failed to save article's publishing date: https://www.independent.co.uk/news/uk/politics/coronavirus-boris-johnson-pmqs-politics-live-latest-starmer-uk-death-toll-a9501261.html
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.independent.co.uk/news/uk/politics/coronavirus-boris-johnson-pmqs-politics-live-latest-starmer-uk-death-toll-a9501261.html
+Failed to save article's publishing date: https://www.independent.co.uk/news/uk/politics/uk-politics-live-coronavirus-news-update-virtual-pmqs-raab-starmer-latest-zoom-a9477501.html
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.independent.co.uk/news/uk/politics/uk-politics-live-coronavirus-news-update-virtual-pmqs-raab-starmer-latest-zoom-a9477501.html
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/04/britain-us-launch-talks-ambitious-free-trade-deal/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/04/conor-burns-resigned-suspended-intimidate-public/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/01/leaveeu-founder-arron-banks-did-not-break-electoral-law/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/24/government-website-runs-coronavirus-home-testing-kits-within/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/2019-general-election-campaign-trail-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-2019-voters-head-polls-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/general-election-polls-tracker-latest-uk-odds-2019-opinion-poll/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2019/12/12/dogs-polling-stations-2019-general-election-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/09/hard-brexit-likely-coronavirus-lack-progress-talks-says-german/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/exclusive-treasury-blueprint-raise-taxes-freeze-wages-pay-300bn/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/boris-johnsons-coronavirus-speech-full/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Article scraping ran to completion - 12/05/2020, 21:12:30
+Script ran to completion - 12/05/2020, 23:18:23
+
+
+Script started at: 13/05/2020, 12:46:54
+
+
+Script started at: 13/05/2020, 12:48:40
+Failed to save article's publishing date: https://www.theguardian.com/mobile/2014/may/29/the-guardian-for-mobile-and-tablet
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/mobile/2014/may/29/the-guardian-for-mobile-and-tablet
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=31
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=31
+Failed to save article's publishing date: https://www.theguardian.com/info/privacy
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/info/privacy
+Failed to save article's publishing date: https://soulmates.theguardian.com?INTCMP=NGW_FOOTER_UK_GU_SOULMATES
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://soulmates.theguardian.com?INTCMP=NGW_FOOTER_UK_GU_SOULMATES
+Failed to save article's publishing date: https://www.theguardian.com/education
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/education
+Failed to save article's publishing date: https://www.theguardian.com/uk/money
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/money
+Failed to save article's publishing date: https://profile.theguardian.com/signout
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://profile.theguardian.com/signout
+No  content found in: https://www.theguardian.com/world/2020/apr/23/older-people-could-face-extended-coronavirus-lockdown-lords-hears
+No  content found in: https://www.theguardian.com/politics/2020/apr/21/right-to-rent-rule-justified-finds-uk-appeal-court
+Failed to save article's publishing date: https://www.theguardian.com/uk/travel
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/travel
+No  content found in: https://www.theguardian.com/world/video/2020/apr/27/boris-johnson-second-covid-19-peak-will-be-disaster-if-lockdown-lifted-too-early-video
+Failed to save article's publishing date: https://twitter.com/guardian
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://twitter.com/guardian
+Failed to save article's publishing date: https://profile.theguardian.com/email-prefs
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://profile.theguardian.com/email-prefs
+Failed to save article's publishing date: https://www.theguardian.com/about
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/about
+No  content found in: https://www.theguardian.com/world/2020/may/07/home-office-charters-plane-to-deport-eu-citizens-despite-coronavirus-rules
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=20
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=20
+No  content found in: https://www.theguardian.com/education/2020/may/07/families-sue-government-over-little-or-no-education-for-their-children
+No  content found in: https://www.theguardian.com/politics/audio/2020/may/06/uk-europe-worst-covid-19-death-toll-politics-weekly-podcast
+Failed to save article's publishing date: https://www.theguardian.com/profile/editorial
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/profile/editorial
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=22
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=22
+Failed to save article's publishing date: https://www.theguardian.com/uk/commentisfree
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/commentisfree
+Failed to save article's publishing date: https://www.theguardian.com/politics/foreignpolicy
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/foreignpolicy
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=24
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=24
+Failed to save article's publishing date: https://www.theguardian.com/guardian-masterclasses
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/guardian-masterclasses
+No  content found in: https://www.theguardian.com/society/2020/apr/27/give-nhs-staff-a-pay-rise-not-just-a-clap
+Failed to save article's publishing date: https://www.theguardian.com/books
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/books
+Failed to save article's publishing date: https://www.theguardian.com/politics/priti-patel
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/priti-patel
+No  content found in: https://www.theguardian.com/world/2020/may/01/mps-press-for-sanctions-against-israel-over-west-bank-annexations
+Failed to save article's publishing date: https://www.theguardian.com/global-development
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/global-development
+Failed to save article's publishing date: https://www.theguardian.com/politics/dominic-cummings
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/dominic-cummings
+Failed to save article's publishing date: https://workforus.theguardian.com
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://workforus.theguardian.com
+No  content found in: https://www.theguardian.com/politics/video/2020/may/11/keir-starmers-coronavirus-address-after-this-we-cant-go-back-to-business-as-usual-video
+No  content found in: https://www.theguardian.com/education/2020/apr/24/loss-of-international-student-fees-could-decimate-uk-research
+Failed to save article's publishing date: https://www.theguardian.com/music/classicalmusicandopera
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/music/classicalmusicandopera
+No  content found in: https://www.theguardian.com/politics/video/2020/apr/21/even-ive-moved-on-from-1349-jacob-rees-mogg-opens-landmark-hybrid-commons-debate-video
+Failed to save article's publishing date: https://www.theguardian.com/uk/technology
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/technology
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=28
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=28
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=30
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=30
+Failed to save article's publishing date: https://www.theguardian.com/politics/pmqs
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/pmqs
+No  content found in: https://www.theguardian.com/world/video/2020/apr/26/coronavirus-uk-furloughed-staff-could-pick-fruit-in-june-says-minister-video
+Failed to save article's publishing date: https://www.theguardian.com/music
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/music
+No  content found in: https://www.theguardian.com/politics/2020/may/06/home-office-accused-of-pressuring-judiciary-over-immigration-decisions
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=13
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=13
+Failed to save article's publishing date: https://www.theguardian.com/preference/edition/uk
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/preference/edition/uk
+No  content found in: https://www.theguardian.com/world/2020/apr/24/surveillance-a-price-worth-paying-to-beat-coronavirus-says-blair-thinktank
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=23
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=23
+Failed to save article's publishing date: https://www.theguardian.com/preference/edition/au
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/preference/edition/au
+Failed to save article's publishing date: https://membership.theguardian.com/events?INTCMP=live_uk_header_dropdown
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://membership.theguardian.com/events?INTCMP=live_uk_header_dropdown
+No  content found in: https://www.theguardian.com/politics/2020/apr/26/six-urgent-items-in-boris-johnson-inbox-as-he-returns
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=33
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=33
+No  content found in: https://www.theguardian.com/world/2020/apr/24/coronavirus-whos-who-on-secret-scientific-group-advising-uk-government-sage
+Failed to save article's publishing date: https://www.theguardian.com/lifeandstyle/love-and-sex
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/lifeandstyle/love-and-sex
+No  content found in: https://www.theguardian.com/world/2020/may/06/court-upholds-ban-on-anti-abortion-poster-targeting-stella-creasy
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=12
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=12
+Failed to save article's publishing date: https://www.theguardian.com/lifeandstyle/men
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/lifeandstyle/men
+Failed to save article's publishing date: https://www.theguardian.com/sport/cycling
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/cycling
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=16
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=16
+No  content found in: https://www.theguardian.com/news/audio/2020/may/11/how-the-face-mask-became-the-worlds-most-coveted-commodity-podcast
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=3
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=3
+Failed to save article's publishing date: https://www.theguardian.com/politics/rishi-sunak
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/rishi-sunak
+Failed to save article's publishing date: https://www.theguardian.com/uk/tv-and-radio
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/tv-and-radio
+Failed to save article's publishing date: https://support.theguardian.com/subscribe?INTCMP=footer_support_subscribe&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_FOOTER%22,%22componentId%22:%22footer_support_subscribe%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://support.theguardian.com/subscribe?INTCMP=footer_support_subscribe&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_FOOTER%22,%22componentId%22:%22footer_support_subscribe%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed to save article's publishing date: https://www.theguardian.com/fashion/beauty
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/fashion/beauty
+No  content found in: https://www.theguardian.com/politics/2020/apr/28/gmb-boss-tim-roache-resigns-suddenly-with-health-issues-cited
+No  content found in: https://www.theguardian.com/politics/2020/apr/30/fears-brexit-talks-could-collapse-in-june-but-uk-still-optimistic
+Failed to save article's publishing date: https://www.theguardian.com/lifeandstyle/home-and-garden
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/lifeandstyle/home-and-garden
+Failed to save article's publishing date: https://www.theguardian.com/uk/business
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/business
+Failed to save article's publishing date: https://www.theguardian.com/fashion
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/fashion
+Failed to save article's publishing date: https://profile.theguardian.com/public/edit
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://profile.theguardian.com/public/edit
+Failed to save article's publishing date: https://www.theguardian.com/observer
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/observer
+Failed to save article's publishing date: https://www.theguardian.com/guardian-labs
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/guardian-labs
+Failed to save article's publishing date: https://www.theguardian.com/sport/horse-racing
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/horse-racing
+Failed to save article's publishing date: https://www.theguardian.com/politics/matt-hancock
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/matt-hancock
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=4
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=4
+Failed to save article's publishing date: https://www.theguardian.com/type/video+tone/comment
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/type/video+tone/comment
+Failed to save article's publishing date: https://www.theguardian.com/politics/health
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/health
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=21
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=21
+No  content found in: https://www.theguardian.com/politics/video/2020/apr/27/rishi-sunak-announces-micro-loan-scheme-for-businesses-with-50000-limit-video
+No  content found in: https://www.theguardian.com/politics/2020/apr/24/top-civil-servant-forced-to-clarify-remarks-for-second-time-in-a-week
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=32
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=32
+Failed to save article's publishing date: https://manage.theguardian.com/membership
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://manage.theguardian.com/membership
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=9
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=9
+No  content found in: https://www.theguardian.com/society/2020/may/03/elderly-must-not-be-left-out-of-lockdown-easing-says-michael-palin
+Failed to save article's publishing date: https://www.theguardian.com/tone/letters
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/tone/letters
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=18
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=18
+No  content found in: https://www.theguardian.com/politics/video/2020/apr/25/coronavirus-uk-no-date-for-ending-lockdown-says-priti-patel-video
+Failed to save article's publishing date: https://holidays.theguardian.com?INTCMP=holidays_uk_web_newheader
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://holidays.theguardian.com?INTCMP=holidays_uk_web_newheader
+No  content found in: https://www.theguardian.com/books/2020/apr/21/philip-pullman-ministers-should-face-charges-if-brexit-politics-slowed-ppe
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=7
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=7
+Failed to save article's publishing date: https://support.theguardian.com/contribute?INTCMP=footer_support_contribute&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_FOOTER%22,%22componentId%22:%22footer_support_contribute%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://support.theguardian.com/contribute?INTCMP=footer_support_contribute&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_FOOTER%22,%22componentId%22:%22footer_support_contribute%22,%22source%22:%22GUARDIAN_WEB%22%7D
+No  content found in: https://www.theguardian.com/politics/audio/2020/apr/22/virtual-pmqs-without-a-prime-minister-pandemic-politics-weekly-podcast
+Failed to save article's publishing date: https://support.theguardian.com/contribute?INTCMP=header_support_contribute&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22header_support_contribute%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://support.theguardian.com/contribute?INTCMP=header_support_contribute&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22header_support_contribute%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed to save article's publishing date: https://www.theguardian.com/football
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/football
+Failed to save article's publishing date: https://www.theguardian.com/help
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/help
+Failed to save article's publishing date: https://www.theguardian.com/preference/edition/int
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/preference/edition/int
+Failed to save article's publishing date: https://soulmates.theguardian.com/?INTCMP=soulmates_uk_web_newheader
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://soulmates.theguardian.com/?INTCMP=soulmates_uk_web_newheader
+Failed to save article's publishing date: https://www.theguardian.com/society/benefits
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society/benefits
+Failed to save article's publishing date: https://www.theguardian.com/artanddesign
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/artanddesign
+Failed to save article's publishing date: https://www.theguardian.com/business/economics
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/business/economics
+Failed to save article's publishing date: https://www.theguardian.com/index/subjects/a
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/index/subjects/a
+Failed to save article's publishing date: https://www.theguardian.com/politics/conservatives
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/conservatives
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=10
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=10
+Failed to save article's publishing date: https://www.theguardian.com/food
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/food
+Failed to save article's publishing date: https://www.theguardian.com/index/contributors
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/index/contributors
+Failed to save article's publishing date: https://manage.theguardian.com/contributions
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://manage.theguardian.com/contributions
+Failed to save article's publishing date: https://www.theguardian.com/society/nhs
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society/nhs
+Failed to save article's publishing date: https://www.theguardian.com/uk/culture
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/culture
+Failed to save article's publishing date: https://www.theguardian.com/society/social-care
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society/social-care
+No  content found in: https://www.theguardian.com/world/2020/apr/27/wales-ready-to-lift-coronavirus-lockdown
+Failed to save article's publishing date: https://www.theguardian.com/science
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/science
+No  content found in: https://www.theguardian.com/society/2020/may/05/mayor-criticised-over-refusal-to-reopen-middlesbrough-park
+No  content found in: https://www.theguardian.com/world/video/2020/may/03/grant-shapps-greater-coronavirus-testing-capacity-would-have-cut-deaths-video
+Failed to save article's publishing date: https://www.theguardian.com/uk
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk
+No  content found in: https://www.theguardian.com/world/2020/may/07/beware-tory-narrative-of-a-workshy-public
+No  content found in: https://www.theguardian.com/world/2020/apr/23/the-costly-mistakes-of-bumbling-boris-johnson
+No  content found in: https://www.theguardian.com/science/2020/apr/29/robert-may-bob-may-lord-may-obituary
+Failed to save article's publishing date: https://www.theguardian.com/politics
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=19
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=19
+No  content found in: https://www.theguardian.com/world/2020/may/01/the-language-that-disguises-the-governments-failings-on-coronavirus
+No  content found in: https://www.theguardian.com/world/2020/apr/28/sage-dominic-cummings-and-following-the-science
+No  content found in: https://www.theguardian.com/news/audio/2020/apr/28/the-secretive-scientific-committee-guiding-britains-coronavirus-response
+Failed to save article's publishing date: https://discountcode.theguardian.com
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://discountcode.theguardian.com
+Failed to save article's publishing date: https://www.theguardian.com/info/complaints-and-corrections
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/info/complaints-and-corrections
+Failed to save article's publishing date: https://www.theguardian.com/world/europe-news
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/world/europe-news
+Failed to save article's publishing date: https://www.theguardian.com/sport/formulaone
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/formulaone
+Failed to save article's publishing date: https://discountcode.theguardian.com/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://discountcode.theguardian.com/
+Failed to save article's publishing date: https://www.theguardian.com/politics/boris-johnson
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/boris-johnson
+Failed to save article's publishing date: https://theguardian.newspapers.com
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://theguardian.newspapers.com
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=15
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=15
+Failed to save article's publishing date: https://www.theguardian.com/preference/edition/us
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/preference/edition/us
+Failed to save article's publishing date: https://www.theguardian.com/video
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/video
+Failed to save article's publishing date: https://www.theguardian.com/sport/cricket
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/cricket
+Failed to save article's publishing date: https://www.theguardian.com/society/policy
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society/policy
+Failed to save article's publishing date: https://soulmates.theguardian.com?INTCMP=soulmates_uk_web_newheader_dropdown
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://soulmates.theguardian.com?INTCMP=soulmates_uk_web_newheader_dropdown
+Failed to save article's publishing date: https://www.theguardian.com/artanddesign/series/gnm-print-sales
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/artanddesign/series/gnm-print-sales
+No  content found in: https://www.theguardian.com/world/2020/may/06/the-uk-governments-changing-coronavirus-strategy
+No  content found in: https://www.theguardian.com/business/2020/apr/20/coronavirus-rishi-sunak-furlough-support-scheme-fails-reassure-britons-uk
+No  content found in: https://www.theguardian.com/society/2020/apr/21/universal-credit-two-child-limit-and-the-benefit-cap-must-end-now
+Failed to save article's publishing date: https://www.theguardian.com/guardian-professional
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/guardian-professional
+Failed to save article's publishing date: https://www.theguardian.com/sport/us-sport
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/us-sport
+Failed to save article's publishing date: https://support.theguardian.com/subscribe?INTCMP=header_support_subscribe&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22header_support_subscribe%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://support.theguardian.com/subscribe?INTCMP=header_support_subscribe&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22header_support_subscribe%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=8
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=8
+No  content found in: https://www.theguardian.com/world/audio/2020/apr/29/was-britain-unprepared-for-a-pandemic-podcast
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=27
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=27
+No  content found in: https://www.theguardian.com/politics/audio/2020/apr/29/the-prime-minister-is-back-with-a-baby-politics-weekly-podcast
+Failed to save article's publishing date: https://jobs.theguardian.com?INTCMP=jobs_uk_web_newheader_dropdown
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://jobs.theguardian.com?INTCMP=jobs_uk_web_newheader_dropdown
+Failed to save article's publishing date: https://www.theguardian.com/uk/environment
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/environment
+Failed to save article's publishing date: https://www.theguardian.com/lifeandstyle/health-and-wellbeing
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/lifeandstyle/health-and-wellbeing
+No  content found in: https://www.theguardian.com/politics/2020/may/01/labour-appoints-panel-to-investigate-leaked-report-on-staff
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=5
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=5
+Failed to save article's publishing date: https://www.theguardian.com/uk/film
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/film
+Failed to save article's publishing date: https://profile.theguardian.com/signin?INTCMP=DOTCOM_NEWHEADER_SIGNIN
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://profile.theguardian.com/signin?INTCMP=DOTCOM_NEWHEADER_SIGNIN
+Failed to save article's publishing date: https://www.theguardian.com/sport/boxing
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/boxing
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=17
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=17
+Failed to save article's publishing date: https://www.theguardian.com/politics/keir-starmer
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/keir-starmer
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=26
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=26
+No  content found in: https://www.theguardian.com/world/2020/may/01/lack-of-logic-in-boris-johnsons-claims-on-lockdown-and-coronavirus-peak
+No  content found in: https://www.theguardian.com/news/audio/2020/may/12/track-and-trace-will-the-governments-new-app-work
+Failed to save article's publishing date: https://www.theguardian.com/uk/lifeandstyle
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/lifeandstyle
+No  content found in: https://www.theguardian.com/politics/2020/apr/22/an-impressive-debut-readers-on-keir-starmers-first-pmqs
+Failed to save article's publishing date: https://www.theguardian.com/tone/recipes
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/tone/recipes
+Failed to save article's publishing date: https://www.theguardian.com/lifeandstyle/women
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/lifeandstyle/women
+Failed to save article's publishing date: https://manage.theguardian.com/subscriptions
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://manage.theguardian.com/subscriptions
+Failed to save article's publishing date: https://www.theguardian.com/theguardian
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/theguardian
+No  content found in: https://www.theguardian.com/uk-news/2020/may/11/its-all-greek-to-us-what-the-papers-say-about-boris-johnsons-lockdown-exit-plan
+No  content found in: https://www.theguardian.com/business/nils-pratley-on-finance/2020/may/07/abrupt-end-furlough-scheme-uk-
+Failed to save article's publishing date: https://www.theguardian.com/membership
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/membership
+Failed to save article's publishing date: https://www.theguardian.com/inpictures
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/inpictures
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=29
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=29
+Failed to save article's publishing date: https://www.theguardian.com/society
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=25
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=25
+Failed to save article's publishing date: https://www.theguardian.com/uk/sport
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk/sport
+Failed to save article's publishing date: https://www.theguardian.com/weekly?INTCMP=gdnwb_mawns_editorial_gweekly_GW_TopNav_UK
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/weekly?INTCMP=gdnwb_mawns_editorial_gweekly_GW_TopNav_UK
+Failed to save article's publishing date: https://www.theguardian.com/sport/tennis
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/tennis
+No  content found in: https://www.theguardian.com/politics/video/2020/may/06/keir-starmer-confronts-boris-johnson-for-first-time-during-pmqs-video-highlights
+Failed to save article's publishing date: https://www.theguardian.com/sport/rugby-union
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/rugby-union
+Failed to save article's publishing date: https://www.google.co.uk/advanced_search?q=site:www.theguardian.com
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.google.co.uk/advanced_search?q=site:www.theguardian.com
+Failed to save article's publishing date: https://patrons.theguardian.com/?INTCMP=header_patrons
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://patrons.theguardian.com/?INTCMP=header_patrons
+Failed to save article's publishing date: https://www.theguardian.com/games
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/games
+Failed to save article's publishing date: https://profile.theguardian.com/account/edit
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://profile.theguardian.com/account/edit
+No  content found in: https://www.theguardian.com/society/2020/apr/27/domestic-abuse-surge-coronavirus-lockdown-lasting-impact-mps
+Failed to save article's publishing date: https://www.theguardian.com/us-news/donaldtrump
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/us-news/donaldtrump
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=14
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=14
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=11
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=11
+Failed to save article's publishing date: https://advertising.theguardian.com
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://advertising.theguardian.com
+Failed to save article's publishing date: https://www.theguardian.com/politics/economy
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics/economy
+Failed to save article's publishing date: https://patrons.theguardian.com?INTCMP=footer_patrons
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://patrons.theguardian.com?INTCMP=footer_patrons
+Failed to save article's publishing date: https://www.facebook.com/theguardian
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.facebook.com/theguardian
+Failed to save article's publishing date: https://www.theguardian.com/sport/golf
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/golf
+No  content found in: https://www.theguardian.com/politics/video/2020/apr/27/families-of-nhs-staff-who-die-from-coronavirus-to-receive-payments-video
+Failed to save article's publishing date: https://www.theguardian.com/email-newsletters
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/email-newsletters
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=6
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=6
+Failed to save article's publishing date: https://www.theguardian.com/stage
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/stage
+No  content found in: https://www.theguardian.com/politics/2020/may/08/lisa-nandy-uk-faces-serious-reckoning-about-global-role
+Failed to save article's publishing date: https://www.theguardian.com/politics?page=2
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/politics?page=2
+No  content found in: https://www.theguardian.com/world/video/2020/apr/21/hancock-uk-human-trials-for-coronavirus-vaccine-to-begin-on-thursday-video
+Failed to save article's publishing date: https://www.theguardian.com/sport/rugbyleague
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/sport/rugbyleague
+No  content found in: https://www.theguardian.com/society/2020/may/05/has-the-time-come-for-a-universal-basic-income
+No  content found in: https://www.theguardian.com/world/video/2020/may/11/coronavirus-boris-johnson-says-public-should-use-face-coverings-in-enclosed-public-spaces-video
+Failed to save article's publishing date: https://www.theguardian.com/world/coronavirus-outbreak
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/world/coronavirus-outbreak
+Failed to save article's publishing date: https://www.theguardian.com/podcasts
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/podcasts
+Failed to save article's publishing date: https://www.theguardian.com/cartoons/archive
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/cartoons/archive
+Failed to save article's publishing date: https://jobs.theguardian.com?INTCMP=NGW_FOOTER_UK_GU_JOBS
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://jobs.theguardian.com?INTCMP=NGW_FOOTER_UK_GU_JOBS
+Failed to save article's publishing date: https://www.theguardian.com/crosswords
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/crosswords
+Failed to save article's publishing date: https://jobs.theguardian.com/?INTCMP=jobs_uk_web_newheader
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://jobs.theguardian.com/?INTCMP=jobs_uk_web_newheader
+No  content found in: https://www.theguardian.com/politics/video/2020/apr/19/i-cant-give-you-a-date-for-school-reopenings-says-uk-minister-video
+No  content found in: https://www.theguardian.com/world/2020/may/01/environmental-controls-key-to-coronavirus-recovery-chancellor-told
+Failed to save article's publishing date: https://www.theguardian.com/world
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/world
+No  content found in: https://www.theguardian.com/world/2020/may/12/was-harvesting-in-care-homes-a-de-facto-policy
+Failed to save article's publishing date: https://support.theguardian.com/contribute?INTCMP=side_menu_support_contribute&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22side_menu_support_contribute%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://support.theguardian.com/contribute?INTCMP=side_menu_support_contribute&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22side_menu_support_contribute%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed to save article's publishing date: https://www.theguardian.com/tone/obituaries
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/tone/obituaries
+Failed to save article's publishing date: https://www.theguardian.com/securedrop
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/securedrop
+Failed to save article's publishing date: https://www.theguardian.com/uk-news/carrie-symonds
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk-news/carrie-symonds
+Failed to save article's publishing date: https://support.theguardian.com/subscribe?INTCMP=side_menu_support_subscribe&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22side_menu_support_subscribe%22,%22source%22:%22GUARDIAN_WEB%22%7D
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://support.theguardian.com/subscribe?INTCMP=side_menu_support_subscribe&acquisitionData=%7B%22componentType%22:%22ACQUISITIONS_HEADER%22,%22componentId%22:%22side_menu_support_subscribe%22,%22source%22:%22GUARDIAN_WEB%22%7D
+No  content found in: https://www.theguardian.com/politics/2020/apr/21/labour-has-it-all-to-play-for-at-the-next-election
+No  content found in: https://www.theguardian.com/books/2020/apr/23/no-prorogation-justice-lady-hale-to-publish-memoir-and-guide-to-the-law
+Failed to save article's publishing date: https://www.theguardian.com/science/infectiousdiseases
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/science/infectiousdiseases
+Failed to save article's publishing date: https://www.theguardian.com/uk-news
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/uk-news
+Failed to save article's publishing date: https://www.theguardian.com/society/health
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/society/health
+Failed to save article's publishing date: https://www.theguardian.com/technology/motoring
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.theguardian.com/technology/motoring
+Article scraping ran to completion - 13/05/2020, 13:27:02
+Script ran to completion - 13/05/2020, 14:40:42
+
+
+Script started at: 13/05/2020, 15:26:16
+
+
+Script started at: 13/05/2020, 15:30:55
+
+
+Script started at: 13/05/2020, 15:32:11
+
+
+Script started at: 13/05/2020, 15:46:43
+
+
+Script started at: 13/05/2020, 15:48:09
+Failed to save article's publishing date: https://www.mirror.co.uk/news/politics/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.mirror.co.uk/news/politics/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/30/police-appeal-coronavirus-tests-officers-disease-absence-rates/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/03/boris-johnson-race-develop-coronavirus-vaccine-endeavour-lifetime/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/boris-mother-charlotte/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/boris-mother-charlotte/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/wives-children-researchers-will-able-vote-laws-new-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/house-moves-can-proceed-government-changes-guidance/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/06/charity-bail-expected-hospices-warn-brink-closure/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/businesses-clamouring-boris-johnson-reveal-roadmap-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/firms-may-need-provide-office-equipment-housebound-workers-prevent/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/09/st-andrews-university-principal-warns-staff-worst-financial/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/scottish-schools-may-not-reopen-near-future-amid-evidence-covid/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/19/nato-general-masterminding-alliances-response-coronavirus-admits/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/03/government-coronavirus-lockdown-come-sustained-criticism-conservative/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/heathrow-third-runway-may-not-needed-decade-due-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/29/boris-johnsonattends-birth-child-carrie-symonds-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/03/labour-refuses-say-would-end-freedom-movement-brexit/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/29/first-2000food-hampers-delivered-vulnerable-people-isolation/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/30/nicola-sturgeon-urged-block-alex-salmonds-reentry-snp/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/public-ask-ministers-questions-daily-coronavirus-conference/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/boris-johnson-prepares-reveal-plans-easing-coronavirus-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/page-2/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/page-2/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/16/no-end-sight-coronavirus-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/21/traffic-light-system-lockdown-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/05/boris-johnson-admitted-hospital-tests-coronavirus-symptoms-persist/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/revealed-treasurys-menu-measures-counter-337bn-budget-deficit/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/british-army-goes-back-training-coronavirus-measures-keep/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/28/government-relaxes-insolvency-rules-struggling-companies-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/05/scotlands-chief-medical-officer-finally-quits-police-warning/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/31/scottish-criminals-released-early-prisons-overwhelmed-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/14/criminals-could-escape-prosecution-new-guidance-prosecutors/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/rishi-sunak-left-labour-reeling-giving-wanted/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/10/boris-johnson-dodges-face-mask-issue-fails-give-guidance-mass/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/07/firefighters-join-ambulance-crews-cornavirus-frontline-first/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/08/human-rights-laws-should-suspended-safeguard-easing-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/government-team-devoid-women-could-have-drafted-plan-full-holes/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/28/nicola-sturgeon-advises-shoppers-commuters-start-wearing-face/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/07/nicola-sturgeon-accused-ignoring-repeated-warnings-lack-protective/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/700-released-immigration-detention-centres-coronavirus-prevents/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/uk-brexit-negotiators-tell-eu-fisheries-cannot-part-free-trade/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/conservatives-will-not-tolerate-prejudice-discrimination-everyone/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/mps-hold-first-ever-virtual-vote-jacob-rees-mogg-suggests-parliament/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/05/matt-hancock-coronavirus-testing-uk/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/13/desperate-householders-turn-delivery-firms-basic-groceries/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/15/coronavirus-finally-reaching-peak-britain-butlockdown-has/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/04/4000-prisoners-released-early-ease-coronavirus-crisis-jails/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: http://www.telegraph.co.uk/politics/2020/05/08/coronavirus-government-plan-update-lockdown-end-boris-johnson/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: http://www.telegraph.co.uk/politics/2020/05/08/coronavirus-government-plan-update-lockdown-end-boris-johnson/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/face-masks-queues-new-guidelines-using-public-transport/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/china-using-covid-crisis-bully-europe/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/01/leading-businessman-launches-legal-challenge-against-governments/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/exorbitant-cost-tackling-coronavirus-presents-boris-johnson/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/10/social-distancing-measures-may-need-remain-place-indefinitely/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/pub-lotteries-legalising-cannabis-mcdonalds-scottish-people/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/08/downing-street-urges-justgiving-reflect-keeping-colonel-tom/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/29/dominic-cummings-tried-influence-lockdown-advice-sage-members/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/nicola-sturgeon-increases-pressure-government-promising-details/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/25/two-weeks-quarantine-travelling-uk/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/05/football-clubs-should-thinking-carefully-next-steps/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/28/carrie-symonds-self-isolating-boris-johnson-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/treasury-assures-snp-ministers-furlough-systems-future-poll/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/10/listed-11m-manor-house-heart-robert-jenrick-controversy/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/deputy-prime-minister-dominic-raab-uk/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/09/nicola-sturgeon-urged-consider-shutting-highlands-snow-gates/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/09/500-cells-created-converted-shipping-containers-ease-overcrowding/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/boris-johnsons-best-photo-ops4/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/boris-johnsons-best-photo-ops4/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/18/early-release-prisoners-suspended-six-offenders-freed-mistake/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/05/chinas-orchestrated-disinformation-campaign-costing-lives-mps/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/lockdown-new-rules-uk-50-page-document-government/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/watch-keir-starmer-says-pms-lockdown-exit-has-no-clear-directions/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/29/dominic-raab-unveil-repatriation-plan-stranded-britons-overseas/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/09/trains-will-90-per-cent-empty-lockdown-government-announces/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/revealed-boris-johnsons-detailed-roadmap-lockdown-means/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/lockdown-rules-uk-new-50-page-document-government/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/08/scotlands-chief-medical-officer-quits-flouting-lockdown-advice/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/07/power-vacuum-emerges-decision-lockdown-looms/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/03/nicola-sturgeon-sets-scottish-coronavirus-test-target-10000/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/boris-johnson-finest-moments-camera-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/boris-johnson-finest-moments-camera-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/02/fraudsters-gangsters-escape-early-justice-charges-delayed-due/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/09/lab-issues-force-government-fly-50000-coronavirus-tests-us/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/28/public-confidence-boris-johnsons-handling-coronavirus-epidemic/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/20/celebrities-spreading-5g-coronavirus-conspiracies-should-absolutely/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/07/boris-johnsons-battle-against-coronavirus-overseen-uks-leading/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/08/police-drop-investigation-brexit-campaigners-accused-breaching/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/experts-rubbish-nicola-sturgeons-claim-scotlands-higher-covid/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/keir-starmer-took-boris-johnson-apart-like-duplo-train-set/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/29/link-coronavirus-premature-birth-highlighted-scientists/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/30/sec-glasgow-open-coronavirus-field-hospital-within-fortnight/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/28/key-rule-governments-five-tests-lifting-lockdown-softened/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/28/matt-hancock-announces-massive-ramping-testing-government-races/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/slow-economic-recovery-coronavirus-will-lead-significant-number/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/18/stay-away-parliament-commons-speaker-warns-mps/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/09/stay-alert-boris-johnsons-new-message-nation/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/alarming-figures-inevitable-consequence-policies-support-jobs/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/peers-hung-dry-proposed-cut-allowance-amid-coronavirus-outbreak/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/02/five-questions-government-must-answer-coronavirus-testing-fiasco/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/15/snp-performs-about-turn-emergency-coronavirus-small-business/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/13/tell-neighbours-breach-lockdown-rules-say-police/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/social-distancing-trains-garden-centres-reopened-government/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/unions-warn-public-sector-pay-freeze-would-deep-damaging-betrayal/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/01/baby-formula-milk-contains-sugar-fanta-warns-study/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/15/lancashire-issues-190-times-fines-lockdown-breaches-lenient/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/02/councils-forced-recruit-extra-binmen-clear-waste-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/human-rights-watchdog-will-not-launch-islamophobia-inquiry-conservative/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/03/fines-breaching-coronavirus-lockdown-could-nearly-double-rule/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/26/governments-guided-science-mantra-really-means/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/officers-returning-sandhurst-will-go-lock-cannot-even-go-tesco/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/02/government-looking-introducing-immunity-passports-matt-hancock/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/21/hundreds-scottish-prisoners-considered-early-release-amid-covid/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/07/boris-johnsons-hospitalisation-could-delay-easing-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/26/prisoners-put-work-making-personal-protective-equipment/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/02/100000-tests-day-promised-ministers-seek-end-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/03/councils-warns-people-gardening-spring-cleaning-amid-concerns/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/stay-home-advice-set-scrapped/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/government-has-terrorised-britons-believing-coronavirus-will/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/19/working-parents-should-reimbursed-childcare-coronavirus-crisis/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/27/government-advisors-divided-handle-key-aspects-coronavirus-crisis/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/04/lockdown-costly-infuriating-necessary-telegraph-readers-lifting/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/29/broadband-providers-sign-keep-vulnerable-online/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/500-prisoners-set-released-early-combat-spread-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/coronavirus-furlough-scheme-could-cut-back-costs-soar/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/labour-frontbenchers-told-submit-costly-policies-scrutiny-sir/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/10/go-back-work-boris-johnson-says-britons-set-long-road-freedom/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/10/what-uk-government-5-tests-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/22/eu-summit-dominated-divisions-coronavirus-recovery/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/14/matt-hancock-denies-protective-equipment-scottish-care-homes/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/30/boris-johnson-pledges-reveal-roadmap-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/lockdown-set-extended-today-ministers-plan-ease-measures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/28/dominic-raab-expected-deputise-boris-johnson-againat-pmqs/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/train-seats-could-removed-new-government-guidance/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/22/motorists-using-dashcams-report-dangerous-driving-police-surges/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/european-commission-plunges-plans-french-exemption-uks-14-day/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/travellers-booking-summer-holidays-taking-chance-may-lose-money/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/dominic-raab-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/labour-mp-cat-smith-claims-london-flat-just-six-miles-husbands/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/28/illegal-migrants-coronavirus-inevitably-entering-uk/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/31/will-coronavirus-crisis-tear-european-union-apart/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/01/story-behind-stay-home-protect-nhs-save-lives/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/14/pharmacist-surveyor-caught-fake-coronavirus-tests-crackdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/06/inside-story-boris-johnsons-coronavirus-battle/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/message-badly-structured-unclear-telegraph-readers-boris-johnsons/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/15/coronavirus-benefit-claimants-could-surprised-low-payments-dwp/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/nicola-sturgeon-warns-boris-johnson-would-not-follow-catastrophic/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/13/get-grip-cannot-stay-suffocated-state-lockdown-forever/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/04/thousands-childminders-face-going-business-despite-treasury/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/10/emmanuel-macron-threatens-boris-johnson-impose-quarantine-foreign-arrivals/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/24/government-tells-uk-businesses-time-get-back-work/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/10/chaos-governments-stay-alert-slogan-scotland-wales-northern/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/05/scotlands-chief-medical-officer-caught-visiting-second-home/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/downing-street-messaging-urges-britons-stick-lockdown-no-10/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/15/economic-downturn-caused-coronavirus-lockdown-could-last-five/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/10/nicola-sturgeon-urged-match-uk-governments-support-businesses/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/07/15000-prisoners-need-curb-spread-coronavirus-officials-told/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/nicola-sturgeon-accused-cover-up-february-coronavirus-outbreak/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/28/new-rotas-drawn-protect-cabinet-members-virus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/healthcare-staff-researchers-urged-change-passwords-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/07/coronavirus-lockdown-reviewed-every-two-weeks/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/30/nicola-sturgeon-lockdown-frustration-risks-extinguishing-light/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/04/ben-wallace-confirms-government-stockpiling-masks-general-public/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/01/fertility-services-reopen-temporary-coronavirus-ban-lifted/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/13/government-should-calling-dogs-relaxing-lockdown-rules-scientific/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/04/exclusive-healthy-over-70s-set-released-strict-coronavirus-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/2020/05/07/had-hopes-release-lockdown-dominic-raab-just-dashed/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/chief-scientific-adviser-acknowledges-face-masks-will-beneficial/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/government-considering-testing-sewage-track-infection-rates/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/23/scarves-no-substitute-face-masks-protecting-against-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/30/compliance-governments-coronavirus-advice-steadily-rising-latest/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/02/primary-schools-reopen-june-part-blueprint-unlock-britain/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/08/nicola-sturgeon-defends-scottish-garden-recycling-centres-staying/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/18/small-business-grants-paid-one-10-firms/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/09/councils-urge-use-experts-help-contact-tracing/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/armed-forces-use-insect-repellent-ward-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/11/fears-vulnerable-children-risk-abuse-become-contact-lockdown/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/21/scotlands-schools-remain-shut-least-summer-holidays/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/29/police-recruit-householders-create-network-doorbell-cameras/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/11/government-advice-coronavirus-lockdown-backed-public-poll-shows/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/12/politicians-must-not-give-extinction-rebellions-coronavirus/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/09/system-boris-johnson-built-unravelling-absence/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/14/police-use-number-plate-recognition-technology-catch-holidaymakers/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/eu-wont-let-leaders-intervene-break-brexit-trade-talk-deadlock/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/05/public-unaware-horrible-economic-damage-waiting-around-corner/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/exempting-french-travellers-coronavirus-quarantine-rules-could/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/28/local-dumps-reopen-rubbish-book-appointment-bring/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/26/boris-johnson-could-ease-lockdown-may-7-deadline/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/19/ministers-hit-back-uks-slow-response-coronavirus-pandemic/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/08/government-accused-stalinist-censorship-redacting-sage-report/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/02/church-will-accept-shopping-time-sundays/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/04/public-backs-tracking-people-phones-monitor-coronavirus-infection/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/france-adopts-similar-message-uk-boris-johnson-denies-scientists/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/18/boris-johnson-starts-take-back-control/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/digital-voting-commons-will-mean-spouses-children-staff-can/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/06/stay-home-slogan-dropped-government-set-ease-lock/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/11/confusion-mounts-roadmap-lockdown-dominic-raab-appears-contradict/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/29/government-accused-changing-goalposts-testing-target/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/25/governments-approval-rating-falls-second-week/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/03/28/civil-servants-should-deployed-carry-coronavirus-contact-tracing/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/05/04/children-will-have-first-access-coronavirus-vaccine-deputy-chief/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/06/prime-minister-moved-intensive-care-condition-deteriorates/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/2020/04/01/children-experience-domestic-abuse-home-should-treated-crime/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+Article scraping ran to completion - 13/05/2020, 16:12:32
+
+
+Script started at: 13/05/2020, 16:20:00
+Failed to save article's publishing date: https://www.mirror.co.uk/news/politics/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.mirror.co.uk/news/politics/
+
+
+Script started at: 13/05/2020, 16:40:11
+Failed to save article's publishing date: https://www.mirror.co.uk/news/politics/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.mirror.co.uk/news/politics/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/
+No  content found in: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/boris-johnsons-best-photo-ops4/
+No  content found in: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/boris-mother-charlotte/
+No  content found in: https://www.telegraph.co.uk/politics/2020/05/07/had-hopes-release-lockdown-dominic-raab-just-dashed/
+No  content found in: https://www.telegraph.co.uk/politics/0/boris-johnson-finest-moments-camera-pictures/
+Failed to save article's publishing date: https://www.telegraph.co.uk/politics/page-2/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: https://www.telegraph.co.uk/politics/page-2/
+Failed to save article's publishing date: http://www.telegraph.co.uk/politics/2020/05/08/coronavirus-government-plan-update-lockdown-end-boris-johnson/
+Failed with the folowing exception:
+time data '' does not match format '%Y-%m-%d'
+No  content found in: http://www.telegraph.co.uk/politics/2020/05/08/coronavirus-government-plan-update-lockdown-end-boris-johnson/
+No  content found in: https://www.telegraph.co.uk/politics/0/life-times-boris-johnson-pictures/
+Article scraping ran to completion - 13/05/2020, 17:04:56
+Script ran to completion - 13/05/2020, 19:47:15

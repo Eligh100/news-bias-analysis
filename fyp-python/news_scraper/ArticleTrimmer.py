@@ -166,6 +166,9 @@ class ArticleTrimmer():
 
                     pub_dates = soup.find_all(self.news_org_pub_date[org_name][0], {self.news_org_pub_date[org_name][1]:self.news_org_pub_date[org_name][2]})
 
+                    if (org_name == "TELEGRAPH" and pub_dates == []):
+                        pub_dates = soup.find_all("time", {self.news_org_pub_date[org_name][1]:self.news_org_pub_date[org_name][2]}) 
+
                     for pub_date in pub_dates:
                     
                         if (org_name == "BBC"):

@@ -3,7 +3,7 @@ import boto3
 import csv
 
 # News scraping classes
-from news_scraper.NewsScraper import NewsScraper
+from helper_classes.OldArticleRetriever import OldArticleRetriever
 from news_scraper.ArticleTrimmer import ArticleTrimmer
 
 # Text analysis classes
@@ -41,10 +41,8 @@ logger.writeToLog(log_line, True)
 preprocessor = TextPreprocessor()
 
 # Get articles
-newsScraper = NewsScraper(dynamodb, logger)
-articles = newsScraper.scrapeArticles()
-
-
+newsScraper = OldArticleRetriever(dynamodb, logger)
+articles = newsScraper.getOldArticles()
 
 # Extract text
 articleTrimmer = ArticleTrimmer(logger)

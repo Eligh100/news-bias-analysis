@@ -16,6 +16,10 @@
 import requests
 import re
 import time
+from time import mktime
+from datetime import timedelta
+import datetime
+import boto3
 import json
 from bs4 import BeautifulSoup
 from serpwow.google_search_results import GoogleSearchResults
@@ -23,49 +27,58 @@ from serpwow.google_search_results import GoogleSearchResults
 class OldArticleRetriever:
 
     google_search_urls = {
-        "BBC": ["site:bbc.co.uk/news/uk-politics", "site:bbc.co.uk/news/election-2019"],
-        "DAILY MAIL ALL": ["site:https://www.dailymail.co.uk/news/"],
-        "INDEPENDENT": ["site:https://www.independent.co.uk/news/uk/politics"],
-        "MIRROR": ["site:https://www.mirror.co.uk/news/politics/"]
+        # "BBC": ["site:bbc.co.uk/news/uk-politics", "site:bbc.co.uk/news/election-2019"],
+        # "DAILY MAIL ALL": ["site:https://www.dailymail.co.uk/news/"],
+        # "INDEPENDENT": ["site:https://www.independent.co.uk/news/uk/politics"],
+        "MIRROR": ["site:https://www.mirror.co.uk/news/politics/"],
+        "TELEGRAPH": ["site:https://www.telegraph.co.uk/politics/"]
     }
 
     google_search_pages = {
-        "BBC": [1, 3],
-        "DAILY MAIL ALL": [4],
-        "INDEPENDENT": [3],
-        "MIRROR": [3]
+        # "BBC": [1, 3],
+        # "DAILY MAIL ALL": [4],
+        # "INDEPENDENT": [3],
+        "MIRROR": [4],
+        "TELEGRAPH": [4]
     }
 
     base_urls = {
-        "BBC" : ["https://www.bbc.co.uk/news/uk-politics", "https://www.bbc.co.uk/news/election-2019", "election-2019", "uk-politics"],
-        "DAILY MAIL ALL": ["https://www.dailymail.co.uk/news/article", "dailymail"],
-        "INDEPENDENT": ["https://www.independent.co.uk/news/uk/politics", "independent"],
+        # "BBC" : ["https://www.bbc.co.uk/news/uk-politics", "https://www.bbc.co.uk/news/election-2019", "election-2019", "uk-politics"],
+        # "DAILY MAIL ALL": ["https://www.dailymail.co.uk/news/article", "dailymail"],
+        # "INDEPENDENT": ["https://www.independent.co.uk/news/uk/politics", "independent"],
         "MIRROR": ["https://www.mirror.co.uk/news/politics", "mirror"],
-        "GUARDIAN": ["https://www.theguardian.com/politics", "guardian"]
+        "TELEGRAPH":["https://www.telegraph.co.uk/politics/", "telegraph"]
+        #"GUARDIAN": ["https://www.theguardian.com/politics", "guardian"]
     }
 
     news_filtered_urls = {
-        "BBC": set([]),
-        "DAILY MAIL ALL": set([]),
-        "INDEPENDENT": set([]),
+        # "BBC": set([]),
+        # "DAILY MAIL ALL": set([]),
+        # "INDEPENDENT": set([]),
         "MIRROR": set([]),
-        "GUARDIAN": set([])
+        #"GUARDIAN": set([]),
+        "TELEGRAPH": set([])
     }
 
     news_search_terms = {
-        "BBC": ["/live/","/correspondents/", "#comp-comments-button", "accounts.google.com"],
-        "DAILY MAIL ALL": ["accounts.google.com"],
-        "GUARDIAN": ["/commentisfree/", "/live/", "/all", "accounts.google.com"],
-        "INDEPENDENT": ["/authors/", "accounts.google.com"],
+        # "BBC": ["/live/","/correspondents/", "#comp-comments-button", "accounts.google.com"],
+        # "DAILY MAIL ALL": ["accounts.google.com"],
+        #"GUARDIAN": ["/commentisfree/", "/live/", "/all", "accounts.google.com"],
+        # "INDEPENDENT": ["/authors/", "accounts.google.com"],
         "MIRROR": ["/authors/", "#comments-section", "accounts.google.com"],
+        "TELEGRAPH": ["/authors/","us-politics", "all-sections#politics", "accounts.google.com"],
     }
 
     base_guardian = "https://www.theguardian.com/politics?"
-    guardian_start_page = "https://www.theguardian.com/politics?page=64"
-    guardian_end_page = "https://www.theguardian.com/politics?page=175"
+    guardian_start_page = "https://www.theguardian.com/politics?page=1"
+    guardian_end_page = "https://www.theguardian.com/politics?page=32"
 
-    # create the serpwow object, passing in our API key
-    serpwow = GoogleSearchResults("6367BDFAE2D847088B91A8312CD6BA4C")
+    def __init__(self, dynamodb, logger):
+        self.dynamodb = dynamodb
+        self.logger = logger
+
+        # create the serpwow object, passing in our API key
+        self.serpwow = GoogleSearchResults("6367BDFAE2D847088B91A8312CD6BA4C")
 
     def getOldArticles(self):
 
@@ -89,8 +102,8 @@ class OldArticleRetriever:
                         "google_domain" : "google.com",
                         "time_period" : "custom",
                         "sort_by" : "date",
-                        "time_period_min" : "11/10/2019",
-                        "time_period_max" : "01/07/2020",
+                        "time_period_min" : "03/28/2020",
+                        "time_period_max" : "05/13/2020",
                         "page" : str(current_page),
                         "num" : "100"
                     }
@@ -112,8 +125,11 @@ class OldArticleRetriever:
                                     test_request = requests.get(link)
                                 except: # if this fails, link is bad, ignore
                                     continue
-                            
-                                self.news_filtered_urls[org_name].add(link)
+
+                                if (self.articleAlreadyStored(link)):
+                                    continue
+                                else:
+                                    self.news_filtered_urls[org_name].add(link)
 
 
         # # Get guardian articles
@@ -142,11 +158,49 @@ class OldArticleRetriever:
         #                         test_request = requests.get(url)
         #                     except:
         #                         continue
-        #                     self.news_filtered_urls["GUARDIAN"].add(url)
+        #                     if (self.articleAlreadyStored(url)):
+        #                         continue
+        #                     else:
+        #                         self.news_filtered_urls["GUARDIAN"].add(url)
         #         except:
         #             continue
 
         return self.news_filtered_urls
+
+        
+    def articleAlreadyStored(self, curr_url):
+        """Checks whether an article is stored in the DynamoDB database
+        
+        Arguments:
+            curr_url {string} -- URL being checked
+        
+        Returns:
+            {bool} -- Whether or not article is already stored in the DynamoDB database
+        """
+
+        table = self.dynamodb.Table('Articles-Table') 
+
+        try:
+            response = table.get_item(
+                Key={
+                    'article-url': curr_url
+                }
+            )
+        except Exception as e:
+            log_line = "Failed to access DynamoDB table: Articles-Table with following exception:\n"
+            log_line += str(e)
+            self.logger.writeToLog(log_line, False)
+            log_line = "Exited prematurely at: "
+            self.logger.writeToLog(log_line, True)
+            exit(0)
+        else:
+            try:
+                item = response['Item']
+            except:
+                return False # no item means article doesn't exist in database
+            else:
+                self.curr_url_stored_time = datetime.datetime.strptime(item["most-recent-update"], "%d/%m/%Y, %H:%M:%S")
+                return True
     
 
 
