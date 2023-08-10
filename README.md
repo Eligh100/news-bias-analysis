@@ -1,4 +1,4 @@
-# Quantifying and Visualsing Political Bias in News
+# Quantifying and Visualising Political Bias in News
 Tool at https://uk-news-bias.web.app/      <<<------------------
 
 TO ACCESS AWS:
